@@ -1,0 +1,241 @@
+.centered-div {
+    background-color: rgb(228, 223, 223);
+    display: flex;
+    width: 750px; /* Adjust the width as needed */
+    height: 500px; /* Adjust the height as needed */
+    top: 30px;
+    left: 60px;
+    overflow: hidden;
+    margin-left: 50px;
+  }
+  
+  /* Custom CSS for the inbox section */
+  .inbox-section {
+    background-color: white;
+    width: 40%;
+    height: 100%;
+    margin-left: 0;
+    margin-bottom: 0;
+    overflow: auto;
+    scrollbar-width: thin; /* Set the scrollbar width to thin (not supported in Firefox) */
+    scrollbar-color: #999 transparent; /* Define the scrollbar color and thumb color */
+  }
+  
+  .inbox-section::-webkit-scrollbar {
+    width: 5px; /* Set the width of the scrollbar (for Webkit browsers like Chrome and Safari) */
+  }
+  
+  .inbox-section::-webkit-scrollbar-thumb {
+    background: #999; /* Set the color of the scrollbar thumb */
+  }
+  
+  /* Custom CSS for chat items */
+  .chat-item {
+    background: #ffffff;
+    box-shadow: 0px 4px 4px rgba(240.47, 233.12, 233.12, 0.25);
+    border: 1px #e3dddd solid;
+    margin-bottom: 0; /* Remove gap between chat items */
+    padding: 10px;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Style for profile pictures (you may use your own images) */
+  .profile-pic {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  /* Style for chat info */
+  .chat-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Style for chat name */
+  .chat-name {
+    font-weight: bold;
+  }
+  
+  /* Style for recent chat */
+  .recent-chat {
+    color: #555;
+  }
+  
+  /* Additional CSS for customizing the search bar */
+  .search-bar {
+    background: #ffffff;
+    box-shadow: 0px 4px 4px rgba(240, 47, 233, 0.25);
+    padding: 10px;
+    border: 1px solid #e3dddd; /* Add a solid border */
+  }
+  
+  .input-group-text {
+    background-color: #fff; /* Background color for the search icon */
+    border: none; /* Remove border */
+    color: #555; /* Icon color */
+  }
+  
+  /* Update form control styles to remove outline and customize placeholder text */
+  .form-control {
+    border: none; /* Remove border */
+    box-shadow: none; /* Remove box shadow */
+    border-radius: 0; /* Remove border radius */
+    background: #ffffff; /* Background color */
+  }
+  
+  .form-control:focus {
+    background: #ffffff; /* Background color on focus */
+    box-shadow: none; /* Remove focus box shadow */
+  }
+  
+  /* Style for placeholder text */
+  .form-control::placeholder {
+    color: #555; /* Placeholder text color */
+  }
+  .message-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    position: relative;
+    background-color: #fff;
+  }
+  
+  .new-message-label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 16px;
+    font-weight: 400;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #555;
+  }
+  
+  .message-image img {
+    width: 100px; /* Set the desired width */
+    height: 100px; /* Set the desired height */
+    border-radius: 50%; /* Use 50% for a circular shape */
+    margin-top: 40px;
+    margin-left: 180px;
+  }
+  
+  .text-area {
+    display: flex;
+    align-items: center; /* Vertically align icons and textarea */
+    border: 1px #dbdbdb solid;
+    background-color: #fff;
+    height: 130px;
+    position: absolute;
+    bottom: 0;
+    margin-left: 1px;
+  }
+  
+  .custom-icons {
+    display: flex;
+    align-items: center; /* Vertically align icons within the text area */
+    margin-right: 20px; /* Adjust the spacing between icons and textarea */
+    margin-top: -90px;
+  }
+  
+  .custom-icon {
+    width: 20px; /* Adjust the width and height as needed */
+    height: 20px;
+    margin-left: 7px;
+  }
+  
+  textarea {
+    color: #555;
+    height: 110px;
+    width: auto;
+  
+    border: none;
+  }
+  
+  /* Style for the placeholder text in the textarea */
+  .text-area textarea::placeholder {
+    color: black; /* Change the color to black */
+    font-size: 12px; /* Change the font size to 16px */
+    font-family: Georgia, "Times New Roman", Times, serif; /* Change the font family to 'Amiko' */
+    font-weight: 400; /* Change the font weight to 400 */
+    word-wrap: break-word; /* Allow word wrapping within the placeholder text */
+  }
+  
+  .text-area textarea:focus {
+    outline: none;
+  }
+  
+  /* Add this CSS rule for the active chat item */
+  .active {
+    background: rgba(156, 115, 152, 0.78);
+    box-shadow: 0px 4px 4px rgba(73, 39, 128, 0.78);
+    border: 2px #4c2887 solid;
+  }
+  
+  /* Style for chat messages container */
+  
+  .chat-messages-container {
+    flex-grow: 1;
+    max-height: 300px; /* Set the maximum height as needed */
+    overflow-y: auto; /* Allow vertical scrolling */
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Messages align to the left */
+  }
+  
+  /* Style for scrollbar within the chat messages container */
+  .chat-messages-container::-webkit-scrollbar {
+    width: 8px; /* Set the width of the scrollbar (for Webkit browsers like Chrome and Safari) */
+  }
+  
+  .chat-messages-container::-webkit-scrollbar-thumb {
+    background: #999; /* Set the color of the scrollbar thumb */
+  }
+  
+  /* CSS for the message options */
+  .chat-message {
+    position: relative;
+    margin: 10px;
+    padding: 10px;
+    max-width: 70%;
+    word-wrap: break-word;
+    border-radius: 10px;
+    background: rgba(220, 81, 205, 0.78);
+    box-shadow: 0px 4px 4px rgba(73, 39, 128, 0.78);
+    border: 2px #4c2887 solid;
+    display: inline-block;
+    clear: both;
+    cursor: pointer; /* Add cursor pointer for clickable messages */
+  }
+  
+  /* Style for the custom menu */
+  .chat-message-options {
+    position: absolute;
+    background: rgba(213, 90, 201, 0.78);
+    box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    top: 0;
+    right: 0;
+    display: none;
+  }
+  
+  /* Style for each menu item */
+  .menu-item {
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #fff;
+    font-weight: bold;
+  }
+  
+  /* Style for menu icons */
+  .menu-icon {
+    width: 20px;
+    height: 20px;
+  }
+  

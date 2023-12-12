@@ -1,0 +1,187 @@
+/* Webpixels CSS */
+/* Utility and component-centric Design System based on Bootstrap for fast, responsive UI development */
+/* URL: https://github.com/webpixels/css */
+
+@import url(https://unpkg.com/@webpixels/css@1.1.5/dist/index.css);
+
+/* Bootstrap Icons */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css");
+
+.filter-btn {
+    background-color: transparent;
+    border: 0;
+    color: gray;
+}
+
+.filter-btn:hover {
+    border: 0;
+    color: #2196f3;
+}
+
+.filter-btn:focus,
+.filter-btn:active {
+    border: 0;
+}
+
+.search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+}
+
+.search-container input[type="text"] {
+    padding: 6px;
+    font-size: 17px;
+    /* box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px; */
+    background-color: transparent;
+}
+
+.search-container input[type="text"]:focus,
+.search-container input[type="text"]:active,
+.search-container input[type="text"]:hover {
+    border-color: #2196f3; /* Blue color as an example */
+}
+
+.search-container button {
+    padding: 6px 10px;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+#filterDropdownMenu {
+    background-color: rgba(145, 106, 145, 0.841);
+}
+
+.dropdown-item:hover {
+    background-color: #5e5757; /* Darker shade on hover */
+}
+
+.legend {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+}
+
+.legend-color {
+    width: 10px;
+    height: 10px;
+    margin-right: 5px;
+}
+
+
+.tweet-card::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  .tweet-card::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  .tweet-card::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+  }
+
+  .tweet-card::-webkit-scrollbar-thumb:hover {
+    background: #555;
+    width: 10px;
+  }
+
+  .tweet-card {
+    border: 1px solid #68188a3f;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 15px;
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 10px;
+  }
+
+  .tweet-card:hover {
+    box-shadow: 0 0 5px rgba(87, 0, 200, 0.525);
+  }
+
+  .tweet-card img {
+    border-radius: 50%;
+    margin-right: 15px;
+    border: 2px solid gray;
+  }
+
+  .h1-twitter {
+    color: rgba(128, 128, 128, 0.895);
+    /* margin-left: 150px; */
+  }
+
+  .whole-container {
+    margin-left: 50px;
+    margin-top: 50px;
+  }
+
+  .heading-bar {
+    background-image: linear-gradient(
+      to right,
+      rgb(163, 116, 177),
+      rgb(135, 105, 142)
+    );
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  .user-name {
+    align-items: baseline;
+    font-weight: bold;
+    color: black;
+    align-content: center;
+    margin-top: 15px;
+    margin-bottom: 1px;
+  }
+
+  .notification-card {
+    border-bottom: 1px solid #ddd;
+    padding: 15px 0;
+    display: flex;
+    align-items: center;
+  }
+  .notification-card img {
+    border-radius: 50%;
+    margin-right: 15px;
+    border: 2px solid gray;
+  }
+  .notification-card p {
+    margin-bottom: 5px;
+  }
+  .notification-card .notification-content {
+    flex: 1;
+  }
+
+  .explore-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  .hashtag-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  .hashtag-list-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .hashtag-icon {
+    margin-right: 10px;
+    font-size: 1.5rem;
+  }
+  .hashtag-text {
+    font-weight: bold;
+  }
