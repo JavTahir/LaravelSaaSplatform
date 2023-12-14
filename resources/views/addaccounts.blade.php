@@ -14,22 +14,18 @@
           
         </div>
         <div class="icon">
-          <img src="images/Twitter.png" alt="Twitter" />
-          <img
-            class="Add-icon"
-            src="images/Plus Math.png"
-            alt="Add"
-            style="width: 30px; height: 30px"
-          />
+        <a href="{{ route('twitterRedirect') }}">
+                  <img class="Add-icon" src="images/Plus Math.png" alt="Add" style="width: 30px; height: 30px" />
+          </a>
+          <img src="images/LinkedIn.png" alt="LinkedIn" />
+
         </div>
         <div class="icon">
+        <a href="{{ route('linkedinRedirect') }}">
+                  <img class="Add-icon" src="images/Plus Math.png" alt="Add" style="width: 30px; height: 30px" />
+          </a>
           <img src="images/LinkedIn.png" alt="LinkedIn" />
-          <img
-            class="Add-icon"
-            src="images/Plus Math.png"
-            alt="Add"
-            style="width: 30px; height: 30px"
-          />
+
         </div>
       </div>
     </div>

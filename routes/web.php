@@ -42,6 +42,15 @@ Route::get('/facebook/redirect',[SocialController::class,'facebookRedirect'])->n
 
 Route::get('/facebook/callback',[SocialController::class,'facebookCallback'])->name('facebookCallback');
 
+
+
+Route::get('/twitter/redirect',[SocialController::class,'twitterRedirect'])->name('twitterRedirect');
+Route::get('/twitter/callback',[SocialController::class,'twitterCallback'])->name('twitterCallback');
+
+Route::get('/linkedin/redirect',[SocialController::class,'linkedinRedirect'])->name('linkedinRedirect');
+
+Route::get('/linkedin/callback',[SocialController::class,'linkedinCallback'])->name('linkedinCallback');
+
 Route::get('/signup',[AuthManager::class,'signup'])->name('signup');
 
 Route::post('/signup',[AuthManager::class,'signupPost'])->name('signup.post');

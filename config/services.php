@@ -37,10 +37,16 @@ return [
         'redirect' => env('FACEBOOK_REDIRECT_URI'),
     ],
 
-    'linkedin' => [
-        'client_id' => env('LINKEDIN_CLIENT_ID'),
-        'client_secret' => env('LINKEDIN_CLIENT_SECRET'),
-        'redirect' => env('LINKEDIN_REDIRECT_URI'),
+    'linkedin-openid' => [
+        'client_id' => '78bkphq6w4xwt7',
+        'client_secret' =>'qePGg5VH7blVOgpt',
+        'redirect' => 'http://localhost:8000/linkedin/callback',
+        
+    ],
+    'twitter' => [
+        'client_id' => 'Q8hgphorKWPA7LdYSOUTx8pAm',
+        'client_secret' => 'NcpsIjVjL4F0g8NkqjMUX9cO3UB1UMvOGMZaNe3zAelshzMYTE',
+        'redirect' => 'https://69ba-111-68-99-41.ngrok-free.app/twitter/callback',
     ],
 
 ];
