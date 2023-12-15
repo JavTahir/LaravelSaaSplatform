@@ -10,6 +10,9 @@
 </head>
 
 <div class="container d-flex" style="min-height: 100vh">
+<form id="postForm" method="POST" action="{{ url('/post-to-linkedin') }}">
+  
+  @csrf
       <div class="centered-div1">
         <div class="inbox-section1">
           <div class="custom-dropdown">
@@ -31,7 +34,7 @@
           <div class="text-area-post">
             <textarea
               id="myTextarea"
-              name="myText"
+              name="content"
               rows="5"
               cols="40"
               placeholder="Type Message here"
@@ -134,9 +137,12 @@
 
           <div class="post-button">
             <div class="custom-dropdown">
-              <button class="custom-button" id="postButton">
-                Post <i class="fas fa-caret-up"></i>
-              </button>
+           
+                    
+                    <button type="submit" class="custom-button" id="postButton">
+                        Post <i class="fas fa-caret-up"></i>
+                    </button>
+              
               <div class="custom-dropdown-content" id="dropdownContent">
                 <a class="dropdown-item" href="#">Post directly</a>
                 <a class="dropdown-item" href="#">Schedule a post</a>
@@ -145,6 +151,7 @@
           </div>
         </div>
       </div>
+      </form>
     </div>
 
     

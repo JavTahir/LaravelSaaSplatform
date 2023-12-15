@@ -5,6 +5,8 @@ use App\Http\Controllers\AuthManager;
 use App\Http\Controllers\Main;
 use App\Http\Controllers\SocialController;
 
+use App\Http\Controllers\PostController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,11 +53,12 @@ Route::get('/linkedin/redirect',[SocialController::class,'linkedinRedirect'])->n
 
 Route::get('/linkedin/callback',[SocialController::class,'linkedinCallback'])->name('linkedinCallback');
 
-Route::post('/post-to-linkedin', [SocialController::class, 'postToLinkedIn']);
+//Route::post('/post-to-linkedin', [SocialController::class, 'postToLinkedIn']);
 
 
 Route::get('/linkedin/post-form', [SocialController::class, 'showPostForm'])->middleware(['auth']);
 
+Route::post('/post-to-linkedin', [PostController::class, 'createLinkedInPost']);
 
 
 Route::get('/signup',[AuthManager::class,'signup'])->name('signup');

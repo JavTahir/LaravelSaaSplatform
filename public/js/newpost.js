@@ -245,6 +245,7 @@ addNewIcon.addEventListener("click", () => {
     }
 });
 
+const uploadedImages = [];
 // Function to handle image upload
 function handleImageUpload(event) {
     const file = event.target.files[0];
@@ -252,6 +253,7 @@ function handleImageUpload(event) {
         const reader = new FileReader();
         reader.onload = (e) => {
             const imageUrl = e.target.result;
+            uploadedImages.push(imageUrl);
 
             // Create an image element for the uploaded image
             const uploadedImage = document.createElement("img");
@@ -278,7 +280,7 @@ function handleImageUpload(event) {
             uploadedImageCount++;
 
             // Display the uploaded image in the post-image area for both Instagram and Twitter
-            displayImageInPosts(imageUrl);
+           
         };
         reader.readAsDataURL(file);
     }
@@ -286,36 +288,31 @@ function handleImageUpload(event) {
 
         // Function to update post images
         function updatePostsImages() {
-            // Create an array to store uploaded image URLs
-            const uploadedImages = [];
-
-            // Get all the uploaded images
-            const uploadedImageElements = document.querySelectorAll('.uploadedImage');
-            uploadedImageElements.forEach((img) => {
-                uploadedImages.push(img.src);
-            });
+            
 
             // Display the uploaded images in post-image areas for both Instagram and Twitter
             displayImageInPosts(uploadedImages);
         }
 
     // Function to display the uploaded image in the post-image area for both Instagram and Twitter
-    function displayImageInPosts(imageUrl, uploadedImageContainer) {
-        const postImage = document.createElement("img");
-        postImage.src = imageUrl;
+    function displayImageInPosts(imageUrls) {
+        imageUrls.forEach(imageUrl => {
+            const postImage = document.createElement("img");
+            postImage.src = imageUrl;
 
-        // Display the image in both Instagram and Twitter post-image areas
-        const instagramPostImages = document.querySelectorAll('.instagram-post .post-image');
-        const twitterPostImages = document.querySelectorAll('.twitter-post .post-image');
-        
-        instagramPostImages.forEach(imgArea => {
-            imgArea.innerHTML = ''; // Clear existing images
-            imgArea.appendChild(postImage.cloneNode(true));
-        });
-        
-        twitterPostImages.forEach(imgArea => {
-            imgArea.innerHTML = ''; // Clear existing images
-            imgArea.appendChild(postImage.cloneNode(true));
+            // Display the image in both Instagram and Twitter post-image areas
+            const instagramPostImages = document.querySelectorAll('.instagram-post .post-image');
+            const twitterPostImages = document.querySelectorAll('.twitter-post .post-image');
+
+            instagramPostImages.forEach(imgArea => {
+                imgArea.innerHTML = ''; // Clear existing images
+                imgArea.appendChild(postImage.cloneNode(true));
+            });
+
+            twitterPostImages.forEach(imgArea => {
+                imgArea.innerHTML = ''; // Clear existing images
+                imgArea.appendChild(postImage.cloneNode(true));
+            });
         });
     }
 
@@ -326,15 +323,42 @@ function handleImageUpload(event) {
     const DropdownContent = document.getElementById("dropdownContent");
 
     postButton.addEventListener("click", function () {
+        const selectedOption = document.querySelector(".selected-option");
+        const selectedAction = document.querySelector(".custom-dropdown-content .active");
+
+        if (selectedOption && selectedOption.dataset.optionValue === "option3" && selectedAction && selectedAction.dataset.action === "post-directly") {
+            // If LinkedIn option is selected and "Post directly" is chosen, submit the form
+            postForm.submit();
+        } else {
+            // Handle other cases as needed
+            alert("Please select LinkedIn option and choose 'Post directly' before posting.");
+        }
+
         DropdownContent.style.display = DropdownContent.style.display === "block" ? "none" : "block";
     });
 
-    document.addEventListener("click", function (event) {
-        if (!postButton.contains(event.target)) {
-            DropdownContent.style.display = "none";
-        }
-    });
+     const postForm = document.getElementById('postForm');
+    postForm.addEventListener('submit', function (event) {
+        // Add the uploadedImages array to the form data
+        const formData = new FormData(postForm);
+        formData.append('uploadedImages', JSON.stringify(uploadedImages));
 
+        // Send the form data to the server using your preferred method (e.g., AJAX or traditional form submission)
+        // Example using Fetch API:
+        fetch(postForm.action, {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Server response:', data);
+            // Handle the server response as needed
+        })
+        .catch(error => console.error('Error:', error));
+
+        // Prevent the default form submission
+        event.preventDefault();
+    });
 
 
 
