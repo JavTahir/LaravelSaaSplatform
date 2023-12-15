@@ -38,8 +38,8 @@ return [
     ],
 
     'linkedin-openid' => [
-        'client_id' => '78bkphq6w4xwt7',
-        'client_secret' =>'qePGg5VH7blVOgpt',
+        'client_id' => '868k1xka14xxfa',
+        'client_secret' =>'XX8LkaeIT8vcHnIq',
         'redirect' => 'http://localhost:8000/linkedin/callback',
         
     ],

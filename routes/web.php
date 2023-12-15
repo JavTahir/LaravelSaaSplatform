@@ -51,6 +51,13 @@ Route::get('/linkedin/redirect',[SocialController::class,'linkedinRedirect'])->n
 
 Route::get('/linkedin/callback',[SocialController::class,'linkedinCallback'])->name('linkedinCallback');
 
+Route::post('/post-to-linkedin', [SocialController::class, 'postToLinkedIn']);
+
+
+Route::get('/linkedin/post-form', [SocialController::class, 'showPostForm'])->middleware(['auth']);
+
+
+
 Route::get('/signup',[AuthManager::class,'signup'])->name('signup');
 
 Route::post('/signup',[AuthManager::class,'signupPost'])->name('signup.post');
@@ -59,7 +66,7 @@ Route::get('logout',[AuthManager::class,'logout'])->name('logout');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->name('dashboard');
+})->name('dashboard')->middleware(['auth']);
 
 Route::get('/inbox', function () {
     return view('inbox');
