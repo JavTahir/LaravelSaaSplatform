@@ -53,12 +53,12 @@ Route::get('/linkedin/redirect',[SocialController::class,'linkedinRedirect'])->n
 
 Route::get('/linkedin/callback',[SocialController::class,'linkedinCallback'])->name('linkedinCallback');
 
-//Route::post('/post-to-linkedin', [SocialController::class, 'postToLinkedIn']);
+// Route::post('/post-to-linkedin', [SocialController::class, 'postToLinkedIn']);
 
 
 Route::get('/linkedin/post-form', [SocialController::class, 'showPostForm'])->middleware(['auth']);
 
-Route::post('/post-to-linkedin', [PostController::class, 'createLinkedInPost']);
+Route::post('/post-to-linkedin', [PostController::class, 'createImageShare']);
 
 
 Route::get('/signup',[AuthManager::class,'signup'])->name('signup');

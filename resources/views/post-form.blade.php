@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>LinkedIn Post Form</title>
 </head>
 <body>
     <div class="container">
@@ -23,12 +23,17 @@
                             </div>
                         @endif
 
-                        <form method="post" action="{{ url('/post-to-linkedin') }}">
+                        <form method="post" action="{{ url('/post-to-linkedin') }}" enctype="multipart/form-data">
                             @csrf
 
                             <div class="form-group">
                                 <label for="content">Post Content</label>
                                 <textarea class="form-control" id="content" name="content" rows="3"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="image">Upload Image</label>
+                                <input type="file" class="form-control-file" id="image" name="image">
                             </div>
 
                             <button type="submit" class="btn btn-primary">Post to LinkedIn</button>
@@ -38,8 +43,5 @@
             </div>
         </div>
     </div>
-
-
-    
 </body>
 </html>

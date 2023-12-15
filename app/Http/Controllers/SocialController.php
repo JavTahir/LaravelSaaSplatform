@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Social_accounts;
 use Laravel\Socialite\Facades\Socialite; // Fix the namespace here
 use Illuminate\Support\Facades\Auth;
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Session;
+use GuzzleHttp\Client;
+
 
 use App\Models\User;
 
@@ -56,7 +57,7 @@ class SocialController extends Controller
 
     public function twitterCallback(){
         $user = Socialite::driver('twitter')->user();
-        dd($user);
+        // dd($user);
         $data=User::where('email',$user->nickname)->first();
 
         if(is_null($data)){

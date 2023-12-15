@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function () {
     const select = document.getElementById("sendToDropdown");
     const selectedOptionsContainer = document.getElementById("selectedOptions");
@@ -22,7 +21,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const currentLength = textarea.value.length;
 
         // Check if there is an option associated with the Twitter icon in selectedOptionsContainer
-        const hasTwitterOption = Array.from(selectedOptionsContainer.getElementsByClassName("selected-option")).some(optionDiv => {
+        const hasTwitterOption = Array.from(
+            selectedOptionsContainer.getElementsByClassName("selected-option")
+        ).some((optionDiv) => {
             const optionValue = optionDiv.dataset.optionValue;
             return optionValue === "option2";
         });
@@ -90,15 +91,13 @@ document.addEventListener("DOMContentLoaded", function () {
         charLimit = null;
     }
 
-
-
-
-    
     const addNewIcon = document.getElementById("addNewIcon");
     const optionsDialog = document.querySelector(".options-dialog");
     const imagesOption = document.getElementById("imagesOption");
     const videosOption = document.getElementById("videosOption");
-    const uploadedImagesContainer = document.getElementById("uploadedImagesContainer");
+    const uploadedImagesContainer = document.getElementById(
+        "uploadedImagesContainer"
+    );
 
     let uploadLimit = 3;
     let uploadedImageCount = 0;
@@ -121,7 +120,9 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         } else if (e.target.id === "videosOption") {
             // Handle the Videos option
-            alert("Video upload functionality is not implemented in this example.");
+            alert(
+                "Video upload functionality is not implemented in this example."
+            );
         }
         optionsDialog.style.display = "none";
     });
@@ -132,8 +133,6 @@ document.addEventListener("DOMContentLoaded", function () {
             optionsDialog.style.display = "none";
         }
     });
-
-
 
     function handleImageUpload(event) {
         const file = event.target.files[0];
@@ -171,10 +170,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-
-
     const dropdown = document.querySelector(".ddown");
-    const dropdownContent = document.getElementById("myDropdown");  // Corrected ID here
+    const dropdownContent = document.getElementById("myDropdown"); // Corrected ID here
     const instagramPost = document.querySelector(".instagram-post");
     const twitterPost = document.querySelector(".twitter-post");
 
@@ -199,7 +196,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const selectedType = event.target.getAttribute("data-type");
             if (selectedType === "twitter") {
                 twitterPost.style.display = "block";
-                instagramPost.style .display = "none";
+                instagramPost.style.display = "none";
             } else if (selectedType === "instagram") {
                 twitterPost.style.display = "none";
                 instagramPost.style.display = "block";
@@ -208,165 +205,157 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-
-
-
-    
-
     textarea.addEventListener("input", function () {
         // Get the user's input from the textarea
         const userInput = textarea.value;
 
         // Split the user's input into lines
-        const lines = userInput.split('\n');
+        const lines = userInput.split("\n");
 
         // Update the Instagram post caption with the user's input
-        const formattedCaption = lines.join('<br>');
-        const instagramCaption = document.querySelector(".instagram-post .post-caption");
+        const formattedCaption = lines.join("<br>");
+        const instagramCaption = document.querySelector(
+            ".instagram-post .post-caption"
+        );
         instagramCaption.innerHTML = formattedCaption;
 
         // Update the Twitter post content with the user's input
-        const twitterContent = document.querySelector(".twitter-post .post-content");
+        const twitterContent = document.querySelector(
+            ".twitter-post .post-content"
+        );
         twitterContent.innerHTML = formattedCaption;
     });
 
-
-
-    
-
-    
-// Function to handle "Add New" icon click
-addNewIcon.addEventListener("click", () => {
-    if (uploadedImageCount >= uploadLimit) {
-        alert("Uploads cannot be more than three.");
-        optionsDialog.style.display = "none";
-    } else {
-        optionsDialog.style.display = "block";
-    }
-});
-
-const uploadedImages = [];
-// Function to handle image upload
-function handleImageUpload(event) {
-    const file = event.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const imageUrl = e.target.result;
-            uploadedImages.push(imageUrl);
-
-            // Create an image element for the uploaded image
-            const uploadedImage = document.createElement("img");
-            uploadedImage.src = imageUrl;
-            uploadedImage.className = "uploadedImage";
-
-            // Create a container for the uploaded image with a remove button
-            const uploadedImageContainer = document.createElement("div");
-            uploadedImageContainer.className = "uploaded-image-container";
-            uploadedImageContainer.appendChild(uploadedImage);
-
-            const removeButton = document.createElement("img");
-            removeButton.src = "images/Close.png"; // Update the path to your close icon image
-            removeButton.className = "remove-uploaded-image";
-            removeButton.addEventListener("click", () => {
-                uploadedImageCount--;
-                uploadedImagesContainer.removeChild(uploadedImageContainer);
-                updatePostsImages(); // Update posts when an image is removed
-            });
-
-            uploadedImageContainer.appendChild(removeButton);
-            uploadedImagesContainer.appendChild(uploadedImageContainer);
-
-            uploadedImageCount++;
-
-            // Display the uploaded image in the post-image area for both Instagram and Twitter
-           
-        };
-        reader.readAsDataURL(file);
-    }
-}
-
-        // Function to update post images
-        function updatePostsImages() {
-            
-
-            // Display the uploaded images in post-image areas for both Instagram and Twitter
-            displayImageInPosts(uploadedImages);
+    // Function to handle "Add New" icon click
+    addNewIcon.addEventListener("click", () => {
+        if (uploadedImageCount >= uploadLimit) {
+            alert("Uploads cannot be more than three.");
+            optionsDialog.style.display = "none";
+        } else {
+            optionsDialog.style.display = "block";
         }
+    });
+
+    const uploadedImages = [];
+    // Function to handle image upload
+    function handleImageUpload(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const imageUrl = e.target.result;
+                uploadedImages.push(imageUrl);
+
+                // Create an image element for the uploaded image
+                const uploadedImage = document.createElement("img");
+                uploadedImage.src = imageUrl;
+                uploadedImage.className = "uploadedImage";
+
+                // Create a container for the uploaded image with a remove button
+                const uploadedImageContainer = document.createElement("div");
+                uploadedImageContainer.className = "uploaded-image-container";
+                uploadedImageContainer.appendChild(uploadedImage);
+
+                const removeButton = document.createElement("img");
+                removeButton.src = "images/Close.png"; // Update the path to your close icon image
+                removeButton.className = "remove-uploaded-image";
+                removeButton.addEventListener("click", () => {
+                    uploadedImageCount--;
+                    uploadedImagesContainer.removeChild(uploadedImageContainer);
+                    updatePostsImages(); // Update posts when an image is removed
+                });
+
+                uploadedImageContainer.appendChild(removeButton);
+                uploadedImagesContainer.appendChild(uploadedImageContainer);
+
+                uploadedImageCount++;
+
+                // Display the uploaded image in the post-image area for both Instagram and Twitter
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // Function to update post images
+    function updatePostsImages() {
+        // Display the uploaded images in post-image areas for both Instagram and Twitter
+        displayImageInPosts(uploadedImages);
+    }
 
     // Function to display the uploaded image in the post-image area for both Instagram and Twitter
     function displayImageInPosts(imageUrls) {
-        imageUrls.forEach(imageUrl => {
+        imageUrls.forEach((imageUrl) => {
             const postImage = document.createElement("img");
             postImage.src = imageUrl;
 
             // Display the image in both Instagram and Twitter post-image areas
-            const instagramPostImages = document.querySelectorAll('.instagram-post .post-image');
-            const twitterPostImages = document.querySelectorAll('.twitter-post .post-image');
+            const instagramPostImages = document.querySelectorAll(
+                ".instagram-post .post-image"
+            );
+            const twitterPostImages = document.querySelectorAll(
+                ".twitter-post .post-image"
+            );
 
-            instagramPostImages.forEach(imgArea => {
-                imgArea.innerHTML = ''; // Clear existing images
+            instagramPostImages.forEach((imgArea) => {
+                imgArea.innerHTML = ""; // Clear existing images
                 imgArea.appendChild(postImage.cloneNode(true));
             });
 
-            twitterPostImages.forEach(imgArea => {
-                imgArea.innerHTML = ''; // Clear existing images
+            twitterPostImages.forEach((imgArea) => {
+                imgArea.innerHTML = ""; // Clear existing images
                 imgArea.appendChild(postImage.cloneNode(true));
             });
         });
     }
-
-
-
 
     const postButton = document.getElementById("postButton");
     const DropdownContent = document.getElementById("dropdownContent");
 
     postButton.addEventListener("click", function () {
         const selectedOption = document.querySelector(".selected-option");
-        const selectedAction = document.querySelector(".custom-dropdown-content .active");
+        const selectedAction = document.querySelector(
+            ".custom-dropdown-content .active"
+        );
 
-        if (selectedOption && selectedOption.dataset.optionValue === "option3" && selectedAction && selectedAction.dataset.action === "post-directly") {
+        if (
+            selectedOption &&
+            selectedOption.dataset.optionValue === "option3" &&
+            selectedAction &&
+            selectedAction.dataset.action === "post-directly"
+        ) {
             // If LinkedIn option is selected and "Post directly" is chosen, submit the form
             postForm.submit();
         } else {
             // Handle other cases as needed
-            alert("Please select LinkedIn option and choose 'Post directly' before posting.");
+            alert(
+                "Please select LinkedIn option and choose 'Post directly' before posting."
+            );
         }
 
-        DropdownContent.style.display = DropdownContent.style.display === "block" ? "none" : "block";
+        DropdownContent.style.display =
+            DropdownContent.style.display === "block" ? "none" : "block";
     });
 
-     const postForm = document.getElementById('postForm');
-    postForm.addEventListener('submit', function (event) {
+    const postForm = document.getElementById("postForm");
+    postForm.addEventListener("submit", function (event) {
         // Add the uploadedImages array to the form data
         const formData = new FormData(postForm);
-        formData.append('uploadedImages', JSON.stringify(uploadedImages));
+        formData.append("uploadedImages", JSON.stringify(uploadedImages));
 
         // Send the form data to the server using your preferred method (e.g., AJAX or traditional form submission)
         // Example using Fetch API:
         fetch(postForm.action, {
-            method: 'POST',
+            method: "POST",
             body: formData,
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Server response:', data);
-            // Handle the server response as needed
-        })
-        .catch(error => console.error('Error:', error));
+            .then((response) => response.json())
+            .then((data) => {
+                console.log("Server response:", data);
+                // Handle the server response as needed
+            })
+            .catch((error) => console.error("Error:", error));
 
         // Prevent the default form submission
         event.preventDefault();
     });
-
-
-
-    
-
-
-
 });
-
-
-
