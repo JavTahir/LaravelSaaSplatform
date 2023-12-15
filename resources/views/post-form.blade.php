@@ -24,20 +24,21 @@
                         @endif
 
                         <form method="post" action="{{ url('/post-to-linkedin') }}" enctype="multipart/form-data">
-                            @csrf
+    @csrf
 
-                            <div class="form-group">
-                                <label for="content">Post Content</label>
-                                <textarea class="form-control" id="content" name="content" rows="3"></textarea>
-                            </div>
+    <div class="form-group">
+        <label for="content">Post Content</label>
+        <textarea class="form-control" id="content" name="content" rows="3"></textarea>
+    </div>
 
-                            <div class="form-group">
-                                <label for="image">Upload Image</label>
-                                <input type="file" class="form-control-file" id="image" name="image">
-                            </div>
+    <div class="form-group">
+        <label for="image">Upload Image</label>
+        <input type="file" class="form-control-file" id="image" name="image">
+    </div>
 
-                            <button type="submit" class="btn btn-primary">Post to LinkedIn</button>
-                        </form>
+    <button type="submit" class="btn btn-primary">Post to LinkedIn</button>
+</form>
+
                     </div>
                 </div>
             </div>

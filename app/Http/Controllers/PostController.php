@@ -12,17 +12,21 @@ class PostController extends Controller
 {
     private $linkedinApiUrl = 'https://api.linkedin.com/v2/';
 
-    public function createImageShare()
+    public function createImageShare(Request $request)
     {
         $client = new Client();
 
-        $accessToken = request()->session()->get('linkedin_token');
+        $accessToken = $request->session()->get('linkedin_token');
         $user = Auth::user();
 
         $headers = [
             'Authorization' => 'Bearer ' . $accessToken,
             'Content-Type' => 'application/json',
         ];
+
+        // Handle file upload
+        $imagePath = $request->file('image')->path();
+        $imageBinary = file_get_contents($imagePath);
 
         // Register the image and get the upload URL
         $registerUploadResponse = $client->post($this->linkedinApiUrl . 'assets?action=registerUpload', [
@@ -42,16 +46,10 @@ class PostController extends Controller
         ]);
 
         $uploadData = json_decode($registerUploadResponse->getBody(), true);
-
-        // Get the upload URL and asset ID
-        $uploadUrl = $uploadData['value']['uploadMechanism']['com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest']['uploadUrl'];
         $assetId = $uploadData['value']['asset'];
 
         // Upload the image binary file
-        $imageFilePath = 'E:/CUI/5th SEMESTER/probiz/probiz-main/public/images/arrow.png';
-        $imageBinary = file_get_contents($imageFilePath);
-
-        $uploadImageResponse = $client->post($uploadUrl, [
+        $uploadImageResponse = $client->post($uploadData['value']['uploadMechanism']['com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest']['uploadUrl'], [
             'headers' => [
                 'Authorization' => 'Bearer ' . $accessToken,
                 'Content-Type' => 'application/octet-stream',
@@ -60,24 +58,26 @@ class PostController extends Controller
         ]);
 
         // Create the image share
+        $postContent = $request->input('content');
+        
         $body = [
             'author' => 'urn:li:person:' . $user->linkedin_id,
             'lifecycleState' => 'PUBLISHED',
             'specificContent' => [
                 'com.linkedin.ugc.ShareContent' => [
                     'shareCommentary' => [
-                        'text' => 'Feeling inspired after meeting so many talented individuals at this year\'s conference. #talentconnect',
+                        'text' => $postContent,
                     ],
                     'shareMediaCategory' => 'IMAGE',
                     'media' => [
                         [
                             'status' => 'READY',
                             'description' => [
-                                'text' => 'Center stage!',
+                                'text' => 'Image Description',
                             ],
                             'media' => $assetId,
                             'title' => [
-                                'text' => 'LinkedIn Talent Connect 2021',
+                                'text' => 'Image Title',
                             ],
                         ],
                     ],
