@@ -58,12 +58,18 @@ class SocialController extends Controller
     public function twitterCallback(){
         $user = Socialite::driver('twitter')->user();
         // dd($user);
+
+        Session::put('twitter_token', $user->tokenSecret);
+        Session::put('twitter_accesstoken', $user->token);
+
+
         $data=User::where('email',$user->nickname)->first();
 
         if(is_null($data)){
 
             $userData['name'] = $user->name;
             $userData['email'] = $user->nickname;
+            $userData['linkedin_id'] = $user->id;
             // $userData['pass']
 
             $data = User::create($userData);
@@ -79,6 +85,7 @@ class SocialController extends Controller
         // // $this->createOrUpdateUser($user,'twitter');
         // // return redirect()->route('dashboard');
     }
+
 
 
     public function  linkedinRedirect(){

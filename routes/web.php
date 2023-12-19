@@ -6,6 +6,8 @@ use App\Http\Controllers\Main;
 use App\Http\Controllers\SocialController;
 
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\TwitterController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -59,6 +61,12 @@ Route::get('/linkedin/callback',[SocialController::class,'linkedinCallback'])->n
 Route::get('/linkedin/post-form', [SocialController::class, 'showPostForm'])->middleware(['auth']);
 
 Route::post('/post-to-linkedin', [PostController::class, 'createImageShare']);
+
+Route::get('/twitter/post-form', [TwitterController::class, 'showTwitterForm'])->middleware(['auth']);
+
+
+Route::post('/post-tweet', [TwitterController::class, 'postTweetWithMedia']);
+
 
 
 Route::get('/signup',[AuthManager::class,'signup'])->name('signup');

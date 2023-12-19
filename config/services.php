@@ -44,9 +44,9 @@ return [
         
     ],
     'twitter' => [
-        'client_id' => 'Q8hgphorKWPA7LdYSOUTx8pAm',
-        'client_secret' => 'NcpsIjVjL4F0g8NkqjMUX9cO3UB1UMvOGMZaNe3zAelshzMYTE',
-        'redirect' => 'https://69ba-111-68-99-41.ngrok-free.app/twitter/callback',
+        'client_id' => '8n2kX7hxigWxuh9Dc01e7MFXj',
+        'client_secret' => 'hiYS0ddgkrOLPKphPGelS2Iuh5iUbjM3e24P3txkCQ7hXzdxSG',
+        'redirect' => 'http://localhost:8000/twitter/callback',
     ],
 
 ];
