@@ -53,7 +53,7 @@ Route::get('/linkedin/redirect',[SocialController::class,'linkedinRedirect'])->n
 
 Route::get('/linkedin/callback',[SocialController::class,'linkedinCallback'])->name('linkedinCallback');
 
-// Route::post('/post-to-linkedin', [SocialController::class, 'postToLinkedIn']);
+
 
 
 Route::get('/linkedin/post-form', [SocialController::class, 'showPostForm'])->middleware(['auth']);
@@ -104,3 +104,23 @@ Route::get('/viewuser', function () {
 Route::get('/payments', function () {
     return view('purchases');
 })->name('payments');
+
+
+Route::get('/admin', function () {
+    return view('admin');
+})->name('admin');
+
+Route::get('/admin-login', function () {
+    return view('adminlogin');
+});
+
+Route::post('/admin-login','App\Http\Controllers\Main@login');
+Route::post('/admin-form','App\Http\Controllers\Main@store');
+
+
+Route::get('/delete', function () {
+    return view('Delete');
+})->name('delete');
+
+
+Route::post('/delete-user','App\Http\Controllers\Main@delete');

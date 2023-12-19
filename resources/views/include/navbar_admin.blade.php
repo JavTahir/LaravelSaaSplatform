@@ -71,8 +71,8 @@
               </a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="{{ route('users') }}">
-                    <i class="bi bi-bar-chart"></i> Users
+                <a class="nav-link" href="{{ route('delete') }}">
+                    <i class="bi bi-bar-chart"></i> Delete user
                 </a>
             </li>
             <li class="nav-item ">

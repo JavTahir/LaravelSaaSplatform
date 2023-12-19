@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Http\File;
 
 class PostController extends Controller
 {
@@ -15,51 +16,72 @@ class PostController extends Controller
     public function createImageShare(Request $request)
     {
         $client = new Client();
-
+    
         $accessToken = $request->session()->get('linkedin_token');
         $user = Auth::user();
-
+    
         $headers = [
             'Authorization' => 'Bearer ' . $accessToken,
             'Content-Type' => 'application/json',
         ];
+    
+        // Handle file uploads
+        $mediaAssets = [];
+    
+        // Determine whether it's an image or video upload
+        $mediaType = $request->has('images') ? 'image' : 'video';
+    
+        $mediaFiles = $request->file($mediaType . 's');
+    
+        // Register the media and get the upload URL
+        foreach ($mediaFiles as $mediaFile) {
+            $mediaPath = $mediaFile->path();
+            $mediaBinary = file_get_contents($mediaPath);
+    
+            $recipe = ($mediaType === 'image') ? 'feedshare-image' : 'feedshare-video';
 
-        // Handle file upload
-        $imagePath = $request->file('image')->path();
-        $imageBinary = file_get_contents($imagePath);
-
-        // Register the image and get the upload URL
-        $registerUploadResponse = $client->post($this->linkedinApiUrl . 'assets?action=registerUpload', [
-            'headers' => $headers,
-            'json' => [
-                'registerUploadRequest' => [
-                    'recipes' => ['urn:li:digitalmediaRecipe:feedshare-image'],
-                    'owner' => 'urn:li:person:' . $user->linkedin_id,
-                    'serviceRelationships' => [
-                        [
-                            'relationshipType' => 'OWNER',
-                            'identifier' => 'urn:li:userGeneratedContent',
+            $registerUploadResponse = $client->post($this->linkedinApiUrl . 'assets?action=registerUpload', [
+                'headers' => $headers,
+                'json' => [
+                    'registerUploadRequest' => [
+                        'recipes' => ["urn:li:digitalmediaRecipe:$recipe"],
+                        'owner' => 'urn:li:person:' . $user->linkedin_id,
+                        'serviceRelationships' => [
+                            [
+                                'relationshipType' => 'OWNER',
+                                'identifier' => 'urn:li:userGeneratedContent',
+                            ],
                         ],
                     ],
                 ],
-            ],
-        ]);
-
-        $uploadData = json_decode($registerUploadResponse->getBody(), true);
-        $assetId = $uploadData['value']['asset'];
-
-        // Upload the image binary file
-        $uploadImageResponse = $client->post($uploadData['value']['uploadMechanism']['com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest']['uploadUrl'], [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $accessToken,
-                'Content-Type' => 'application/octet-stream',
-            ],
-            'body' => $imageBinary,
-        ]);
-
-        // Create the image share
+            ]);
+    
+            $uploadData = json_decode($registerUploadResponse->getBody(), true);
+            $assetId = $uploadData['value']['asset'];
+    
+            // Upload the media binary file
+            $client->post($uploadData['value']['uploadMechanism']['com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest']['uploadUrl'], [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $accessToken,
+                    'Content-Type' => 'application/octet-stream',
+                ],
+                'body' => $mediaBinary,
+            ]);
+    
+            $mediaAssets[] = $assetId;
+        }
+    
+        // Create the media share
         $postContent = $request->input('content');
-        
+    
+        $mediaArray = [];
+        foreach ($mediaAssets as $assetId) {
+            $mediaArray[] = [
+                'status' => 'READY',
+                'media' => $assetId,
+            ];
+        }
+    
         $body = [
             'author' => 'urn:li:person:' . $user->linkedin_id,
             'lifecycleState' => 'PUBLISHED',
@@ -68,32 +90,21 @@ class PostController extends Controller
                     'shareCommentary' => [
                         'text' => $postContent,
                     ],
-                    'shareMediaCategory' => 'IMAGE',
-                    'media' => [
-                        [
-                            'status' => 'READY',
-                            'description' => [
-                                'text' => 'Image Description',
-                            ],
-                            'media' => $assetId,
-                            'title' => [
-                                'text' => 'Image Title',
-                            ],
-                        ],
-                    ],
+                    'shareMediaCategory' => strtoupper($mediaType),
+                    'media' => $mediaArray,
                 ],
             ],
             'visibility' => [
                 'com.linkedin.ugc.MemberNetworkVisibility' => 'PUBLIC',
             ],
         ];
-
-        $createImageShareResponse = $client->post($this->linkedinApiUrl . 'ugcPosts', [
+    
+        $createMediaShareResponse = $client->post($this->linkedinApiUrl . 'ugcPosts', [
             'headers' => $headers,
             'json' => $body,
         ]);
-
+    
         // Handle the response as needed
-        return $createImageShareResponse->getBody()->getContents();
+        return $createMediaShareResponse->getBody()->getContents();
     }
 }
