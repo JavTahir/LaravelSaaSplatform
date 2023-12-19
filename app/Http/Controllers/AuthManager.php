@@ -41,7 +41,7 @@ class AuthManager extends Controller
             'password' => 'required'
         ]);
 
-        $data['name'] = $request->name;
+        $data['first_name'] = $request->name;
         
         $data['email'] = $request->email;
         $data['password'] = Hash::make($request->password);

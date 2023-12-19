@@ -8,11 +8,11 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class Social extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = "users";
+    protected $table = "social_accounts";
 
     /**
      * The attributes that are mass assignable.
@@ -20,16 +20,10 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'first_name',
-        'last_name',
+        'name',
         'email',
-        'password',
-        'phone',
-        'city',
-        'dob',
-        'country',
-        'image_path',
-        'profile_completed',
+        'linkedin_id',
+        
         
     ];
 

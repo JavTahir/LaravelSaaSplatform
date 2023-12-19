@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Session;
 use GuzzleHttp\Client;
 
 
-use App\Models\User;
+
+use App\Models\Social;
 
 class SocialController extends Controller
 {
@@ -106,7 +107,7 @@ class SocialController extends Controller
         Session::put('linkedin_token', $user->token);
 
         // dd($user);
-        $data=User::where('linkedin_id',$user->id)->first();
+        $data=Social::where('linkedin_id',$user->id)->first();
 
         if(is_null($data)){
 
@@ -118,7 +119,7 @@ class SocialController extends Controller
             
             // $userData['pass']
 
-            $data = User::create($userData);
+            $data = Social::create($userData);
 
 
         }

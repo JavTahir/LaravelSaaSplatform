@@ -114,21 +114,7 @@ Route::get('/payments', function () {
 })->name('payments');
 
 
-Route::get('/admin', function () {
-    return view('admin');
-})->name('admin');
-
-Route::get('/admin-login', function () {
-    return view('adminlogin');
-});
-
-Route::post('/admin-login','App\Http\Controllers\Main@login');
-Route::post('/admin-form','App\Http\Controllers\Main@store');
 
 
-Route::get('/delete', function () {
-    return view('Delete');
-})->name('delete');
 
 
-Route::post('/delete-user','App\Http\Controllers\Main@delete');
