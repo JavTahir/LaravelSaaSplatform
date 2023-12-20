@@ -18,7 +18,7 @@
                         <span style="font-size: 16px; font-weight: 700; padding: 10px 10px">
 
                         @auth
-                            {{auth()->user()->name}}
+                            {{auth()->user()->first_name}}
                         @endauth
                       </span>
                         <!-- Dropdown -->

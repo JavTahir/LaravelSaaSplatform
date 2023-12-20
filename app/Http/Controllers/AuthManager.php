@@ -13,7 +13,7 @@ class AuthManager extends Controller
     function login(){
 
         if (Auth::check()){
-            return redirect()->intended(route('home'));
+            return redirect()->intended(route('dashboard'));
 
 
         }

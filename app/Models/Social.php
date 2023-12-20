@@ -20,9 +20,13 @@ class Social extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'linkedin_id',
+        'user_id',
+        'social_name',
+        'social_uname',
+        'social_email',
+        'social_id',
+        'social_type',
+        'social_avatar',
         
         
     ];

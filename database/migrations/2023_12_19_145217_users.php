@@ -22,10 +22,10 @@ return new class extends Migration
         $table->string('password');
         $table->string('phone')->nullable();
         $table->string('city')->nullable();
-        $table->string('dob')->nullable();
+        $table->date('dob')->nullable();
         $table->string('country')->nullable();
         $table->string('image_path')->nullable(); // Changed from 'image-path'
-        $table->string('profile_completed')->nullable(); // Changed from 'profile-completed'
+        $table->boolean('profile_completed')->default(false); // Changed from 'profile-completed'
         $table->rememberToken();
         $table->timestamps();
     });

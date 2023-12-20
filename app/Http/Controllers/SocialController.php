@@ -64,21 +64,28 @@ class SocialController extends Controller
         Session::put('twitter_accesstoken', $user->token);
 
 
-        $data=User::where('email',$user->nickname)->first();
+        $user_id=Auth::user()->id;
+
+        // dd($user_id);
+        $data=Social::where('social_id',$user->id)->first();
 
         if(is_null($data)){
 
-            $userData['name'] = $user->name;
-            $userData['email'] = $user->nickname;
-            $userData['linkedin_id'] = $user->id;
+            $userData['social_name'] = $user->name;
+            $userData['social_email'] = $user->email;
+            $userData['social_id'] = $user->id;
+            $userData['social_uname'] = $user->nickname;
+            $userData['social_type'] = 'Twitter';
+            $userData['social_avatar'] = $user->avatar;
+            $userData['user_id'] =  $user_id;
             // $userData['pass']
 
-            $data = User::create($userData);
+            $data = Social::create($userData);
 
 
         }
 
-        Auth::login($data);
+       
 
         return redirect()->route('dashboard');
 
@@ -105,15 +112,21 @@ class SocialController extends Controller
 
         $user = Socialite::driver('linkedin-openid')->stateless()->user();
         Session::put('linkedin_token', $user->token);
+        $user_id=Auth::user()->id;
 
-        // dd($user);
-        $data=Social::where('linkedin_id',$user->id)->first();
+        // dd($user_id);
+        $data=Social::where('social_id',$user->id)->first();
 
         if(is_null($data)){
 
-            $userData['name'] = $user->name;
-            $userData['email'] = $user->email;
-            $userData['linkedin_id'] = $user->id;
+            $userData['social_name'] = $user->name;
+            $userData['social_email'] = $user->email;
+            $userData['social_id'] = $user->id;
+            $userData['social_uname'] = $user->nickname;
+            $userData['social_type'] = 'Linkedin';
+            $userData['social_avatar'] = $user->avatar;
+            $userData['user_id'] =  $user_id;
+
 
             // $userData['id'] = $user->id;
             
@@ -124,7 +137,7 @@ class SocialController extends Controller
 
         }
 
-        Auth::login($data);
+        // Auth::login($data);
 
         return redirect()->route('dashboard');
 

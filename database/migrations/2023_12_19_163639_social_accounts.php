@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('social_accounts', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
-         
-            $table->string('email')->unique()->default(''); // You can use an empty string or any default value you prefer
-    
-
-            $table->string('linkedin_id');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->string('social_name');
+            $table->string('social_uname')->nullable();
+            $table->string('social_email')->nullable(); // You can use an empty string or any default value you prefer
+            $table->string('social_id')->unique(); 
+            $table->string('social_type');
+            $table->string('social_avatar')->nullable();
         
             $table->rememberToken();
             $table->timestamps();
