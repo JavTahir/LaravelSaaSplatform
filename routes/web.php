@@ -114,7 +114,15 @@ Route::get('/payments', function () {
 })->name('payments');
 
 
+//otp
 
+
+
+Route::get('/verification/{id}',[AuthManager::class,'verification']);
+Route::post('/verified',[AuthManager::class,'verifiedOtp'])->name('verifiedOtp');
+
+
+Route::get('/resend-otp',[AuthManager::class,'resendOtp'])->name('resendOtp');
 
 
 
