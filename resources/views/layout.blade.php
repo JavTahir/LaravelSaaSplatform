@@ -194,7 +194,7 @@
         var password = document.getElementById("password").value;
 
         var emailRegex =
-          /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         var passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/;
 
         var isValid = true;
