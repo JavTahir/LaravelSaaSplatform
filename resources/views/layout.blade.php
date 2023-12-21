@@ -198,7 +198,7 @@
         var passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z]).{8,}$/;
 
         var isValid = true;
-
+        
         if (!emailRegex.test(email)) {
           document.getElementById("emailError").innerHTML =
             "Invalid email address";
