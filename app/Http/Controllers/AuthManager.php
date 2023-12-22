@@ -102,7 +102,7 @@ class AuthManager extends Controller
 
         $this->sendOtp($user);//OTP SEND
 
-        return view('otp',compact('email'));
+        return view('otpverify',compact('email'));
     }
 
     

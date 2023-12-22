@@ -49,7 +49,7 @@
         margin-bottom: 20px;
       }
 
-      input {
+      .feilds {
         margin: 10px;
         height: 35px;
         width: 35px;
@@ -69,10 +69,10 @@
         color: rgb(3, 231, 3);
       }
 
-      button {
+      .verify {
         width: 250px;
         height: 40px;
-        margin: 10px auto;
+        margin-top:30px;
         font-family: Arial, Helvetica, sans-serif;
         text-align: center;
         font-size: 1.1rem;
@@ -81,6 +81,22 @@
         letter-spacing: 2px;
         cursor: pointer;
         background: #000000;
+        color: #feffff;
+      }
+
+      button {
+        width: 250px;
+        height: 40px;
+        margin: 10px auto;
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+        display:flex;
+        font-size: 1.1rem;
+        border: none;
+        border-radius: 5px;
+        letter-spacing: 2px;
+        cursor: pointer;
+        background: red;
         color: #feffff;
       }
     </style>
@@ -94,35 +110,56 @@
         below.
       </p>
 
+      <p id="message_error" style="color:red;"></p>
+      <p id="message_success" style="color:green;"></p>
+
       <div class="userInput">
+      <form method="post" id="verificationForm">
+        @csrf
+        <input type="hidden" name="email" value="{{ $email }}">
         <input
           type="text"
           id="ist"
           maxlength="1"
+          class="feilds"
           onkeyup="clickEvent(this,'sec')"
         />
         <input
           type="text"
           id="sec"
+          class="feilds"
           maxlength="1"
           onkeyup="clickEvent(this,'third')"
         />
         <input
           type="text"
           id="third"
+          class="feilds"
           maxlength="1"
           onkeyup="clickEvent(this,'fourth')"
         />
         <input
           type="text"
           id="fourth"
+          class="feilds"
           maxlength="1"
           onkeyup="clickEvent(this,'fifth')"
         />
-        <input type="text" id="fifth" maxlength="1" />
-      </div>
-      <button>CONFIRM</button>
-      <p>Didn't receive? Resend</p>
+        <input
+          type="text"
+          id="fifth"
+          class="feilds"
+          maxlength="1"
+          onkeyup="clickEvent(this,'sixth')"
+        />
+        <input type="text" id="sixth" class="feilds" maxlength="1" />
+        <br>
+        <input type="submit" class="verify"  value="Verify">
+        </form>
+
+      </div>    
+      <p class="time"></p>
+      <button id="resendOtpVerification">Resend OTP</button>
     </div>
 
     <!-- Bootstrap JS and Popper.js for Bootstrap components that require them -->
@@ -131,6 +168,9 @@
       integrity="sha384-e3tEmzRH/AgSgE6ThsU6P6F6LZ1Y3ZcLOqFgL5Kk1q5meFpiC8RUnr93gQVZpF"
       crossorigin="anonymous"
     ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+
   </body>
   <script>
     function clickEvent(first, last) {
@@ -138,5 +178,100 @@
         document.getElementById(last).focus();
       }
     }
+
+    $(document).ready(function(){
+        $('#verificationForm').submit(function(e){
+            e.preventDefault();
+            var otp = $('#ist').val() +
+                  $('#sec').val() +
+                  $('#third').val() +
+                  $('#fourth').val() +
+                  $('#fifth').val() +
+                  $('#sixth').val();
+
+        
+            var formData = $(this).serialize() + '&otp=' + otp;
+
+
+            $.ajax({
+                url:"{{ route('verifiedOtp') }}",
+                type:"POST",
+                data: formData,
+                success:function(res){
+                    if(res.success){
+                        alert(res.msg);
+                        window.open("/login","_self");
+                    }
+                    else{
+                        $('#message_error').text(res.msg);
+                        setTimeout(() => {
+                            $('#message_error').text('');
+                        }, 3000);
+                    }
+                }
+            });
+
+        });
+
+        $('#resendOtpVerification').click(function(){
+            $(this).text('Wait...');
+            var userMail = @json($email);
+
+            $.ajax({
+                url:"{{ route('resendOtp') }}",
+                type:"GET",
+                data: {email:userMail },
+                success:function(res){
+                    $('#resendOtpVerification').text('Resend Verification OTP');
+                    if(res.success){
+                        timer();
+                        $('#message_success').text(res.msg);
+                        setTimeout(() => {
+                            $('#message_success').text('');
+                        }, 3000);
+                    }
+                    else{
+                        $('#message_error').text(res.msg);
+                        setTimeout(() => {
+                            $('#message_error').text('');
+                        }, 3000);
+                    }
+                }
+            });
+
+        });
+    });
+
+    function timer()
+    {
+        var seconds = 30;
+        var minutes = 1;
+
+        var timer = setInterval(() => {
+
+            if(minutes < 0){
+                $('.time').text('');
+                clearInterval(timer);
+            }
+            else{
+                let tempMinutes = minutes.toString().length > 1? minutes:'0'+minutes;
+                let tempSeconds = seconds.toString().length > 1? seconds:'0'+seconds;
+
+                $('.time').text(tempMinutes+':'+tempSeconds);
+            }
+
+            if(seconds <= 0){
+                minutes--;
+                seconds = 59;
+            }
+
+            seconds--;
+
+        }, 1000);
+    }
+
+    timer();
+
+      
   </script>
 </html>
