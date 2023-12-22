@@ -56,7 +56,7 @@ class SocialController extends Controller
 
     public function twitterCallback(){
         $user = Socialite::driver('twitter')->user();
-        dd($user);
+        // dd($user);
 
         Session::put('twitter_token', $user->tokenSecret);
         Session::put('twitter_accesstoken', $user->token);
