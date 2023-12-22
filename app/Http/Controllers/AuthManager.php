@@ -27,15 +27,21 @@ class AuthManager extends Controller
             'email' => 'required',
             'password' => 'required'
         ]);
-
+    
         $credentials = $request->only('email','password');
+    
         if(Auth::attempt($credentials)){
-            return redirect()->intended(route('dashboard'));
-
+            $user = Auth::user();
+    
+            if ($user->profile_completed) {
+                return redirect()->intended(route('dashboard'));
+            } else {
+                return view('profile', ['user' => $user]);
+            }
         }
+    
         return redirect()->intended(route('login'))->with("error","Login not valid!");
     }
-
     
     function signupPost(Request $request){
         $request->validate([

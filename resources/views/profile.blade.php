@@ -1,9 +1,11 @@
-@extends('dashboard')
-@section('title','Profile')
-@section('content')
-<head>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <title>Profile</title>
   <style>
     body {
       background-color: #f8f9fa;
@@ -68,66 +70,69 @@
     <img src="images/profile 1.png" alt="Profile Picture" class="profile-pic" id="profilePic">
     <span class="edit-icon" onclick="document.getElementById('fileInput').click()">✎</span>
 
-    
-    <input type="file" id="fileInput" accept="image/*" style="display: none" onchange="updateProfilePic(event)">
+    <form id="profileForm" action="{{ route('updateProfile') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <!-- Hidden file input outside the visible area -->
+    <input type="file" id="fileInput" name="fileInput" accept="image/*" style="position: absolute; left: -9999px;" onchange="updateProfilePic(event)">
+        
+        <div class="form-group">
+            <div class="row">
+              <div class="col">
+                <label for="fname">First Name</label>
+                <input type="text" class="form-control" id="fname" name="fname" placeholder="First Name" required>
+                <span id="fnameError" class="error-text"></span>
+              </div>
+              <div class="col">
+                <label for="lname">Last Name</label>
+                <input type="text" class="form-control" id="lname" name="lname" placeholder="Last Name" required>
+                <span id="lnameError" class="error-text"></span>
+              </div>
+            </div>
+        </div>
 
-    <div class="form-group">
-        <div class="row">
-          <div class="col">
-            <label for="fname">First Name</label>
-            <input type="text" class="form-control" id="fname" name="fname" placeholder="First Name" required>
-            <span id="fnameError" class="error-text"></span>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{ $user->email }}" required>
+          <span id="emailError" class="error-text"></span>
+          <span id="emailformat" class="format"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="contactNo">Contact No</label>
+          <input type="text" class="form-control" id="contactNo" name="contactNo" placeholder="Contact No" required>
+          <span id="contactNoError" class="error-text"></span>
+          <span id="contactformat" class="format"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="dob">Date of Birth</label>
+          <input type="date" class="form-control" id="dob" name="dob" required>
+          <span id="dobError" class="error-text"></span>
+        </div>
+
+        <div class="form-group">
+          <div class="row">
+            <div class="col">
+              <label for="country">Country</label>
+              <input type="text" class="form-control" id="country" name="country" placeholder="Country" required>
+              <span id="countryError" class="error-text"></span>
+            </div>
+            <div class="col">
+              <label for="city">City</label>
+              <input type="text" class="form-control" id="city" name="city" placeholder="City" required>
+              <span id="cityError" class="error-text"></span>
+            </div>
           </div>
-          <div class="col">
-            <label for="lname">Last Name</label>
-            <input type="text" class="form-control" id="lname" name="lname" placeholder="Last Name" required>
-            <span id="lnameError" class="error-text"></span>
-          </div>
         </div>
-    </div>
 
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
-      <span id="emailError" class="error-text"></span>
-      <span id="emailformat" class="format"></span>
-    </div>
-
-    <div class="form-group">
-      <label for="contactNo">Contact No</label>
-      <input type="text" class="form-control" id="contactNo" name="contactNo" placeholder="Contact No" required>
-      <span id="contactNoError" class="error-text"></span>
-      <span id="contactformat" class="format"></span>
-    </div>
-
-    <div class="form-group">
-      <label for="dob">Date of Birth</label>
-      <input type="date" class="form-control" id="dob" name="dob" required>
-      <span id="dobError" class="error-text"></span>
-    </div>
-
-    <div class="form-group">
-      <div class="row">
-        <div class="col">
-          <label for="country">Country</label>
-          <input type="text" class="form-control" id="country" name="country" placeholder="Country" required>
-          <span id="countryError" class="error-text"></span>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+          <span id="passwordError" class="error-text"></span>
         </div>
-        <div class="col">
-          <label for="city">City</label>
-          <input type="text" class="form-control" id="city" name="city" placeholder="City" required>
-          <span id="cityError" class="error-text"></span>
-        </div>
-      </div>
-    </div>
 
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-      <span id="passwordError" class="error-text"></span>
-    </div>
-
-    <button type="button" class="btn btn-primary" onclick="validateForm()">Save Changes</button>
+        <button type="submit" class="btn btn-primary" onclick="validateForm()">Save Changes</button>
+    </form>
   </div>
 </div>
 
@@ -195,15 +200,15 @@
       isValid = false;
     }
 
-    if (!contactNo.trim()) {
-      document.getElementById('contactNoError').innerText = 'Fill in the empty field';
-      isValid = false;
-    } else if (!contactNoRegex.test(contactNo)) {
-      document.getElementById('contactNoError').innerText = 'Invalid contact number';
-      document.getElementById('contactformat').innerText = 'Correct Format: 0XXXXXXXXXX';
+    // if (!contactNo.trim()) {
+    //   document.getElementById('contactNoError').innerText = 'Fill in the empty field';
+    //   isValid = false;
+    // } else if (!contactNoRegex.test(contactNo)) {
+    //   document.getElementById('contactNoError').innerText = 'Invalid contact number';
+    //   document.getElementById('contactformat').innerText = 'Correct Format: 0XXXXXXXXXX';
 
-      isValid = false;
-    }
+    //   isValid = false;
+    // }
 
     if (!password.trim()) {
       document.getElementById('passwordError').innerText = 'Fill in the empty field';
@@ -230,8 +235,8 @@
     }
 
     if (isValid) {
-      // Submit the form or perform other actions
-      console.log('Form submitted successfully!');
+        // Submit the form
+        document.getElementById('profileForm').submit();
     }
   }
 
@@ -245,4 +250,6 @@
     document.getElementById('cityError').innerText = '';
   }
 </script>
-@endsection()
+
+</body>
+</html>

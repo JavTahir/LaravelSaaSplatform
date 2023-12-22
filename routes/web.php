@@ -7,6 +7,7 @@ use App\Http\Controllers\SocialController;
 
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TwitterController;
+use App\Http\Controllers\ProfileController;
 
 
 /*
@@ -123,6 +124,11 @@ Route::post('/verified',[AuthManager::class,'verifiedOtp'])->name('verifiedOtp')
 
 
 Route::get('/resend-otp',[AuthManager::class,'resendOtp'])->name('resendOtp');
+
+
+
+Route::post('/update-profile', 'App\Http\Controllers\ProfileController@updateProfile')->name('updateProfile');
+
 
 
 
