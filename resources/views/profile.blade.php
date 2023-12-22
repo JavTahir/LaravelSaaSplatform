@@ -92,7 +92,7 @@
 
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{ $user->email }}" required>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{ $user->email }}" required readonly>
           <span id="emailError" class="error-text"></span>
           <span id="emailformat" class="format"></span>
         </div>
@@ -125,11 +125,7 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-          <span id="passwordError" class="error-text"></span>
-        </div>
+       
 
         <button type="submit" class="btn btn-primary" onclick="validateForm()">Save Changes</button>
     </form>

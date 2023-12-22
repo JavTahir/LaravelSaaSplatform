@@ -17,12 +17,10 @@ class ProfileController extends Controller
         $request->validate([
             'fname' => 'required',
             'lname' => 'required',
-            'email' => 'required|email',
             'contactNo' => 'required|digits:10',
             'dob' => 'required|date',
             'country' => 'required|alpha',
             'city' => 'required|alpha',
-            'password' => 'required|min:8',
             'profilePic' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image upload
         ]);
 
@@ -40,12 +38,10 @@ class ProfileController extends Controller
         $user->update([
             'first_name' => $request->input('fname'),
             'last_name' => $request->input('lname'),
-            'email' => $request->input('email'),
             'phone' => $request->input('contactNo'),
             'dob' => $request->input('dob'),
             'country' => $request->input('country'),
             'city' => $request->input('city'),
-            'password' => bcrypt($request->input('password')),
             'image_path' => $profilePicPath,
             'profile_completed'=>$profilecomplete,
         ]);

@@ -46,16 +46,7 @@
 
           <form onsubmit="return validateForm()" action="{{route('signup.post')}}" method="post">
             @csrf
-            <div class="form-group mb-4">
-              <label for="name" class="form-label mb-1">Name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="name"
-                placeholder="Enter your Name"
-                name ="name"
-              />
-            </div>
+            
             <div class="form-group mb-4">
               <label for="email" class="form-label mb-1">Email</label>
               <input

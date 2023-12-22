@@ -3,15 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Social_accounts;
 use Laravel\Socialite\Facades\Socialite; // Fix the namespace here
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use GuzzleHttp\Client;
-
-
-
 use App\Models\Social;
+
+
 
 class SocialController extends Controller
 {
@@ -58,7 +56,7 @@ class SocialController extends Controller
 
     public function twitterCallback(){
         $user = Socialite::driver('twitter')->user();
-        // dd($user);
+        dd($user);
 
         Session::put('twitter_token', $user->tokenSecret);
         Session::put('twitter_accesstoken', $user->token);
@@ -114,7 +112,7 @@ class SocialController extends Controller
         Session::put('linkedin_token', $user->token);
         $user_id=Auth::user()->id;
 
-        // dd($user_id);
+        //dd($user_id);
         $data=Social::where('social_id',$user->id)->first();
 
         if(is_null($data)){

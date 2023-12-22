@@ -45,12 +45,10 @@ class AuthManager extends Controller
     
     function signupPost(Request $request){
         $request->validate([
-            'name'=> 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required'
         ]);
 
-        $data['first_name'] = $request->name;
         
         $data['email'] = $request->email;
         $data['password'] = Hash::make($request->password);
