@@ -46,6 +46,6 @@ class ProfileController extends Controller
             'profile_completed'=>$profilecomplete,
         ]);
 
-        return redirect()->route('dashboard')->with('success', 'Profile updated successfully!');
+        return redirect()->route('addaccounts')->with('success', 'Profile updated successfully!');
     }
 }

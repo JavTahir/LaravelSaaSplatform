@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use GuzzleHttp\Client;
 use App\Models\Social;
+use App\Models\Linkedin;
+use App\Models\Twitter;
+use App\Models\User;
+
+
+
+
 
 
 
@@ -58,35 +65,67 @@ class SocialController extends Controller
         $user = Socialite::driver('twitter')->user();
         // dd($user);
 
-        Session::put('twitter_token', $user->tokenSecret);
-        Session::put('twitter_accesstoken', $user->token);
+        // Session::put('twitter_token', $user->tokenSecret);
+        // Session::put('twitter_accesstoken', $user->token);
 
 
         $user_id=Auth::user()->id;
 
         // dd($user_id);
-        $data=Social::where('social_id',$user->id)->first();
+        $data=Twitter::where('twitter_id',$user->id)->first();
 
         if(is_null($data)){
 
-            $userData['social_name'] = $user->name;
-            $userData['social_email'] = $user->email;
-            $userData['social_id'] = $user->id;
-            $userData['social_uname'] = $user->nickname;
-            $userData['social_type'] = 'Twitter';
-            $userData['social_avatar'] = $user->avatar;
+            $userData['twitter_name'] = $user->name;
+            $userData['twitter_email'] = $user->email;
+            $userData['twitter_id'] = $user->id;
+            $userData['twitter_uname'] = $user->nickname;
+            $userData['twitter_avatar'] = $user->avatar;
             $userData['user_id'] =  $user_id;
-            // $userData['pass']
+            $userData['twitter_access_token'] =  $user->token;
+            $userData['twitter_token_secret'] =  $user->tokenSecret;
 
-            $data = Social::create($userData);
+            // $userData['pass']
+            $data = Twitter::create($userData);
+            Auth::user()->increment('social_accounts', 1);
+
+            $followersCount = $user->user['followers_count'];
+            $friendsCount  = $user->user['friends_count'];
+            $statusesCount  = $user->user['statuses_count'];
+
+
+            $existingRecord = Auth::user()->twitter->followers()
+            ->where('record_date', now()->toDateString())
+            ->first();
+
+            if ($existingRecord) {
+                // Update the existing record
+                $existingRecord->update([
+                    'followers_count' => $followersCount,
+                    'friends_count' => $friendsCount,
+                    'statuses_count' => $statusesCount,
+                ]);
+            } else {
+                // Create a new record
+                Auth::user()->twitter->followers()->create([
+                    'followers_count' => $followersCount,
+                    'friends_count' => $friendsCount,
+                    'statuses_count' => $statusesCount,
+                    'record_date' => now()->toDateString(),
+                ]);
+            }
+
+
 
 
         }
 
-       
-
-        return redirect()->route('dashboard');
-
+        $linkedinAccount = Auth::user()->linkedin;
+        $twitterAccount = Auth::user()->twitter;
+        return view('addaccounts', [
+            'linkedinAccount' => $linkedinAccount,
+            'twitterAccount' => $twitterAccount,
+        ]);
         // dd($user);
         // // $this->createOrUpdateUser($user,'twitter');
         // // return redirect()->route('dashboard');
@@ -109,35 +148,55 @@ class SocialController extends Controller
 
 
         $user = Socialite::driver('linkedin-openid')->stateless()->user();
-        Session::put('linkedin_token', $user->token);
         $user_id=Auth::user()->id;
 
         //dd($user_id);
-        $data=Social::where('social_id',$user->id)->first();
+        $data=Linkedin::where('linkedin_id',$user->id)->first();
 
         if(is_null($data)){
 
-            $userData['social_name'] = $user->name;
-            $userData['social_email'] = $user->email;
-            $userData['social_id'] = $user->id;
-            $userData['social_uname'] = $user->nickname;
-            $userData['social_type'] = 'Linkedin';
-            $userData['social_avatar'] = $user->avatar;
+            $userData['linkedin_name'] = $user->name;
+            $userData['linkedin_email'] = $user->email;
+            $userData['linkedin_id'] = $user->id;
+            $userData['linkedin_uname'] = $user->nickname;
+            $userData['linkedin_avatar'] = $user->avatar;
             $userData['user_id'] =  $user_id;
+            $userData['linkedin_access_token'] =  $user->token;
+
+
 
 
             // $userData['id'] = $user->id;
             
             // $userData['pass']
 
-            $data = Social::create($userData);
+            $data = Linkedin::create($userData);
+            
+
+            // dd(Auth::user()->social_accounts);
+            Auth::user()->increment('social_accounts', 1);
+
+
+
+
+            // $social_accounts = $user->social_accounts;
+            // $user->update([
+            //     'social_accounts' => $social_accounts + 1,
+            // ]);
 
 
         }
 
         // Auth::login($data);
+        
+        $linkedinAccount = Auth::user()->linkedin;
+        $twitterAccount = Auth::user()->twitter;
 
-        return redirect()->route('dashboard');
+        return view('addaccounts', [
+            'linkedinAccount' => $linkedinAccount,
+            'twitterAccount' => $twitterAccount,
+        ]);
+
 
         // dd($user);
         // // $this->createOrUpdateUser($user,'twitter');

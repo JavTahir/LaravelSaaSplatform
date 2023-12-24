@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Mail;
+use Laravel\Socialite\Facades\Socialite;
+
+use App\Http\Controllers\Connections;
+
+
 
 class AuthManager extends Controller
 {
@@ -32,9 +37,82 @@ class AuthManager extends Controller
     
         if(Auth::attempt($credentials)){
             $user = Auth::user();
-    
+            // $linkedinAccount = $user->linkedin;
             if ($user->profile_completed) {
-                return redirect()->intended(route('dashboard'));
+                if($user->social_accounts > 0){
+                    $twitterAccount = $user->twitter;
+                    $lixAccount = $user->lix;
+                    
+                    if($twitterAccount){
+                        $twitterUser = Socialite::driver('twitter')->userFromTokenAndSecret(
+                            $user->twitter->twitter_access_token,
+                            $user->twitter->twitter_token_secret
+                        );
+                        $followersCount = $twitterUser->user['followers_count'];
+                        $friendsCount  = $twitterUser->user['friends_count'];
+                        $statusesCount  = $twitterUser->user['statuses_count'];
+            
+            
+                        $existingRecord = $user->twitter->followers()
+                        ->where('record_date', now()->toDateString())
+                        ->first();
+            
+                        if ($existingRecord) {
+                            // Update the existing record
+                            $existingRecord->update([
+                                'followers_count' => $followersCount,
+                                'friends_count' => $friendsCount,
+                                'statuses_count' => $statusesCount,
+                            ]);
+                        } else {
+                            // Create a new record
+                            $user->twitter->followers()->create([
+                                'followers_count' => $followersCount,
+                                'friends_count' => $friendsCount,
+                                'statuses_count' => $statusesCount,
+                                'record_date' => now()->toDateString(),
+                            ]);
+                        }
+        
+                    }
+
+                    if($lixAccount){
+                        $apiKey = $lixAccount->lix_api_key;
+                        $viewerId = $lixAccount->linkedin_viewer_id;
+
+
+                        $linkedin_connections = Connections::getConnections($apiKey, $viewerId);
+                        // dd($linkedin_connections);
+            
+            
+                        $existingRecord = $user->linkedin->connections()
+                        ->where('record_date', now()->toDateString())
+                        ->first();
+            
+
+                        if ($existingRecord) {
+                            // Update the existing record
+                            $existingRecord->update([
+                                'connections_count' => $linkedin_connections,
+                            ]);
+                        } else {
+                            // Create a new record
+                            $user()->linkedin->connections()->create([
+                                'connections_count' => $linkedin_connections,
+                                'record_date' => now()->toDateString(),
+                            ]);
+                        }
+        
+                    }
+
+                    return redirect()->intended(route('dashboard'));
+                }
+                return view('addaccounts', [
+                    'linkedinAccount' => $linkedinAccount,
+                    'twitterAccount' => $twitterAccount,
+                ]);
+                
+                
             } else {
                 return view('profile', ['user' => $user]);
             }

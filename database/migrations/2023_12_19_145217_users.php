@@ -27,6 +27,7 @@ return new class extends Migration
         $table->string('image_path')->nullable(); // Changed from 'image-path'
         $table->boolean('profile_completed')->default(false); // Changed from 'profile-completed'
         $table->integer('is_verified')->default(0);
+        $table->integer('social_accounts')->default(0);
         $table->rememberToken();
         $table->timestamps();
     });

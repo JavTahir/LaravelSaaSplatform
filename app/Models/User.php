@@ -30,6 +30,7 @@ class User extends Authenticatable
         'country',
         'image_path',
         'profile_completed',
+        'social_accounts',
         
     ];
 
@@ -52,4 +53,26 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+
+    public function linkedin()
+    {
+        return $this->hasOne(Linkedin::class, 'user_id');
+    }
+
+
+    public function twitter()
+    {
+        return $this->hasOne(Twitter::class, 'user_id');
+    }
+
+
+    public function lix()
+    {
+        return $this->hasOne(Lix::class, 'user_id');
+    }
+
+
+
 }

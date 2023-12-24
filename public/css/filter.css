@@ -1,0 +1,44 @@
+.rounded-search {
+    border-radius: 30px;
+}
+
+.rounded-dropdown {
+    border-radius: 10px;
+}
+
+.search-bar {
+    padding-right: 40px; /* Space for the search icon */
+}
+
+/* Position the search icon */
+.search-icon {
+    position: absolute;
+    top: 50%;
+    right: 40px;
+    transform: translateY(-50%);
+    border: 0;
+}
+
+/* Adjust the position of the filter dropdown */
+.filter-dropdown {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+/* Style for the filter dropdown button */
+.filter-btn {
+    border-radius: 40px;
+    width: 100px;
+}
+
+/* Custom styles for the dropdown menu */
+.dropdown-menu {
+    background-color: #a29797; /* Black background */
+    border: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Custom hover effect for dropdown items */
+.dropdown-item:hover {
+    background-color: #333; /* Darker shade on hover */
+}

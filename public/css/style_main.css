@@ -1,23 +1,29 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css");
+
 body {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-    background: linear-gradient(to right, rgb(218, 174, 231), rgb(121, 107, 126));
-  }
-  
-  .container {
+    background: linear-gradient(
+        to right,
+        rgb(218, 174, 231),
+        rgb(121, 107, 126)
+    );
+}
+
+.container {
     background: rgba(230, 220, 247, 0.78);
     border-radius: 10px;
     text-align: center;
     width: 300px;
     height: 400px;
     box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
-      rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
-  }
-  
-  .done-button {
+        rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+
+.done-button {
     background-color: rgba(117, 42, 122, 0.79);
     color: #fff;
     font-weight: bold;
@@ -29,9 +35,9 @@ body {
     margin-left: 120px;
     position: relative;
     z-index: 2;
-  }
-  
-  .sub-text {
+}
+
+.sub-text {
     text-align: center;
     color: rgba(81, 36, 154, 0.99);
     font-size: 12px;
@@ -39,11 +45,11 @@ body {
     font-weight: 400;
     word-wrap: break-word;
     margin-top: 50px;
-  }
-  
-  /* Search bar styles */
-  
-  .search-input {
+}
+
+/* Search bar styles */
+
+.search-input {
     background: rgba(202.04, 189.99, 221.71, 0.78);
     border: none;
     border-radius: 5px;
@@ -53,79 +59,79 @@ body {
     margin-top: 20px;
     margin-bottom: 20px;
     transition: border-color 0.3s; /* Add a transition for smooth effect */
-  }
-  
-  .search-input:focus {
+}
+
+.search-input:focus {
     border: none;
     outline: none;
-  }
-  
-  /* Div below the search bar */
-  .custom-div {
+}
+
+/* Div below the search bar */
+.custom-div {
     background: rgba(213.9, 201.95, 233.4, 0.78);
     width: 250px; /* Set the width to your desired value */
     height: 200px; /* Set the height to your desired value */
     margin: 10px;
     overflow: auto; /* Enable scrolling */
-  }
-  
-  .custom-div::-webkit-scrollbar {
+}
+
+.custom-div::-webkit-scrollbar {
     width: 5px;
-  }
-  
-  .custom-div::-webkit-scrollbar-thumb {
+}
+
+.custom-div::-webkit-scrollbar-thumb {
     background: rgba(81, 36, 154, 0.99); /* Dark purple color for the thumb */
     border-radius: 10px;
-  }
-  
-  .custom-div::-webkit-scrollbar-track {
+}
+
+.custom-div::-webkit-scrollbar-track {
     background: rgba(
-      202.04,
-      189.99,
-      221.71,
-      0.78
+        202.04,
+        189.99,
+        221.71,
+        0.78
     ); /* Light purple color for the track */
     border-radius: 10px;
-  }
-  
-  /* User item container */
-  .user-item {
+}
+
+/* User item container */
+.user-item {
     display: flex;
     align-items: center;
     padding: 10px;
-  }
-  
-  /* Profile image styles */
-  .profile-image {
+}
+
+/* Profile image styles */
+.profile-image {
     width: 30px;
     height: 30px;
     border-radius: 50%;
     margin-right: -70px;
-  }
-  
-  /* User name styles */
-  .user-name {
+}
+
+/* User name styles */
+.user-name {
     flex: 1;
     font-size: 14px;
     margin-left: 90px;
     text-align: left;
-  }
-  
-  .add-icon {
+}
+
+.add-icon {
     width: 20px;
     height: 30px;
-  }
-  
-  .right-arrow {
+}
+
+.right-arrow {
     position: relative;
     bottom: 1px; /* Adjust as needed for the desired distance from the bottom */
     right: 3px; /* Adjust as needed for the desired distance from the right */
     left: 120px;
     width: 30px; /* Set the width to your desired value */
     height: 30px; /* Set the height to your desired value */
-  }
-  
-  .centered-text {
+}
+
+.centered-text {
     text-align: center;
     color: black;
     font-size: 20px;
@@ -133,41 +139,52 @@ body {
     font-weight: 400;
     word-wrap: break-word;
     margin-top: 40px;
-  }
-  
-  .icon-container {
+}
+
+.icon-container {
     display: flex;
     justify-content: center;
-  }
-  .icon {
+}
+.icon {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0 20px;
-  }
-  
-  .icon img {
+}
+
+.icon img {
     width: 40px; /* Set the desired width for the icons */
     height: 50px; /* Set the desired height for the icons */
-  }
-  
-  .Add-icon {
+}
+
+.Add-icon {
     position: absolute;
     margin-top: -10px; /* Adjust the margin to position it above the social media icons */
     margin-left: 10px;
-  }
-  
-  .container1 {
+}
+
+.container1 {
     background: rgba(230, 220, 247, 0.78);
     border-radius: 10px;
     text-align: center;
-    width: 300px;
-    height: 300px;
+    width: 400px;
+    height: auto;
     box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
-      rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
-  }
-  
-  .sub-text1 {
+        rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+
+.sub-text2 {
+    text-align: center;
+    color: rgba(81, 36, 154, 0.99);
+    font-size: 12px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 400;
+    word-wrap: break-word;
+    margin-bottom: 0;
+    margin-top: 40px;
+}
+
+.sub-text1 {
     text-align: center;
     color: rgba(81, 36, 154, 0.99);
     font-size: 12px;
@@ -175,56 +192,90 @@ body {
     font-weight: 400;
     word-wrap: break-word;
     margin-bottom: 60px;
-  }
-  
-  .cancel-icon {
+}
+
+.cancel-icon {
     width: 20px;
     height: 20px;
-  }
-  
-  @media (max-width: 767px) {
+}
+
+.account-icons {
+    display: flex;
+    justify-content: space-between; /* Adjust as needed */
+    flex-direction: row;
+}
+
+.card {
+    width: 350px;
+    border-radius: 20px;
+    background-color: transparent;
+}
+
+.line-color {
+    color: green;
+    height: 3px;
+}
+
+.outlined-box {
+    border: 1px solid #343a406b; /* Set the border color */
+    padding: 5px 10px; /* Adjust padding as needed */
+    border-radius: 5px; /* Set border-radius for rounded corners */
+    color: #343a40; /* Set the text color */
+    background-color: #b9f6ca62;
+    font-size: 14px; /* Set the font size */
+    display: block; /* Display as inline-block to fit content */
+}
+
+.outlined-circle {
+    width: 28px; /* Set the width of the circle */
+    height: 28px; /* Set the height of the circle */
+    border: 2px solid #343a40; /* Set the border color and width */
+    border-radius: 50%; /* Create a circular border-radius */
+    display: inline-block; /* Display as inline-block to fit content */
+}
+
+@media (max-width: 767px) {
     .centered-div1 {
-      width: auto;
-      overflow-x: none;
+        width: auto;
+        overflow-x: none;
     }
-  
+
     .dropdown-icon {
-      margin-left: 90px;
+        margin-left: 90px;
     }
     .inbox-section1 {
-      width: 200px;
-      overflow: none;
+        width: 200px;
+        overflow: none;
     }
-  
+
     .right-section {
-      width: 200px;
-      height: auto;
-      overflow: auto;
+        width: 200px;
+        height: auto;
+        overflow: auto;
     }
-  
+
     .centered-rectangle {
-      width: auto;
+        width: auto;
     }
-  
+
     .custom-button {
-      margin: 0;
+        margin: 0;
     }
-  
+
     .custom-dropdown-content {
-      position: relative;
+        position: relative;
     }
-  
+
     .custom-dropdown {
-      width: 150px;
+        width: 150px;
     }
-  
+
     .selected-option {
-      width: 10px;
+        width: 10px;
     }
-  
+
     .uploadedImage {
-      width: 40px;
-      height: 50px;
+        width: 40px;
+        height: 50px;
     }
-  }
-  
+}

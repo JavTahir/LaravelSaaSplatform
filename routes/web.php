@@ -8,6 +8,8 @@ use App\Http\Controllers\SocialController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TwitterController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Connections;
+
 
 
 /*
@@ -33,7 +35,7 @@ use App\Http\Controllers\ProfileController;
 // });
 
 
-Route::get('/accounts', 'App\Http\Controllers\Main@addaccounts');
+Route::get('/accounts', 'App\Http\Controllers\Main@addaccounts')->name('addaccounts')->middleware(['auth']);
 
 Route::get('/pages', 'App\Http\Controllers\Main@addpages');
 
@@ -79,6 +81,11 @@ Route::get('logout',[AuthManager::class,'logout'])->name('logout');
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard')->middleware(['auth']);
+
+Route::get('/analytics', function () {
+    return view('analytics');
+})->name('analytics')->middleware(['auth']);
+
 
 Route::get('/inbox', function () {
     return view('inbox');
@@ -131,4 +138,9 @@ Route::post('/update-profile', 'App\Http\Controllers\ProfileController@updatePro
 
 
 
+Route::get('/linkedin/connections', [Connections::class, 'getConnections']);
+
+Route::get('/lix', [Connections::class, 'lixaccount'])->name('lixSetupPage');
+
+Route::post('/lix-form', [Connections::class, 'lixform'])->name('submitLixForm');
 
