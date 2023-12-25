@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\File;
+use App\Models\Linkedin;
 
 class PostController extends Controller
 {
@@ -17,8 +18,11 @@ class PostController extends Controller
     {
         $client = new Client();
     
-        $accessToken = $request->session()->get('linkedin_token');
         $user = Auth::user();
+
+        $userId = $user->id;
+        $linkedin = LinkedIn::where('user_id', $userId)->first();
+        $accessToken= $linkedin->linkedin_access_token;
     
         $headers = [
             'Authorization' => 'Bearer ' . $accessToken,
@@ -45,7 +49,7 @@ class PostController extends Controller
                 'json' => [
                     'registerUploadRequest' => [
                         'recipes' => ["urn:li:digitalmediaRecipe:$recipe"],
-                        'owner' => 'urn:li:person:' . $user->linkedin_id,
+                        'owner' => 'urn:li:person:' . $linkedin->linkedin_id,
                         'serviceRelationships' => [
                             [
                                 'relationshipType' => 'OWNER',
@@ -83,7 +87,7 @@ class PostController extends Controller
         }
     
         $body = [
-            'author' => 'urn:li:person:' . $user->linkedin_id,
+            'author' => 'urn:li:person:' . $linkedin->linkedin_id,
             'lifecycleState' => 'PUBLISHED',
             'specificContent' => [
                 'com.linkedin.ugc.ShareContent' => [

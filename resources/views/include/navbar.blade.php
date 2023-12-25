@@ -61,7 +61,7 @@
           <!-- Navigation -->
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="{{ route('analytics') }}">
+              <a class="nav-link" href="{{ route('analytics-all') }}">
                 <i class="bi bi-house"></i> Dashboard
               </a>
             </li>

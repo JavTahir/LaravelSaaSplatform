@@ -81,7 +81,7 @@ class AuthManager extends Controller
                         $viewerId = $lixAccount->linkedin_viewer_id;
 
 
-                        $linkedin_connections = Connections::getConnections($apiKey, $viewerId);
+                        // $linkedin_connections = Connections::getConnections($apiKey, $viewerId);
                         // dd($linkedin_connections);
             
             
@@ -93,11 +93,11 @@ class AuthManager extends Controller
                         if ($existingRecord) {
                             // Update the existing record
                             $existingRecord->update([
-                                'connections_count' => $linkedin_connections,
+                                'connections_count' => 300,
                             ]);
                         } else {
                             // Create a new record
-                            $user()->linkedin->connections()->create([
+                            $user->linkedin->connections()->create([
                                 'connections_count' => $linkedin_connections,
                                 'record_date' => now()->toDateString(),
                             ]);

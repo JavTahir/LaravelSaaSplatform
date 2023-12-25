@@ -25,15 +25,11 @@
                   >
                     Filter
                   </button>
-                  <div
-                    class="dropdown-menu"
-                    id="filterDropdownMenu"
-                    aria-labelledby="filterDropdown"
-                  >
-                    <a class="dropdown-item" href="#">All</a>
-                    <a class="dropdown-item" href="#">Filter 1</a>
-                    <a class="dropdown-item" href="#">Filter 2</a>
-                    <a class="dropdown-item" href="#">Filter 3</a>
+                  <div class="dropdown-menu" id="filterDropdownMenu" aria-labelledby="filterDropdown">
+                                <a class="dropdown-item" href="{{ route('analytics', ['filter' => 'last_7_days']) }}">Last
+                                    7 days</a>
+                                <a class="dropdown-item" href="{{ route('analytics', ['filter' => 'last_month']) }}">Last
+                                    Month</a>
                   </div>
                 </div>
               </div>

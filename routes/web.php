@@ -9,6 +9,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\TwitterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Connections;
+use App\Http\Controllers\Analytics;
 
 
 
@@ -82,9 +83,10 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard')->middleware(['auth']);
 
-Route::get('/analytics', function () {
-    return view('analytics');
-})->name('analytics')->middleware(['auth']);
+Route::get('/analytics',[Analytics::class,'show'])->name('analytics-all')->middleware(['auth']);
+
+Route::get('/analytics-7days',[Analytics::class,'analytics'])->name('analytics')->middleware(['auth']);
+
 
 
 Route::get('/inbox', function () {

@@ -27,7 +27,7 @@ class Connections extends Controller
                 'Authorization' => $apiKey,
             ])->get("https://api.lix-it.com/v1/connections", [
                 'viewer_id' => $viewerId,
-                'count' => 1000,
+                'count' => 10,
                 'start' => 0,
             ]);
     
