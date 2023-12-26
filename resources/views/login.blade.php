@@ -7,8 +7,8 @@
           <div class="logo">
             <a href="landingpage.html">
               <img
-                src="../../assets/images/probizlogo2.png"
-                alt="Logo"
+              src="{{ asset('images/probizlogo2.png') }}"
+              alt="Logo"
                 style="width: 150px"
               />
             </a>
@@ -23,7 +23,7 @@
                   content creation seriously easy for busy social pros like you.
                 </p>
                 <img
-                  src="../../assets/images/glare-isometric.png"
+                src="{{ asset('images/glare-isometric.png') }}"
                   alt="Logo"
                   style="width: 250px; padding-top: 30px"
                 />
@@ -32,7 +32,7 @@
             <!-- Video on Right -->
             <div class="col-md-6 video-container">
               <video width="85%" height="80%" autoplay muted loop>
-                <source src="../../assets/videos/login.mp4" type="video/mp4" />
+              <source src="{{ asset('videos/login.mp4') }}" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             </div>

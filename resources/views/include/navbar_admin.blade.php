@@ -60,27 +60,29 @@
         <div class="collapse navbar-collapse" id="sidebarCollapse">
           <!-- Navigation -->
           <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="bi bi-house"></i> Dashboard
+            <li class="nav-item ">
+              <a class="nav-link {{ Request::is('dashboardadm') ? 'navbar_active' : '' }}" href="">
+                <i class="bi bi-house-fill"></i> Dashboard
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="bi bi-bar-chart"></i> Analitycs
+              <a class="nav-link {{ Request::is('analytics-adm') ? 'navbar_active' : '' }}" href="{{ route('analytics-adm') }}">
+              <i class="bi bi-bar-chart-line-fill"></i> Analytics
               </a>
             </li>
+
             <li class="nav-item ">
-                <a class="nav-link" href="{{ route('delete') }}">
-                    <i class="bi bi-bar-chart"></i> Delete user
+                <a class="nav-link {{ Request::is('users') ? 'navbar_active' : '' }}" href="{{ route('users') }}">
+                <i class="bi bi-people-fill"></i>Users
                 </a>
             </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="{{ route('payments') }}">
-                    <i class="bi bi-bar-chart"></i> Purchases
-                </a>
+            <li class="nav-item">
+              <a class="nav-link {{ Request::is('payment') ? 'navbar_active' : '' }}" href="">
+                <i class="bi bi-credit-card-2-front-fill"></i> Payment
+              </a>
             </li>
-            
+
+
           </ul>
           <!-- Divider -->
           <hr class="navbar-divider my-5 opacity-20" />
@@ -90,9 +92,13 @@
           <div class="mt-auto"></div>
           <!-- User (md) -->
           <ul class="navbar-nav">
-          
+          <li class="nav-item ">
+                <a class="nav-link {{ Request::is('aanalytics') ? 'navbar_active' : '' }}" href="{{ route('profile') }}">
+                  <i class="bi bi-gear-fill"></i> Profile Settings
+                </a>
+            </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link {{ Request::is('janalytics') ? 'navbar_active' : '' }}" href="#">
                 <i class="bi bi-box-arrow-left"></i> Logout
               </a>
             </li>

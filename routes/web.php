@@ -10,6 +10,7 @@ use App\Http\Controllers\TwitterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Connections;
 use App\Http\Controllers\Analytics;
+use App\Http\Controllers\AdminController;
 
 
 
@@ -61,10 +62,20 @@ Route::get('/linkedin/callback',[SocialController::class,'linkedinCallback'])->n
 
 
 
-
-Route::get('/linkedin/post-form', [SocialController::class, 'showPostForm'])->middleware(['auth']);
-
+Route::post('/linkedin/postform', [PostController::class, 'postToLinkedIn']);
+Route::post('/simple-post', [PostController::class, 'simplePost']);
+Route::post('/media-post', [PostController::class, 'mediaPost']);
 Route::post('/post-to-linkedin', [PostController::class, 'createImageShare']);
+
+
+Route::post('/twitter/postform', [TwitterController::class, 'postTweet']);
+
+Route::post('/post-to-twitter', [TwitterController::class, 'postTweetWithMedia']);
+
+
+
+
+
 
 Route::get('/twitter/post-form', [TwitterController::class, 'showTwitterForm'])->middleware(['auth']);
 
@@ -79,15 +90,29 @@ Route::post('/signup',[AuthManager::class,'signupPost'])->name('signup.post');
 
 Route::get('logout',[AuthManager::class,'logout'])->name('logout');
 
+Route::get('/users', [AdminController::class, 'allusers'])->name('users');
+
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard')->middleware(['auth']);
+
+
+Route::get('/payment', function () {
+    return view('payment');
+})->name('payment')->middleware(['auth']);
+
 
 Route::get('/analytics',[Analytics::class,'show'])->name('analytics-all')->middleware(['auth']);
 
 Route::get('/analytics-7days',[Analytics::class,'analytics'])->name('analytics')->middleware(['auth']);
 
+Route::delete('/users/{user}', [AdminController::class, 'destroy'])->name('users.destroy');
 
+
+
+
+Route::get('/analytics-adm',[Analytics::class,'adminAnalytics'])->name('analytics-adm')->middleware(['auth']);
 
 Route::get('/inbox', function () {
     return view('inbox');
@@ -105,9 +130,9 @@ Route::get('/profile', function () {
     return view('profile');
 })->name('profile');
 
-Route::get('/users', function () {
-    return view('users');
-})->name('users');
+// Route::get('/users', function () {
+//     return view('users');
+// })->name('users');
 
 
 Route::get('/dashboardadm', function () {

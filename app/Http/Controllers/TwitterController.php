@@ -10,17 +10,37 @@ use Abraham\TwitterOAuth\TwitterOAuth;
 use \Abraham\TwitterOAuth\TwitterOAuthMediaTrait;
 use Atymic\Twitter\Twitter as TwitterClient;
 use GuzzleHttp\Client;
-
+use App\Models\TwitterPost;
 
 class TwitterController extends Controller
+
 {
+
+
+
+    private function storeMediaPaths($mediaFiles)
+    {
+        $mediaPaths = [];
+
+        // Loop through each media file and store its path
+        foreach ($mediaFiles as $mediaFile) {
+            $mediaPaths[] = $mediaFile->store('uploads', 'public');
+        }
+
+        return $mediaPaths;
+    }
+
+
     public function postTweetWithMedia(Request $request)
     {
         try {
-            $accessToken = Session::get('twitter_accesstoken');
-            $accessTokenSecret = Session::get('twitter_token');
+
+            
+            $accessToken = Auth::user()->twitter->twitter_access_token;
+            $accessTokenSecret = Auth::user()->twitter->twitter_token_secret;
+
+
     
-            // Twitter API credentials
             $consumerKey = '8n2kX7hxigWxuh9Dc01e7MFXj';
             $consumerSecret = 'hiYS0ddgkrOLPKphPGelS2Iuh5iUbjM3e24P3txkCQ7hXzdxSG';
     
@@ -35,28 +55,52 @@ class TwitterController extends Controller
             $content = $request->input('content');
             // $image =  $request->file('image')->path();
             // dd($image);
-            $images = $request->file('image');
-            // dd($images);
+            $images = $request->file('images');
+            $videos = $request->file('videos');
 
 
-            $mediaIds = []; // Array to store media IDs
-
-            foreach ($images as $image) {
-                // Prepare image data for upload
-                $imagePath = $image->path();
+            $mediaType = $request->has('images') ? 'image' : 'video';
     
-                // Upload image using POST media/upload
-                $media = $twitterOAuth->upload('media/upload', ['media' => $imagePath]);
-                // dd($media);
-                
-                
+            $mediaFiles = $request->file($mediaType . 's');
+            
+            $mediaIds = [];
+
+            if($images){
+                foreach ($images as $image) {
+                    // Prepare image data for upload
+                    $imagePath = $image->path();
+        
+                    // Upload image using POST media/upload
+                    $media = $twitterOAuth->upload('media/upload', ['media' => $imagePath]);
+                    // dd($media);
     
-                // Store media ID in the array
-                $mediaIds[] = $media->media_id_string;
+                    // Store media ID in the array
+                    $mediaIds[] = $media->media_id_string;
+                }
+
             }
 
+            if($videos){
+                foreach ($videos as $video) {
+                    // Prepare image data for upload
+                    $videoPath = $video->path();
+                    // dd($imagePath);
+                    // Upload image using POST media/upload
+                    $media = $twitterOAuth->upload('media/upload', ['media' => $videoPath,'media_type' => 'video/mp4'],true);
+                    // dd($media);
+        
+                    // Store media ID in the array
+                    $mediaIds[] = $media->media_id_string;
+                }
+            }
+
+
+
             
-    
+
+
+
+            // dd($mediaIds);
             // Prepare image data for upload
     
             // dd("hii");
@@ -70,9 +114,25 @@ class TwitterController extends Controller
                 'media' => ['media_ids' =>$mediaIds],
             ];
             $result = $twitterOAuth->post('tweets', $parameters, true);
+
+            // $profilePicpathstr = substr($profilePicPath, strlen('uploads/'));
+
+
             // dd($result);
-            if ($twitterOAuth->getLastHttpCode() >= 200 && $twitterOAuth->getLastHttpCode() < 300) {
-                // Successfully posted on Twitter
+            if ($result) {
+                $images = $this->storeMediaPaths($mediaFiles);
+
+                foreach ($images as $path) {
+                    $newPath = substr($path, strlen('uploads/'));
+                    $newImagePaths[] = $newPath;
+                }
+
+                $post = new TwitterPost([
+                    'user_id' => Auth::user()->id,
+                    'content' => $request->input('content'),
+                    'images' => implode(',', $newImagePaths),
+                ]);
+                $post->save();
                 return redirect()->back()->with('success', 'Tweet successfully posted on Twitter!');
             } else {
                 // Handle errors
@@ -87,13 +147,10 @@ class TwitterController extends Controller
 
     public function postTweet(Request $request)
     {
-        // Get Twitter access token and secret from the session
-        $accessToken = Session::get('twitter_accesstoken');
-        $accessTokenSecret = Session::get('twitter_token');
-
-        // Twitter API credentials
-        $consumerKey = 'G7SKbWYUJVTZqTWDXg2pXEnCl';
-        $consumerSecret = 'K4nh7tcKbNESol6loubGbhrU5HlloBioeY2fBmM6Lzh1Qq5SKL';
+        $accessToken = Auth::user()->twitter->twitter_access_token;
+        $accessTokenSecret = Auth::user()->twitter->twitter_token_secret;
+        $consumerKey = '8n2kX7hxigWxuh9Dc01e7MFXj';
+        $consumerSecret = 'hiYS0ddgkrOLPKphPGelS2Iuh5iUbjM3e24P3txkCQ7hXzdxSG';
 
         // Create a TwitterOAuth instance
         $twitterOAuth = new TwitterOAuth($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
@@ -103,24 +160,33 @@ class TwitterController extends Controller
             $tweet = $twitterOAuth->post(
                 'tweets',
                 [
-                    'text' => 'hello',
+                    'text' => $request->input('content'),
                 ]
                 
 
             );
+
+            if ($tweet) {
+                // If the tweet is posted successfully, save the post
+                $post = new TwitterPost([
+                    'user_id' => Auth::user()->id,
+                    'content' => $request->input('content'),
+                ]);
+    
+                $post->save();
+    
+                // Redirect back after a successful tweet and post
+                return redirect()->back();
+            } else {
+                // If the response status code is not 200, handle the error
+                return redirect()->back()->with('error', 'Tweet posting failed with status code: ' . $twitterOAuth->getLastHttpCode());
+            }
         
             // Get the tweet details using the tweet ID
             // $tweetDetails = $twitterOAuth->get('statuses/show', ['id' => $tweet->id_str]);
         
-            return response()->json([
-                'status_code' => 200,
-                'data'        => $tweet,
-            ]);
         } catch (\Exception $e) {
-            return response()->json([
-                'status_code' => $e->getCode(),
-                'error'       => $e->getMessage(),
-            ], $e->getCode());
+            return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
         }
     }
 

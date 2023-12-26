@@ -5,14 +5,14 @@
 
 @section('content')
 @include('include.filter')
-<main class="py-6 bg-surface-secondary">
+<main class="py-6 ">
       <div class="container-fluid">
         <!-- Card stats -->
         <div class="row g-6 mb-6">
           
-        <div class="col-xl-3 col-sm-6 col-12"></div>
-          <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card shadow border-0">
+        <div class="col-xl-1 col-sm-6 col-12"></div>
+          <div class="col-xl-4 cpl col-sm-6 col-12 ">
+            <div class="card shadow border-0 linkedin-color">
               <div class="card-body">
                 <div class="row">
                   <div class="col">
@@ -55,8 +55,8 @@
               </div>
             </div>
           </div>
-          <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card shadow border-0">
+          <div class="col-xl-4 col-sm-6 col-12">
+            <div class="card shadow border-0 twitter-color">
               <div class="card-body">
                 <div class="row">
                   <div class="col">
@@ -104,7 +104,8 @@
     </main>
 
     <script>
-        const chartData = @json($chartData);
+    const chartData = @json($chartData);
+    console.log(chartData); 
     </script>
 
 @include('include.chart')

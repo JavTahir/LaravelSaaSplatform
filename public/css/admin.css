@@ -1,0 +1,92 @@
+/* Webpixels CSS */
+/* Utility and component-centric Design System based on Bootstrap for fast, responsive UI development */
+/* URL: https://github.com/webpixels/css */
+
+@import url(https://unpkg.com/@webpixels/css@1.1.5/dist/index.css);
+
+/* Bootstrap Icons */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css");
+
+.navbar-vertical .navbar-nav .nav-link {
+    padding: 16px 10px; /* You can adjust the padding values */
+    line-height: 1.5; /* You can adjust the line height */
+    font-size: 16px;
+    width: 230px;
+    margin-left: 20px;
+    border-radius: 10px;
+    margin-bottom: 4px;
+}
+
+.navbar_active {
+    background-color: #690f7923;
+}
+
+.filter-btn {
+    background-color: transparent;
+    border: 0;
+    color: gray;
+}
+
+.filter-btn:hover {
+    border: 0;
+    color: #2196f3;
+}
+
+.filter-btn:focus,
+.filter-btn:active {
+    border: 0;
+}
+
+.search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+}
+
+.search-container input[type="text"] {
+    padding: 6px;
+    font-size: 17px;
+    /* box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px; */
+    background-color: transparent;
+}
+
+.search-container input[type="text"]:focus,
+.search-container input[type="text"]:active,
+.search-container input[type="text"]:hover {
+    border-color: #2196f3; /* Blue color as an example */
+}
+
+.search-container button {
+    padding: 6px 10px;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+#filterDropdownMenu {
+    background-color: rgba(145, 106, 145, 0.841);
+}
+
+.dropdown-item:hover {
+    background-color: #5e5757; /* Darker shade on hover */
+}
+
+.legend {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+}
+
+.legend-color {
+    width: 10px;
+    height: 10px;
+    margin-right: 5px;
+}

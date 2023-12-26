@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
+
+
+
 class ProfileController extends Controller
 {
     public function updateProfile(Request $request)
@@ -29,7 +32,11 @@ class ProfileController extends Controller
        
         if ($request->hasFile('fileInput')) {
             $profilePic = $request->file('fileInput');
-            $profilePicPath = $profilePic->store('uploads', 'public'); // Save the image to storage
+            $profilePicPath = $profilePic->store('uploads', 'public');
+            $profilePicType = $profilePic->getClientOriginalExtension();
+            $profilePicpathstr = substr($profilePicPath, strlen('uploads/'));
+
+            $profilePicPath = $profilePicpathstr;
         }
 
         // Update user data

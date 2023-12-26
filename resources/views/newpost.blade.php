@@ -20,8 +20,18 @@
   </style>
 </head>
 
+@if(session('success'))
+<div class="alert alert-success" role="alert">
+    {{ session('success') }}
+</div>
+@elseif(session('error'))
+<div class="alert alert-danger" role="alert">
+    {{ session('error') }}
+</div>
+@endif
+
 <div class="container d-flex" style="min-height: 100vh">
-<form id="postForm" method="POST" action="{{ url('/post-to-linkedin') }}" enctype="multipart/form-data">
+<form id="postForm" method="POST"  enctype="multipart/form-data">
   
   @csrf
       <div class="centered-div1">
@@ -30,9 +40,8 @@
             <select class="custom-select" id="sendToDropdown">
               <!-- Add your options here -->
               <option value="" selected>Send to...</option>
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
+              <option value="option2">Twitter</option>
+              <option value="option3">LinkedIn</option>
             </select>
           </div>
           <div class="selected-options" id="selectedOptions">
@@ -149,7 +158,12 @@
                   src="images/profile 1.png"
                   alt="Profile Pic"
                 />
-                <div class="username">TwitterUser</div>
+                
+                <div class="username">
+                    @auth
+                      {{auth()->user()->first_name}}
+                    @endauth
+                </div>
               </div>
               <div class="post-content">
                 <p>Reading is a good habbit for u n me. here you go.</p>
@@ -182,6 +196,8 @@
         </div>
       </div>
       </form>
+      <!-- Bootstrap Modal for Success Message -->
+    
     </div>
     <script>
   document.addEventListener("DOMContentLoaded", function () {
@@ -275,10 +291,78 @@
 
         postImage.appendChild(mediaElement);
     }
+
+
+    document.getElementById("postForm").addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    // Check if the selected option is "Option 2"
+    const sendToDropdown = document.getElementById("sendToDropdown");
+    const selectedOption = document.querySelector(".selected-option");
+
+  //  console.log(selectedOption.dataset.optionValue);
+   const selectedOptionCount = document.querySelectorAll("#selectedOptions .selected-option").length;
+
+    if (selectedOptionCount === 2) {
+        // Redirect to some other route
+        if (selectedImageFiles.length > 0) {
+        // Redirect to the appropriate route (/post-to-linkedin)
+        this.action = "{{ url('/media-post') }}";
+        alert("Post submitted successfully");
+      } else {
+        // No file selected, show an alert or handle it as needed
+       
+        this.action = "{{ url('/simple-post') }}";
+        alert("Post submitted successfully");
+
+      }
+        console.log('hi');
+    }
+
+    else if (selectedOption.dataset.optionValue === "option3") {
+      // Check if any file is selected
+      if (selectedImageFiles.length > 0) {
+        // Redirect to the appropriate route (/post-to-linkedin)
+        this.action = "{{ url('/post-to-linkedin') }}";
+        alert("Post submitted successfully");
+      } else {
+        // No file selected, show an alert or handle it as needed
+       
+        this.action = "{{ url('/linkedin/postform') }}";
+        alert("Post submitted successfully");
+
+      }
+    }
+
+    else if (selectedOption.dataset.optionValue === "option2") {   //for twitter
+      // Check if any file is selected
+      if (selectedImageFiles.length > 0) {
+        // Redirect to the appropriate route (/post-to-linkedin)
+        this.action = "{{ url('/post-to-twitter') }}";
+        alert("Post submitted successfully");
+      } else {
+        // No file selected, show an alert or handle it as needed
+       
+        this.action = "{{ url('/twitter/postform') }}";
+        alert("Post submitted successfully");
+
+      }
+    }
+
+    this.submit();
+    
+
+
+    
+  });
+
+  
+
+  
+
 });
 
 </script>
-
 
 
 

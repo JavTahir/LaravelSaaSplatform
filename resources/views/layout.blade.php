@@ -103,27 +103,46 @@
       }
 
       .form-control {
-        border-radius: 6px;
         border: 1px solid #e5e5e5;
+        border-color: rgb(232, 232, 232) !important;
+        font-size:13px;
+        font-weight: 400;
+
+
       }
+
+      
+      .form-control:hover {
+          outline: none;
+          border: 1px solid black !important ;
+          
+      }
+      .form-control:focus{
+        outline: none;
+        border: 2px solid black !important ;
+
+      }
+
+
 
       /* Adjusting label, input fields, and buttons weight to 300 */
       .form-label {
         font-weight: 500;
       }
-      .form-control,
+
       .btn {
-        font-weight: 400;
+        font-size:14px;
+        font-weight: 600;
       }
 
-      .form-control {
-        border-color: rgba(52, 48, 69, 1);
-      }
+
 
       /* Setting width of buttons and input fields to 300px */
       .form-control,
       .btn {
-        width: 400px;
+        width: 80%;
+        height: 50px;
+        border-radius: 8px;
       }
 
       .btn-dark {

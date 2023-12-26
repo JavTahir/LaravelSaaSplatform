@@ -1,21 +1,17 @@
-// console.log(chartData["chartData"]["datasets"]);
+// Assuming chartData now has structure { labels: [...], datasets: [...] }
 
+
+console.log(chartData.chartData.datasets[0].data);
 new Chart("myChart", {
     type: "line",
     data: {
         labels: chartData.chartData.labels,
         datasets: [
             {
-                data: chartData.chartData.datasets[0].data, // Twitter dataset
+                data: chartData.chartData.datasets[0].data, // Users dataset (e.g., followers_count)
                 borderColor: "#87CEFA",
                 fill: false,
-                label: "Twitter Followers",
-            },
-            {
-                data: chartData.chartData.datasets[1].data, // Linkedin dataset
-                borderColor: "#0A66C2",
-                fill: false,
-                label: "Linkedin Connections",
+                label: "User Count",
             },
         ],
     },

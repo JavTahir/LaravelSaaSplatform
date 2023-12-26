@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Linkedin;
 use App\Models\Twitter;
 use App\Models\TwitterFollower;
+use App\Models\User;
+
 use App\Models\LinkedinConnections;
 use Carbon\Carbon;
 
@@ -23,7 +25,9 @@ class Analytics extends Controller
     
 
     $twitter = Twitter::where('user_id', $userId)->first();
-    $twitter_id= $twitter->twitter_id;
+    
+    $twitter_id= $twitter->id;
+
 
     // Get Twitter followers count
     $twitterFollowersCount = TwitterFollower::where('twitter_id', $twitter_id)
@@ -306,6 +310,7 @@ public function monthlyComparison()
     try {
         // Get the currently authenticated user
         $user = Auth::user();
+        dd($user->image_path);
 
 
 
@@ -367,8 +372,8 @@ public function analytics(Request $request)
     $linkedin = LinkedIn::where('user_id', $userId)->first();
     $linkedin_id = $linkedin->id;
 
-    // $twitter = Twitter::where('user_id', $userId)->first();
-    // $twitter_id = $twitter->id;
+    $twitter = Twitter::where('user_id', $userId)->first();
+    $twitter_id = $twitter->id;
 
     $linkedinConnectionsCount = 0;
     $linkedinConnectionsGrowth = 0;
@@ -404,8 +409,53 @@ public function analytics(Request $request)
 	$chartData =  $this->monthlyComparison();
     }
 
-    return view('analytics', compact('chartData','linkedinConnectionsCount', 'linkedinConnectionsGrowth', 'timeRange'));
+    return view('analytics', compact('chartData','linkedinConnectionsCount', 'linkedinConnectionsGrowth','twitterFollowersCount', 'twitterFollowersGrowth', 'timeRange'));
 
+}
+
+
+public function adminAnalytics(){
+
+    $chartData =  $this->dailyUserComparison();
+    $totalUsers = User::count();
+
+        return view('analytics_adm', ['totalUsers' => $totalUsers,'chartData'=>$chartData]);
+}
+
+
+public function dailyUserComparison()
+{
+    try {
+        // Get the currently authenticated user
+        $user = Auth::user();
+
+        // Fetch user data for today and yesterday
+        $userDataToday = $user->whereDate('created_at', Carbon::today())->get();
+        $userDataYesterday = $user->whereDate('created_at', Carbon::yesterday())->get();
+       
+
+        // Combine data into a format suitable for passing to the Blade view
+        $chartData = [
+            'labels' => ['Today', 'Yesterday'],
+
+            'datasets' => [
+                [
+                    'data' => [$userDataToday->count(), $userDataYesterday->count()],
+                    'borderColor' => '#87CEFA', // Adjust the color as needed
+                    'fill' => false,
+                    'label' => 'User Count',
+                ],
+            ],
+          
+        ];
+
+       
+
+        return compact('chartData');
+    } catch (\Exception $e) {
+        // Handle the exception, log it, or return an error view
+        return ;
+    }
 }
 
 

@@ -37,7 +37,7 @@
               <div class="avatar-parent-child">
                 <img
                   alt="Image Placeholder"
-                  src="https://images.unsplash.com/photo-1548142813-c348350df52b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
+                  src="{{ asset('storage/uploads/' . auth()->user()->image_path) }}"
                   class="avatar avatar- rounded-circle"
                 />
                 <span class="avatar-child avatar-badge bg-success"></span>
@@ -60,35 +60,31 @@
         <div class="collapse navbar-collapse" id="sidebarCollapse">
           <!-- Navigation -->
           <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="{{ route('analytics-all') }}">
-                <i class="bi bi-house"></i> Dashboard
+            <li class="nav-item ">
+              <a class="nav-link {{ Request::is('analytics') ? 'navbar_active' : '' }}" href="{{ route('analytics-all') }}">
+                <i class="bi bi-house-fill"></i> Dashboard
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="bi bi-bar-chart"></i> Analitycs
-              </a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="{{ route('inbox') }}">
-                    <i class="bi bi-bar-chart"></i> Inbox
-                </a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="{{ route('streams') }}">
-                    <i class="bi bi-bar-chart"></i> Streams
-                </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                <i class="bi bi-people"></i> Users
+              <a class="nav-link {{ Request::is('sanalytics') ? 'navbar_active' : '' }}" href="#">
+              <i class="bi bi-bar-chart-line-fill"></i> Analytics
               </a>
             </li>
 
             <li class="nav-item ">
-                <a class="nav-link" href="{{ route('posts') }}">
-                    <i class="bi bi-bar-chart"></i> New Post
+                <a class="nav-link {{ Request::is('aanalytics') ? 'navbar_active' : '' }}" href="{{ route('streams') }}">
+                  <i class="bi bi-rss-fill"></i> Streams
+                </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{ Request::is('payment') ? 'navbar_active' : '' }}" href="{{ route('payment') }}">
+                <i class="bi bi-credit-card-2-front-fill"></i> Payment
+              </a>
+            </li>
+
+            <li class="nav-item ">
+                <a class="nav-link {{ Request::is('aanalytics') ? 'navbar_active' : '' }}" href="{{ route('posts') }}">
+                <i class="bi bi-pen-fill"></i> New Post
                 </a>
             </li>
           </ul>
@@ -101,12 +97,12 @@
           <!-- User (md) -->
           <ul class="navbar-nav">
           <li class="nav-item ">
-                <a class="nav-link" href="{{ route('profile') }}">
-                    <i class="bi bi-bar-chart"></i> Profile Settings
+                <a class="nav-link {{ Request::is('aanalytics') ? 'navbar_active' : '' }}" href="{{ route('profile') }}">
+                  <i class="bi bi-gear-fill"></i> Profile Settings
                 </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">
+              <a class="nav-link {{ Request::is('janalytics') ? 'navbar_active' : '' }}" href="#">
                 <i class="bi bi-box-arrow-left"></i> Logout
               </a>
             </li>

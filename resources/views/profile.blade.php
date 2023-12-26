@@ -67,10 +67,10 @@
 <div class="container">
   <div class="edit-profile-container">
     <h2>Edit Profile</h2>
-    <img src="images/profile 1.png" alt="Profile Picture" class="profile-pic" id="profilePic">
+    <img src="images/profile.png" alt="Profile Picture" class="profile-pic" id="profilePic">
     <span class="edit-icon" onclick="document.getElementById('fileInput').click()">✎</span>
 
-    <form id="profileForm" action="{{ route('updateProfile') }}" method="POST" enctype="multipart/form-data">
+    <form onsubmit="return validateForm()" id="profileForm" action="{{ route('updateProfile') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <!-- Hidden file input outside the visible area -->
     <input type="file" id="fileInput" name="fileInput" accept="image/*" style="position: absolute; left: -9999px;" onchange="updateProfilePic(event)">
@@ -79,12 +79,12 @@
             <div class="row">
               <div class="col">
                 <label for="fname">First Name</label>
-                <input type="text" class="form-control" id="fname" name="fname" placeholder="First Name" required>
+                <input type="text" class="form-control" id="fname" name="fname" placeholder="First Name" >
                 <span id="fnameError" class="error-text"></span>
               </div>
               <div class="col">
                 <label for="lname">Last Name</label>
-                <input type="text" class="form-control" id="lname" name="lname" placeholder="Last Name" required>
+                <input type="text" class="form-control" id="lname" name="lname" placeholder="Last Name" >
                 <span id="lnameError" class="error-text"></span>
               </div>
             </div>
@@ -92,21 +92,21 @@
 
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{ $user->email }}" required readonly>
+          <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{$user->email}}"  readonly>
           <span id="emailError" class="error-text"></span>
           <span id="emailformat" class="format"></span>
         </div>
 
         <div class="form-group">
           <label for="contactNo">Contact No</label>
-          <input type="text" class="form-control" id="contactNo" name="contactNo" placeholder="Contact No" required>
+          <input type="text" class="form-control" id="contactNo" name="contactNo" placeholder="Contact No" >
           <span id="contactNoError" class="error-text"></span>
           <span id="contactformat" class="format"></span>
         </div>
 
         <div class="form-group">
           <label for="dob">Date of Birth</label>
-          <input type="date" class="form-control" id="dob" name="dob" required>
+          <input type="date" class="form-control" id="dob" name="dob" >
           <span id="dobError" class="error-text"></span>
         </div>
 
@@ -114,12 +114,12 @@
           <div class="row">
             <div class="col">
               <label for="country">Country</label>
-              <input type="text" class="form-control" id="country" name="country" placeholder="Country" required>
+              <input type="text" class="form-control" id="country" name="country" placeholder="Country">
               <span id="countryError" class="error-text"></span>
             </div>
             <div class="col">
               <label for="city">City</label>
-              <input type="text" class="form-control" id="city" name="city" placeholder="City" required>
+              <input type="text" class="form-control" id="city" name="city" placeholder="City" >
               <span id="cityError" class="error-text"></span>
             </div>
           </div>
@@ -127,14 +127,12 @@
 
        
 
-        <button type="submit" class="btn btn-primary" onclick="validateForm()">Save Changes</button>
+        <button type="submit" class="btn btn-primary" >Save Changes</button>
     </form>
   </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 
 <script>
   function updateProfilePic(event) {
@@ -154,67 +152,49 @@
   function validateForm() {
     resetErrorMessages();
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const contactNoRegex = /^\d{10}$/;
-    const passwordRegex = /^.{8,}$/;
     const countryRegex = /^[a-zA-Z\s]+$/;
     const cityRegex = /^[a-zA-Z\s]+$/;
 
     const fname = document.getElementById('fname').value;
     const lname = document.getElementById('lname').value;
-    const email = document.getElementById('email').value;
     const contactNo = document.getElementById('contactNo').value;
-    const password = document.getElementById('password').value;
     const country = document.getElementById('country').value;
     const city = document.getElementById('city').value;
     const dob = document.getElementById('dob').value;
 
-
     let isValid = true;
 
-    if (!fname.trim()) {
+    if (fname === '') {
       document.getElementById('fnameError').innerText = 'Fill in the empty field';
       isValid = false;
     }
 
-    if (!lname.trim()) {
+    if (lname === '') {
       document.getElementById('lnameError').innerText = 'Fill in the empty field';
       isValid = false;
     }
 
-    if (!email.trim()) {
-      document.getElementById('emailError').innerText = 'Fill in the empty field';
-      isValid = false;
-    } else if (!emailRegex.test(email)) {
-      document.getElementById('emailError').innerText = 'Invalid email format';
-      document.getElementById('emailformat').innerText = 'Correct Format: abc@gmail.com';
-      isValid = false;
-    }
+   
 
-    if (!dob.trim()) {
+    if (dob === '') {
       document.getElementById('dobError').innerText = 'Fill in the empty field';
       isValid = false;
     }
 
-    // if (!contactNo.trim()) {
-    //   document.getElementById('contactNoError').innerText = 'Fill in the empty field';
-    //   isValid = false;
-    // } else if (!contactNoRegex.test(contactNo)) {
-    //   document.getElementById('contactNoError').innerText = 'Invalid contact number';
-    //   document.getElementById('contactformat').innerText = 'Correct Format: 0XXXXXXXXXX';
-
-    //   isValid = false;
-    // }
-
-    if (!password.trim()) {
-      document.getElementById('passwordError').innerText = 'Fill in the empty field';
+    if (contactNo === '') {
+      document.getElementById('contactNoError').innerText = 'Fill in the empty field';
       isValid = false;
-    } else if (!passwordRegex.test(password)) {
-      document.getElementById('passwordError').innerText = 'Password must be at least 8 characters long';
+    } else if (!contactNoRegex.test(contactNo)) {
+      document.getElementById('contactNoError').innerText = 'Invalid contact number';
+      document.getElementById('contactformat').innerText = 'Correct Format: 0XXXXXXXXXX';
+
       isValid = false;
     }
 
-    if (!country.trim()) {
+    
+
+    if (country === '') {
       document.getElementById('countryError').innerText = 'Fill in the empty field';
       isValid = false;
     } else if (!countryRegex.test(country)) {
@@ -222,7 +202,7 @@
       isValid = false;
     }
 
-    if (!city.trim()) {
+    if (city === '') {
       document.getElementById('cityError').innerText = 'Fill in the empty field';
       isValid = false;
     } else if (!cityRegex.test(city)) {
@@ -230,20 +210,17 @@
       isValid = false;
     }
 
-    if (isValid) {
-        // Submit the form
-        document.getElementById('profileForm').submit();
-    }
+    return isValid;
   }
 
   function resetErrorMessages() {
     document.getElementById('fnameError').innerText = '';
     document.getElementById('lnameError').innerText = '';
-    document.getElementById('emailError').innerText = '';
     document.getElementById('contactNoError').innerText = '';
-    document.getElementById('passwordError').innerText = '';
     document.getElementById('countryError').innerText = '';
     document.getElementById('cityError').innerText = '';
+    document.getElementById('contactformat').innerText = '';
+
   }
 </script>
 

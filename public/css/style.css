@@ -7,6 +7,20 @@
 /* Bootstrap Icons */
 @import url("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css");
 
+.navbar-vertical .navbar-nav .nav-link {
+    padding: 16px 10px; /* You can adjust the padding values */
+    line-height: 1.5; /* You can adjust the line height */
+    font-size: 16px;
+    width: 230px;
+    margin-left: 20px;
+    border-radius: 10px;
+    margin-bottom: 4px;
+}
+
+.navbar_active {
+    background-color: #690f7923;
+}
+
 .filter-btn {
     background-color: transparent;
     border: 0;
@@ -77,26 +91,25 @@
     margin-right: 5px;
 }
 
-
-.tweet-card::-webkit-scrollbar {
+/* .tweet-card::-webkit-scrollbar {
     width: 5px;
-  }
+}
 
-  .tweet-card::-webkit-scrollbar-track {
+.tweet-card::-webkit-scrollbar-track {
     background: #f1f1f1;
-  }
+}
 
-  .tweet-card::-webkit-scrollbar-thumb {
+.tweet-card::-webkit-scrollbar-thumb {
     background: #888;
     border-radius: 5px;
-  }
+}
 
-  .tweet-card::-webkit-scrollbar-thumb:hover {
+.tweet-card::-webkit-scrollbar-thumb:hover {
     background: #555;
     width: 10px;
-  }
+}
 
-  .tweet-card {
+.tweet-card {
     border: 1px solid #68188a3f;
     border-radius: 8px;
     margin-bottom: 20px;
@@ -104,84 +117,99 @@
     max-height: 500px;
     overflow-y: auto;
     padding-right: 10px;
-  }
+}
 
-  .tweet-card:hover {
+.tweet-card:hover {
     box-shadow: 0 0 5px rgba(87, 0, 200, 0.525);
-  }
+}
 
-  .tweet-card img {
+.tweet-card img {
     border-radius: 50%;
     margin-right: 15px;
     border: 2px solid gray;
-  }
+}
 
-  .h1-twitter {
+.h1-twitter {
     color: rgba(128, 128, 128, 0.895);
-    /* margin-left: 150px; */
-  }
+}
 
-  .whole-container {
+.whole-container {
     margin-left: 50px;
     margin-top: 50px;
-  }
+}
 
-  .heading-bar {
+.heading-bar {
     background-image: linear-gradient(
-      to right,
-      rgb(163, 116, 177),
-      rgb(135, 105, 142)
+        to right,
+        rgb(163, 116, 177),
+        rgb(135, 105, 142)
     );
     color: transparent;
     -webkit-background-clip: text;
     background-clip: text;
-  }
+}
 
-  .user-name {
+.user-name {
     align-items: baseline;
     font-weight: bold;
     color: black;
     align-content: center;
     margin-top: 15px;
     margin-bottom: 1px;
-  }
+}
 
-  .notification-card {
+.notification-card {
     border-bottom: 1px solid #ddd;
     padding: 15px 0;
     display: flex;
     align-items: center;
-  }
-  .notification-card img {
+}
+.notification-card img {
     border-radius: 50%;
     margin-right: 15px;
     border: 2px solid gray;
-  }
-  .notification-card p {
+}
+.notification-card p {
     margin-bottom: 5px;
-  }
-  .notification-card .notification-content {
+}
+.notification-card .notification-content {
     flex: 1;
-  }
+}
 
-  .explore-header {
+.explore-header {
     font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 20px;
-  }
-  .hashtag-list {
+}
+.hashtag-list {
     list-style-type: none;
     padding: 0;
-  }
-  .hashtag-list-item {
+}
+.hashtag-list-item {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-  }
-  .hashtag-icon {
+}
+.hashtag-icon {
     margin-right: 10px;
     font-size: 1.5rem;
-  }
-  .hashtag-text {
+}
+.hashtag-text {
     font-weight: bold;
-  }
+} */
+.purple-color {
+    background-color: #ceb0e991;
+    border-radius: 6px;
+}
+
+.linkedin-color {
+    background-color: #d6ebf3;
+}
+
+.twitter-color {
+    background-color: #f9cfc891;
+}
+
+.purple-dark {
+    color: rgba(193, 22, 209, 0.94);
+}

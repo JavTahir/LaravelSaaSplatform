@@ -98,7 +98,7 @@ class AuthManager extends Controller
                         } else {
                             // Create a new record
                             $user->linkedin->connections()->create([
-                                'connections_count' => $linkedin_connections,
+                                'connections_count' => 500,
                                 'record_date' => now()->toDateString(),
                             ]);
                         }

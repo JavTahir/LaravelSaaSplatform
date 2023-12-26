@@ -1,6 +1,5 @@
 
     
-
 <header class="bg-surface-primary border-bottom d-none d-lg-block pt-3 pb-3">
     <div class="container-fluid">
         <div class="mb-npx">
@@ -26,12 +25,15 @@
                             <!-- Toggle -->
                             <a href="#" id="sidebarAvatar" role="button" data-bs-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
-                                <div class="avatar-parent-child">
+                                @auth
+                                <div class="avatar-parent-child rounded-circle border border-2 border-secondary p-1" style="width:40px; height:40px;">
                                     <img alt="Image Placeholder"
-                                        src="https://images.unsplash.com/photo-1548142813-c348350df52b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-                                        class="avatar avatar- rounded-circle" />
+                                    src="{{ asset('storage/uploads/' . auth()->user()->image_path) }}"
+                                        class="avatar avatar- rounded-circle"
+                                        style="width:30px; height:30px;" />
                                     <span class="avatar-child avatar-badge bg-success"></span>
                                 </div>
+                                @endauth
                             </a>
                             <!-- Menu -->
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="sidebarAvatar">

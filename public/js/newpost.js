@@ -47,7 +47,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     const iconMap = {
-        option1: "images/Instagram.png",
         option2: "images/Twitter.png",
         option3: "images/LinkedIn.png",
     };
@@ -91,10 +90,8 @@ document.addEventListener("DOMContentLoaded", function () {
         charLimit = null;
     }
 
-    
-    
     //images upload
-    
+
     const addNewIcon = document.getElementById("addNewIcon");
     const optionsDialog = document.querySelector(".options-dialog");
     const imagesOption = document.getElementById("imagesOption");
@@ -138,7 +135,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-   
     const dropdown = document.querySelector(".ddown");
     const dropdownContent = document.getElementById("myDropdown"); // Corrected ID here
     const instagramPost = document.querySelector(".instagram-post");
@@ -278,59 +274,50 @@ document.addEventListener("DOMContentLoaded", function () {
     //     });
     // }
 
-    
-    
-    
-    
-//     //handling form submission
-//     const postForm = document.getElementById("postForm");
-//     const postButton = document.getElementById("postButton");
+    //     //handling form submission
+    //     const postForm = document.getElementById("postForm");
+    //     const postButton = document.getElementById("postButton");
 
-//     postButton.addEventListener("click", async function (event) {
-//     console.log("Post button clicked");
-//     const selectedOption = document.querySelector(".selected-option");
+    //     postButton.addEventListener("click", async function (event) {
+    //     console.log("Post button clicked");
+    //     const selectedOption = document.querySelector(".selected-option");
 
-//     if (selectedOption.dataset.optionValue === "option3") {
-//         // Get the content from the textarea
-//         const content = document.getElementById("myTextarea").value;
+    //     if (selectedOption.dataset.optionValue === "option3") {
+    //         // Get the content from the textarea
+    //         const content = document.getElementById("myTextarea").value;
 
-        
+    //         // Create an object with all the data
+    //         const postData = {
+    //             content: content,
+    //             uploadedImages: uploadedImages,
+    //         };
 
-//         // Create an object with all the data
-//         const postData = {
-//             content: content,
-//             uploadedImages: uploadedImages,
-//         };
+    //         console.log(JSON.stringify(postData));
 
-//         console.log(JSON.stringify(postData));
+    //         try {
+    //             const response = await fetch(postForm.action, {
+    //                 method: "POST",
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+    //                 },
+    //                 body: JSON.stringify(postData),
+    //             });
 
+    //             if (!response.ok) {
+    //                 throw new Error('Network response was not ok');
+    //             }
 
-//         try {
-//             const response = await fetch(postForm.action, {
-//                 method: "POST",
-//                 headers: {
-//                     'Content-Type': 'application/json',
-//                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-//                 },
-//                 body: JSON.stringify(postData),
-//             });
+    //             const data = await response.json();
+    //             console.log("Server response:", data);
+    //         } catch (error) {
+    //             console.error("Error:", error);
+    //         }
 
-//             if (!response.ok) {
-//                 throw new Error('Network response was not ok');
-//             }
+    //     } else {
+    //         alert("Please select LinkedIn option before posting.");
+    //     }
 
-//             const data = await response.json();
-//             console.log("Server response:", data);
-//         } catch (error) {
-//             console.error("Error:", error);
-//         }
-
-//     } else {
-//         alert("Please select LinkedIn option before posting.");
-//     }
-
-//     event.preventDefault(); // Prevent the default form submission
-// });
-
-   
+    //     event.preventDefault(); // Prevent the default form submission
+    // });
 });
