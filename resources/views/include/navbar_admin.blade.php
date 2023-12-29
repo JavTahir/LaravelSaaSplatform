@@ -19,7 +19,7 @@
         </button>
         <!-- Brand -->
         <a class="navbar-brand py-lg-2 mb-lg-5 px-lg-6 me-0" href="#">
-          <img src="images/probizlogo2.png" alt="..." />
+          <img src="{{ asset('images/probizlogo2.png') }}" alt="..." />
         </a>
         <!-- User menu (mobile) -->
         <div class="navbar-user d-lg-none">
@@ -61,7 +61,7 @@
           <!-- Navigation -->
           <ul class="navbar-nav">
             <li class="nav-item ">
-              <a class="nav-link {{ Request::is('dashboardadm') ? 'navbar_active' : '' }}" href="">
+              <a class="nav-link {{ Request::is('dashboardadm') ? 'navbar_active' : '' }}" href="{{ route('admin.dashboard') }}">
                 <i class="bi bi-house-fill"></i> Dashboard
               </a>
             </li>
@@ -76,11 +76,7 @@
                 <i class="bi bi-people-fill"></i>Users
                 </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link {{ Request::is('payment') ? 'navbar_active' : '' }}" href="">
-                <i class="bi bi-credit-card-2-front-fill"></i> Payment
-              </a>
-            </li>
+
 
 
           </ul>
@@ -92,13 +88,9 @@
           <div class="mt-auto"></div>
           <!-- User (md) -->
           <ul class="navbar-nav">
-          <li class="nav-item ">
-                <a class="nav-link {{ Request::is('aanalytics') ? 'navbar_active' : '' }}" href="{{ route('profile') }}">
-                  <i class="bi bi-gear-fill"></i> Profile Settings
-                </a>
-            </li>
+          
             <li class="nav-item">
-              <a class="nav-link {{ Request::is('janalytics') ? 'navbar_active' : '' }}" href="#">
+              <a class="nav-link {{ Request::is('admin.logout') ? 'navbar_active' : '' }}" href="{{ route('admin.logout') }}">
                 <i class="bi bi-box-arrow-left"></i> Logout
               </a>
             </li>

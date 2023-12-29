@@ -20,4 +20,8 @@ class TwitterPost extends Model
         
         
     ];
+
+    protected $casts = [
+        'images' => 'array', // Cast the 'images' attribute to an array
+    ];
 }

@@ -37,9 +37,7 @@
                             </a>
                             <!-- Menu -->
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="sidebarAvatar">
-                                <a href="#" class="dropdown-item">Profile</a>
-                                <a href="#" class="dropdown-item">Settings</a>
-                                <a href="#" class="dropdown-item">Billing</a>
+                                <a href="{{ route('ProfileView', ['user' => auth()->user()->id]) }}" class="dropdown-item">Profile</a>
                                 <hr class="dropdown-divider" />
                                 <a href="{{route('logout')}}" class="dropdown-item" >Logout</a>
                             </div>

@@ -20,21 +20,12 @@
   </style>
 </head>
 
-@if(session('success'))
-<div class="alert alert-success" role="alert">
-    {{ session('success') }}
-</div>
-@elseif(session('error'))
-<div class="alert alert-danger" role="alert">
-    {{ session('error') }}
-</div>
-@endif
 
-<div class="container d-flex" style="min-height: 100vh">
+<div class="container whole-div d-flex">
 <form id="postForm" method="POST"  enctype="multipart/form-data">
   
   @csrf
-      <div class="centered-div1">
+      <div class="centered-div1" style="height:550px" >
         <div class="inbox-section1">
           <div class="custom-dropdown">
             <select class="custom-select" id="sendToDropdown">
@@ -117,11 +108,13 @@
               font-weight: 700;
               margin-left: 30px;
               margin-bottom: -50px;
+              padding-top: 30px;
+
             "
             >Overview</label
           >
 
-          <div class="centered-rectangle">
+          <div class="centered-rectangle" >
             <div class="ddown">
               <div class="dropdown-icon" id="dropdownIcon">
                 <img
@@ -168,7 +161,7 @@
               <div class="post-content">
                 <p>Reading is a good habbit for u n me. here you go.</p>
               </div>
-              <div class="post-image" id="postImage">
+              <div class="post-image mb-2" id="postImage">
                 <img src="images/poetry.jpg" alt="Post Image" />
               </div>
               <div class="post-actions">
@@ -182,10 +175,9 @@
           <div class="post-button">
             <div class="custom-dropdown">
            
-                    
-                    <button type="submit" class="custom-button" id="postButton">
-                        Post <i class="fas fa-caret-up"></i>
-                    </button>
+                  <button type="submit" class="custom-button"id="postButton">
+                      Post 
+                  </button>
               
               <!-- <div class="custom-dropdown-content" id="dropdownContent">
                 <a class="dropdown-item" href="#">Post directly</a>
@@ -199,8 +191,8 @@
       <!-- Bootstrap Modal for Success Message -->
     
     </div>
-    <script>
-  document.addEventListener("DOMContentLoaded", function () {
+  <script>
+      document.addEventListener("DOMContentLoaded", function () {
     const MAX_IMAGES = 3;
     let selectedImageFiles = [];
 
@@ -296,71 +288,74 @@
     document.getElementById("postForm").addEventListener("submit", function (event) {
     event.preventDefault(); // Prevent the default form submission
 
-    // Check if the selected option is "Option 2"
     const sendToDropdown = document.getElementById("sendToDropdown");
     const selectedOption = document.querySelector(".selected-option");
+    const selectedOptionCount = document.querySelectorAll("#selectedOptions .selected-option").length;
 
-  //  console.log(selectedOption.dataset.optionValue);
-   const selectedOptionCount = document.querySelectorAll("#selectedOptions .selected-option").length;
+    if ("{{ auth()->user()->plan_name }}") {
+      console.log("hi");
 
-    if (selectedOptionCount === 2) {
-        // Redirect to some other route
-        if (selectedImageFiles.length > 0) {
-        // Redirect to the appropriate route (/post-to-linkedin)
-        this.action = "{{ url('/media-post') }}";
-        alert("Post submitted successfully");
-      } else {
-        // No file selected, show an alert or handle it as needed
-       
-        this.action = "{{ url('/simple-post') }}";
-        alert("Post submitted successfully");
+      var currentPlanLimit = parseInt("{{ auth()->user()->plan_limit }}");
+      console.log(currentPlanLimit);
 
+      if (currentPlanLimit > 0 || currentPlanLimit < 0) {
+        if (selectedOptionCount === 2) {
+            if (selectedImageFiles.length > 0) {
+              this.action = "{{ url('/media-post') }}";
+            } else {
+              this.action = "{{ url('/simple-post') }}";
+            }
+          console.log('hi');
+        } else if (selectedOption.dataset.optionValue === "option3") {
+            if (selectedImageFiles.length > 0) {
+              this.action = "{{ url('/post-to-linkedin') }}";
+            } else {
+              this.action = "{{ url('/linkedin/postform') }}";
+            }
+        }else if (selectedOption.dataset.optionValue === "option2") {
+            if (selectedImageFiles.length > 0) {
+              this.action = "{{ url('/post-to-twitter') }}";
+            } else {
+              this.action = "{{ url('/twitter/postform') }}";
+            }
+
+         
+        }
+
+         // Decrement the plan_limit by 1
+         fetch("{{ url('/decrement-plan-limit') }}", {
+              method: 'POST',
+              headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+            })
+            .then(response => response.json())
+            .then(data => {
+              if (data.success) {
+                // Continue with the existing logic based on selectedOption
+                console.log('hi');
+                // This will submit the form after your logic
+                this.submit();
+              
+              } else {
+                toastr.error("You can't post because you have reached your limit today.");
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+      }else {
+        toastr.warning("You have reached your posting limit for today.");
       }
-        console.log('hi');
+    }else {
+      toastr.warning("Subscribe to any plan first.");
     }
-
-    else if (selectedOption.dataset.optionValue === "option3") {
-      // Check if any file is selected
-      if (selectedImageFiles.length > 0) {
-        // Redirect to the appropriate route (/post-to-linkedin)
-        this.action = "{{ url('/post-to-linkedin') }}";
-        alert("Post submitted successfully");
-      } else {
-        // No file selected, show an alert or handle it as needed
-       
-        this.action = "{{ url('/linkedin/postform') }}";
-        alert("Post submitted successfully");
-
-      }
-    }
-
-    else if (selectedOption.dataset.optionValue === "option2") {   //for twitter
-      // Check if any file is selected
-      if (selectedImageFiles.length > 0) {
-        // Redirect to the appropriate route (/post-to-linkedin)
-        this.action = "{{ url('/post-to-twitter') }}";
-        alert("Post submitted successfully");
-      } else {
-        // No file selected, show an alert or handle it as needed
-       
-        this.action = "{{ url('/twitter/postform') }}";
-        alert("Post submitted successfully");
-
-      }
-    }
-
-    this.submit();
-    
-
-
+   
     
   });
-
-  
-
-  
-
 });
+
 
 </script>
 

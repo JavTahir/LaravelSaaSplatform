@@ -12,6 +12,7 @@ use Mail;
 use Laravel\Socialite\Facades\Socialite;
 
 use App\Http\Controllers\Connections;
+use DateTime;
 
 
 
@@ -27,6 +28,20 @@ class AuthManager extends Controller
         return view('login');
     }
 
+
+    private function getRenewedPlanLimit($planName)
+    {
+        // Define the plan limits based on plan_name
+        $planLimits = [
+            'Basic' => 5,
+            'Gold' => 15,
+            'Platinum' => -1,
+        ];
+
+        // Return the renewed plan_limit based on plan_name
+        return $planLimits[$planName] ?? null;
+    }
+
     function loginPost(Request $request){
         $request->validate([
             'email' => 'required',
@@ -37,7 +52,37 @@ class AuthManager extends Controller
     
         if(Auth::attempt($credentials)){
             $user = Auth::user();
-            // $linkedinAccount = $user->linkedin;
+            if ($user->plan_name) {
+                // Check if 30 days have passed since the last subscription
+                $lastSubscriptionDate = new DateTime($user->plan_date);
+                $currentDate = now();
+                $thirtyDaysAgo = now()->subDays(30);
+    
+                if ($lastSubscriptionDate >= $thirtyDaysAgo) {
+                     // Check if plan_limit renewal is needed
+                    $lastRenewalDate = new DateTime($user->last_renewal_date);
+                    $currentDate = now()->startOfDay(); // Use startOfDay to compare dates without considering time
+
+                    if ($lastRenewalDate != $currentDate) {
+                        // Renew the plan_limit every day if it hasn't been renewed today
+                        $user->update([
+                            'plan_limit' => $this->getRenewedPlanLimit($user->plan_name),
+                            'last_renewal_date' => now(),
+                        ]);
+                    }
+                }else{
+                    // Reset plan-related fields if 30 days have passed
+                        $user->update([
+                            'plan_name' => null,
+                            'plan_date' => null,
+                            'plan_limit' => null,
+                            'last_renewal_date' => null, // Reset the last renewal date
+
+                        ]);
+                        
+                }
+               
+            }
             if ($user->profile_completed) {
                 if($user->social_accounts > 0){
                     $twitterAccount = $user->twitter;
@@ -81,8 +126,7 @@ class AuthManager extends Controller
                         $viewerId = $lixAccount->linkedin_viewer_id;
 
 
-                        // $linkedin_connections = Connections::getConnections($apiKey, $viewerId);
-                        // dd($linkedin_connections);
+                        $linkedin_connections = Connections::getConnections($apiKey, $viewerId);
             
             
                         $existingRecord = $user->linkedin->connections()
@@ -93,27 +137,33 @@ class AuthManager extends Controller
                         if ($existingRecord) {
                             // Update the existing record
                             $existingRecord->update([
-                                'connections_count' => 300,
+                                'connections_count' => $linkedin_connections,
                             ]);
                         } else {
                             // Create a new record
                             $user->linkedin->connections()->create([
-                                'connections_count' => 500,
+                                'connections_count' => $linkedin_connections,
                                 'record_date' => now()->toDateString(),
                             ]);
                         }
         
                     }
+                    // toast('Logged in Successfully!','success')->position('top');
+                    // example:
+                    // example:
+                    // example:
+                    toast('Signed in successfully','success')->width('400px');;
 
                     return redirect()->intended(route('dashboard'));
                 }
-                return view('addaccounts', [
-                    'linkedinAccount' => $linkedinAccount,
-                    'twitterAccount' => $twitterAccount,
-                ]);
+
+                return view('addaccounts');
                 
                 
             } else {
+                
+                toast('Signed in successfully','success')->width('400px');;
+
                 return view('profile', ['user' => $user]);
             }
         }
@@ -137,7 +187,7 @@ class AuthManager extends Controller
             return redirect()->intended(route('signup'))->with("error","User not created!");
 
         }
-
+        alert()->success('OTP','Otp send successfully!');
         return redirect("/verification/".$user->id);
     }
 
@@ -177,7 +227,7 @@ class AuthManager extends Controller
         $email = $user->email;
 
         $this->sendOtp($user);//OTP SEND
-
+        alert()->success('OTP','Otp send successfully!');
         return view('otpverify',compact('email'));
     }
 
@@ -188,6 +238,7 @@ class AuthManager extends Controller
         $user = User::where('email',$request->email)->first();
         $otpData = EmailVerification::where('otp',$request->otp)->first();
         if(!$otpData){
+            alert()->error('OTP','You Entered wrong OTP!');
             return response()->json(['success' => false,'msg'=> 'You entered wrong OTP']);
         }
         else{
@@ -202,6 +253,7 @@ class AuthManager extends Controller
                 return response()->json(['success' => true,'msg'=> 'Mail has been verified']);
             }
             else{
+
                 return response()->json(['success' => false,'msg'=> 'Your OTP has been Expired']);
             }
 
@@ -218,6 +270,7 @@ class AuthManager extends Controller
         $time = $otpData->created_at;
 
         if($currentTime >= $time && $time >= $currentTime - (90+5)){//90 seconds
+
             return response()->json(['success' => false,'msg'=> 'Please try after some time']);
         }
         else{
@@ -234,7 +287,7 @@ class AuthManager extends Controller
     function logout(){
         Session::flush();
         Auth::logout();
-
+        toast('Logged Out successfully','success')->width('400px');
         return redirect()->intended(route('login'));
 
     }

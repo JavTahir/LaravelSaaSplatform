@@ -126,22 +126,30 @@ class TwitterController extends Controller
                     $newPath = substr($path, strlen('uploads/'));
                     $newImagePaths[] = $newPath;
                 }
+                
 
                 $post = new TwitterPost([
                     'user_id' => Auth::user()->id,
                     'content' => $request->input('content'),
-                    'images' => implode(',', $newImagePaths),
+                    'images' => $newImagePaths,
                 ]);
+                
                 $post->save();
-                return redirect()->back()->with('success', 'Tweet successfully posted on Twitter!');
-            } else {
+                
+                alert()->success('Posted Successfully!','Tweet Created Successfully!')->animation('tada faster','fadeInUp faster');;
+
+                return redirect()->back();
+              } else {
                 // Handle errors
-                return redirect()->back()->with('error', 'Failed to post on Twitter. Check the Twitter API response for details.');
+                
+                alert()->error('Tweet Failed','Tweet posting failed with status code: ' . $twitterOAuth->getLastHttpCode());
+                return redirect()->back();
             }
 
 
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
+            alert()->error('Tweet Failed','An error occurred:' . $e->getMessage());
+            return redirect()->back();
         }
     }
 
@@ -174,19 +182,26 @@ class TwitterController extends Controller
                 ]);
     
                 $post->save();
-    
-                // Redirect back after a successful tweet and post
+                alert()->success('Posted Successfully!','Tweet Created Successfully!')->animation('tada faster','fadeInUp faster');;
+
                 return redirect()->back();
+
+
             } else {
                 // If the response status code is not 200, handle the error
-                return redirect()->back()->with('error', 'Tweet posting failed with status code: ' . $twitterOAuth->getLastHttpCode());
+                
+                alert()->error('Tweet Failed','Tweet posting failed with status code: ' . $twitterOAuth->getLastHttpCode());
+                return redirect()->back();
             }
         
             // Get the tweet details using the tweet ID
             // $tweetDetails = $twitterOAuth->get('statuses/show', ['id' => $tweet->id_str]);
         
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
+            
+            alert()->error('Tweet Failed','An error occurred:' . $e->getMessage());
+            return redirect()->back();
+
         }
     }
 
@@ -250,15 +265,21 @@ class TwitterController extends Controller
             $result = $twitterOAuth->post('tweets', $parameters, true);
             if ($twitterOAuth->getLastHttpCode() >= 200 && $twitterOAuth->getLastHttpCode() < 300) {
                 // Successfully posted on Twitter
-                return redirect()->back()->with('success', 'Tweet successfully posted on Twitter!');
+                alert()->success('Posted Successfully!','Tweet Created Successfully!')->animation('tada faster','fadeInUp faster');;
+
+                return redirect()->back();
             } else {
                 // Handle errors
-                return redirect()->back()->with('error', 'Failed to post on Twitter. Check the Twitter API response for details.');
+               alert()->error('Tweet Failed','Tweet posting failed with status code: ' . $twitterOAuth->getLastHttpCode());
+               return redirect()->back();
             }
 
 
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
+            
+            alert()->error('Tweet Failed','An error occurred: ' . $e->getMessage());
+            return redirect()->back();
+
         }
     }
 

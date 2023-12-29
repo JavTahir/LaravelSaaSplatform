@@ -19,10 +19,10 @@
             <!-- Text on Left -->
             <div class="col-md-6">
               <div class="left-content">
-                <h2>Do more in less time with OwlyWriter AI</h2>
+                <h2>Probiz - One Post Across Platforms!</h2>
                 <p>
-                  Generate captions and posts in seconds! OwlyWriter AI makes
-                  content creation seriously easy for busy social pros like you.
+                Unleash Your Social Presence, One Post Across Platforms!.
+                  Streamline your social presence with ease and efficiency.
                 </p>
                 <img
                 src="{{ asset('images/glare-isometric.png') }}"
@@ -41,8 +41,23 @@
           </div>
         </div>
 
-        <div class="col-lg-5 right-container">
-          <h2 class="mb-4">Sign Up</h2>
+        <div class="col-lg-5 right-container ">
+          <h2 class="mb-4 mt-5">Sign Up</h2>
+          @if($errors->any())
+                <div class="mt-2 mb-2 error_div">
+                    @foreach($errors->all() as $error)
+                        <div class="alert alert-danger">{{$error}}</div>
+                    @endforeach
+                </div>
+          @endif
+
+          @if(session()->has('error'))
+              <div class="alert alert-danger mt-2 mb-2 error_div">{{session('error')}}</div>
+          @endif
+
+          @if(session()->has('success'))
+              <div class="alert alert-success mt-2 mb-2 error_div ">{{session('success')}}</div>
+          @endif
 
           <form onsubmit="return validateForm()" action="{{route('signup.post')}}" method="post">
             @csrf
@@ -88,18 +103,12 @@
               >
             </div> -->
 
-            <button type="submit" class="btn btn-primary mb-4">Sign Up</button>
-            <button
-              type="button"
-              onclick="signInWithGoogle()"
-              class="btn btn-dark mb-4"
-            >
-              Sign in with Google
-            </button>
+            <button type="submit" class="btn btn-primary mt-4 mb-4">Sign Up</button>
+
 
             <p class="account">
               Already have an account?
-              <a href="#" class="text-primary">Sign in</a>
+              <a href="{{route('login')}}" class="text-primary">Sign in</a>
             </p>
           </form>
 
@@ -109,23 +118,7 @@
               payment terms, and Privacy Policy
             </p>
           </div>
-          <div class="mt-2">
-            @if($errors->any())
-                <div>
-                    @foreach($errors->all() as $error)
-                        <div class="alert alert-danger">{{$error}}</div>
-                    @endforeach
-                </div>
-            @endif
 
-            @if(session()->has('error'))
-                <div class="alert alert-danger">{{session('error')}}</div>
-            @endif
-
-            @if(session()->has('success'))
-                <div class="alert alert-success ">{{session('success')}}</div>
-            @endif
-          </div>
         </div>
       </div>
     </div>

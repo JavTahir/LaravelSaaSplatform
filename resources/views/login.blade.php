@@ -17,10 +17,10 @@
             <!-- Text on Left -->
             <div class="col-md-6">
               <div class="left-content">
-                <h2>Do more in less time with OwlyWriter AI</h2>
+                <h2>Probiz - One Post Across Platforms!</h2>
                 <p>
-                  Generate captions and posts in seconds! OwlyWriter AI makes
-                  content creation seriously easy for busy social pros like you.
+                Unleash Your Social Presence, One Post Across Platforms!.
+                  Streamline your social presence with ease and efficiency.
                 </p>
                 <img
                 src="{{ asset('images/glare-isometric.png') }}"
@@ -40,7 +40,22 @@
         </div>
 
         <div class="col-lg-5 right-container">
-          <h2 class="mb-4">Sign In</h2>
+          <h2 class="mb-4 mt-5">Sign In</h2>
+            @if($errors->any())
+                <div class="mt-2 mb-2 error_div">
+                    @foreach($errors->all() as $error)
+                        <div class="alert alert-danger">{{$error}}</div>
+                    @endforeach
+                </div>
+            @endif
+
+            @if(session()->has('error'))
+                <div class="alert alert-danger mt-2 mb-2 error_div">{{session('error')}}</div>
+            @endif
+
+            @if(session()->has('success'))
+                <div class="alert alert-success mt-2 mb-2 error_div ">{{session('success')}}</div>
+            @endif
 
           <form onsubmit="return validateForm()" action="{{route('login.post')}}" method="post">
             @csrf
@@ -70,33 +85,12 @@
               </p>
             </div>
 
-            <div class="form-group form-check mb-4">
-              <input
-                type="checkbox"
-                class="form-check-input"
-                style="width: 14px; height: 14px"
-                id="remember"
-              />
-              <label
-                class="form-check-label"
-                style="font-size: 14px; font-weight: 400"
-                for="remember"
-                >Remember me ?</label
-              >
-            </div>
 
-            <button type="submit" class="btn btn-primary mb-4">Sign in</button>
-            <button
-              type="button"
-              onclick="signInWithGoogle()"
-              class="btn btn-dark mb-4"
-            >
-              Sign in with Google
-            </button>
+            <button type="submit" class="btn btn-primary mt-4 mb-4">Sign in</button>
 
             <p class="account">
               Don't have an account?
-              <a href="#" class="text-primary">Sign up now</a>
+              <a href="{{route('signup')}}" class="text-primary">Sign up now</a>
             </p>
           </form>
 
@@ -106,23 +100,7 @@
               payment terms, and Privacy Policy
             </p>
           </div>
-          <div class="mt-2">
-            @if($errors->any())
-                <div>
-                    @foreach($errors->all() as $error)
-                        <div class="alert alert-danger">{{$error}}</div>
-                    @endforeach
-                </div>
-            @endif
 
-            @if(session()->has('error'))
-                <div class="alert alert-danger">{{session('error')}}</div>
-            @endif
-
-            @if(session()->has('success'))
-                <div class="alert alert-success ">{{session('success')}}</div>
-            @endif
-          </div>
         </div>
       </div>
     </div>

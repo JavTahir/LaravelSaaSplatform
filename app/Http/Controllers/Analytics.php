@@ -8,6 +8,8 @@ use App\Models\Linkedin;
 use App\Models\Twitter;
 use App\Models\TwitterFollower;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+
 
 use App\Models\LinkedinConnections;
 use Carbon\Carbon;
@@ -16,43 +18,30 @@ use Carbon\Carbon;
 class Analytics extends Controller
 {
     public function show()
-{
-    $user = Auth::user();
+    {
+        $user = Auth::user();
 
-    $userId = $user->id;
-    $linkedin = LinkedIn::where('user_id', $userId)->first();
-    $linkedin_id= $linkedin->id;
-    
+        $linkedinConnectionsCount = 0;
+        $twitterFollowersCount = 0;
 
-    $twitter = Twitter::where('user_id', $userId)->first();
-    
-    $twitter_id= $twitter->id;
+        if ($user->linkedin) {
+            $linkedinConnectionsCount = $user->linkedin->connections()->latest('record_date')->value('connections_count') ?? 0;
+        }
 
+        if ($user->twitter) {
+            $twitterFollowersCount = $user->twitter->followers()->latest('record_date')->value('followers_count') ?? 0;
+        }
 
-    // Get Twitter followers count
-    $twitterFollowersCount = TwitterFollower::where('twitter_id', $twitter_id)
-        ->orderBy('record_date', 'desc')
-        ->first('followers_count')
-        ->followers_count ?? 0;
+        $chartData = $this->dailyComparison();
 
-    // Get LinkedIn connections count
-    $linkedinConnectionsCount = LinkedinConnections::where('linkedin_id', $linkedin_id)
-        ->orderBy('record_date', 'desc')
-        ->first('connections_count')
-        ->connections_count ?? 0;
-
-
-     $chartData =  $this->dailyComparison();
-
-    return view('analytics', [
-        // 'twitterFollowersCount' => $twitterFollowersCount,
-        'linkedinConnectionsCount' => $linkedinConnectionsCount,
-        'linkedinConnectionsGrowth' =>0,
-        'twitterFollowersCount' => $twitterFollowersCount,
-        'twitterFollowersGrowth' =>0,
-	'chartData'=>$chartData,
-    ]);
-}
+        return view('analytics', [
+            'linkedinConnectionsCount' => $linkedinConnectionsCount,
+            'linkedinConnectionsGrowth' => 0,
+            'twitterFollowersCount' => $twitterFollowersCount,
+            'twitterFollowersGrowth' => 0,
+            'chartData' =>$chartData,
+        ]);
+    }
 
 
 
@@ -144,15 +133,17 @@ private function getLinkedinConnectionsCountLastMonth($linkedinId)
 
 private function getTwitterFollowersCountLastMonth($twitterId)
 {
-    $startDate = now()->subMonth()->startOfMonth();
-    $endDate = now()->subMonth()->endOfMonth();
+    $startDate = now()->startOfMonth();
+    $endDate = now()->endOfMonth();
+
 
     $followersLastMonth = TwitterFollower::where('twitter_id', $twitterId)
         ->whereBetween('record_date', [$startDate, $endDate])
         ->sum('followers_count');
 
-    $previousStartDate = now()->subMonths(2)->startOfMonth();
-    $previousEndDate = now()->subMonths(2)->endOfMonth();
+    $previousStartDate = now()->subMonth()->startOfMonth();
+    $previousEndDate = now()->subMonth()->endOfMonth();
+
 
     $followersPreviousMonth = TwitterFollower::where('twitter_id', $twitterId)
         ->whereBetween('record_date', [$previousStartDate, $previousEndDate])
@@ -172,59 +163,64 @@ private function getTwitterFollowersCountLastMonth($twitterId)
 
 
 
-    public function weeklyComparison()
-    {
-        try {
-            // Get the currently authenticated user
-            $user = Auth::user();
-    
+public function weeklyComparison()
+{
+    try {
+        // Get the currently authenticated user
+        $user = Auth::user();
+        $mergedData = collect(); // Initialize an empty collection
+
+        if ($user->twitter) {
             // Fetch Twitter follower data for the last 7 days for the logged-in user
             $twitterData = $user->twitter->followers()
                 ->where('record_date', '>=', Carbon::now()->subDays(7))
                 ->orderBy('record_date')
                 ->get();
-    
+
+            $mergedData = $mergedData->merge($twitterData);
+        }
+
+        if ($user->linkedin) {
             // Fetch LinkedIn connection data for the last 7 days for the logged-in user
             $linkedinData = $user->linkedin->connections()
                 ->where('record_date', '>=', Carbon::now()->subDays(7))
                 ->orderBy('record_date')
                 ->get();
 
-            
-    
-            // Merge Twitter and LinkedIn data to get a combined dataset with zero values for missing dates
-            $mergedData = $this->mergeData($twitterData, $linkedinData);
-    
-            // Sort merged data by 'record_date'
-            $mergedData = $mergedData->sortBy('record_date');
-    
-            // Combine merged data into a format suitable for passing to the Blade view
-            $chartData = [
-                'labels' => $mergedData->pluck('record_date')->map(function ($date) {
-                    return Carbon::parse($date)->format('F d');
-                })->toArray(),
-                'datasets' => [
-                    [
-                        'data' => $mergedData->pluck('followers_count')->toArray(),
-                        'borderColor' => '#87CEFA',
-                        'fill' => false,
-                        'label' => 'Twitter Followers',
-                    ],
-                    [
-                        'data' => $mergedData->pluck('connections_count')->toArray(),
-                        'borderColor' => '#0A66C2', // LinkedIn color (adjust as needed)
-                        'fill' => false,
-                        'label' => 'LinkedIn Connections',
-                    ],
-                ],
-            ];
-    
-            return compact('chartData');    
-        } catch (\Exception $e) {
-            // Handle the exception, log it, or return an error view
-            return view('error')->with('error', $e->getMessage());
+            $mergedData = $mergedData->merge($linkedinData);
         }
+
+        // Sort the merged data by record date
+        $mergedData = $mergedData->sortBy('record_date');
+
+        // Combine merged data into a format suitable for passing to the Blade view
+        $chartData = [
+            'labels' => $mergedData->pluck('record_date')->map(function ($date) {
+                return Carbon::parse($date)->format('F d');
+            })->toArray(),
+            'datasets' => [
+                [
+                    'data' => $mergedData->pluck('followers_count')->toArray(),
+                    'borderColor' => '#87CEFA',
+                    'fill' => false,
+                    'label' => 'Twitter Followers',
+                ],
+                [
+                    'data' => $mergedData->pluck('connections_count')->toArray(),
+                    'borderColor' => '#0A66C2', // LinkedIn color (adjust as needed)
+                    'fill' => false,
+                    'label' => 'LinkedIn Connections',
+                ],
+            ],
+        ];
+
+        return compact('chartData');
+    } catch (\Exception $e) {
+        // Handle the exception, log it, or return an error view
+        return view('error')->with('error', $e->getMessage());
     }
+}
+
     
     // Function to merge Twitter and LinkedIn data with zero values for missing dates
     private function mergeData($twitterData, $linkedinData)
@@ -251,114 +247,126 @@ private function getTwitterFollowersCountLastMonth($twitterId)
 
 
     public function dailyComparison()
-{
-    try {
-        // Get the currently authenticated user
-        $user = Auth::user();
-
-
-
-        // Fetch Twitter follower data for the last 2 days for the logged-in user
-        $twitterData = $user->twitter->followers()
-            ->where('record_date', '>=', Carbon::now()->subDays(2))
-            ->orderBy('record_date')
-            ->get();
-
-        // Fetch LinkedIn connection data for the last 2 days for the logged-in user
-        $linkedinData = $user->linkedin->connections()
-            ->where('record_date', '>=', Carbon::now()->subDays(2))
-            ->orderBy('record_date')
-            ->get();
-
-        // Merge Twitter and LinkedIn data to get a combined dataset with zero values for missing dates
-        $mergedData = $this->mergeData($twitterData, $linkedinData);
-
-        // Sort merged data by 'record_date'
-        $mergedData = $mergedData->sortBy('record_date');
-
-        // Combine merged data into a format suitable for passing to the Blade view
-        $chartData = [
-            'labels' => $mergedData->pluck('record_date')->map(function ($date) {
-                return Carbon::parse($date)->format('F d');
-            })->toArray(),
-            'datasets' => [
-                [
-                    'data' => $mergedData->pluck('followers_count')->toArray(),
-                    'borderColor' => '#87CEFA',
-                    'fill' => false,
-                    'label' => 'Twitter Followers',
+    {
+        try {
+            $user = Auth::user();
+            // $mergedData = collect(); // Initialize an empty collection
+            $twitterData = 0;
+            $linkedinData = 0;
+            
+    
+            if ($user->twitter) {
+                // Fetch Twitter follower data for the last 2 days for the logged-in user
+                $twitterData = $user->twitter->followers()
+                    ->where('record_date', '>=', Carbon::now()->subDays(2))
+                    ->orderBy('record_date')
+                    ->get();
+    
+                
+            }
+    
+            if ($user->linkedin) {
+                // Fetch LinkedIn connection data for the last 2 days for the logged-in user
+                $linkedinData = $user->linkedin->connections()
+                    ->where('record_date', '>=', Carbon::now()->subDays(2))
+                    ->orderBy('record_date')
+                    ->get();
+    
+                
+            }
+            
+            $mergedData = $this->mergeData($twitterData, $linkedinData);
+            // Sort the merged data by record date
+            $mergedData = $mergedData->sortBy('record_date');
+    
+            // Combine merged data into a format suitable for passing to the Blade view
+            $chartData = [
+                'labels' => $mergedData->pluck('record_date')->map(function ($date) {
+                    return Carbon::parse($date)->format('F d');
+                })->toArray(),
+                'datasets' => [
+                    [
+                        'data' => $mergedData->pluck('followers_count')->toArray(),
+                        'borderColor' => '#87CEFA',
+                        'fill' => false,
+                        'label' => 'Twitter Followers',
+                    ],
+                    [
+                        'data' => $mergedData->pluck('connections_count')->toArray(),
+                        'borderColor' => '#0A66C2', // LinkedIn color (adjust as needed)
+                        'fill' => false,
+                        'label' => 'LinkedIn Connections',
+                    ],
                 ],
-                [
-                    'data' => $mergedData->pluck('connections_count')->toArray(),
-                    'borderColor' => '#0A66C2', // LinkedIn color (adjust as needed)
-                    'fill' => false,
-                    'label' => 'LinkedIn Connections',
-                ],
-            ],
-        ];
-
-        return compact('chartData');
-    } catch (\Exception $e) {
-        // Handle the exception, log it, or return an error view
-        return view('error')->with('error', $e->getMessage());
+            ];
+    
+            return compact('chartData');
+        } catch (\Exception $e) {
+            // Handle the exception, log it, or return an error view
+            return view('analytics')->with('error', $e->getMessage());
+        }
     }
-}
+    
 
 
-public function monthlyComparison()
-{
-    try {
-        // Get the currently authenticated user
-        $user = Auth::user();
-        dd($user->image_path);
-
-
-
-        // Fetch Twitter follower data for the last 30 days for the logged-in user
-        $twitterData = $user->twitter->followers()
-            ->where('record_date', '>=', Carbon::now()->subDays(30))
-            ->orderBy('record_date')
-            ->get();
-
-        // Fetch LinkedIn connection data for the last 30 days for the logged-in user
-        $linkedinData = $user->linkedin->connections()
-            ->where('record_date', '>=', Carbon::now()->subDays(30))
-            ->orderBy('record_date')
-            ->get();
-
-        // Merge Twitter and LinkedIn data to get a combined dataset with zero values for missing dates
-        $mergedData = $this->mergeData($twitterData, $linkedinData);
-
-        // Sort merged data by 'record_date'
-        $mergedData = $mergedData->sortBy('record_date');
-
-        // Combine merged data into a format suitable for passing to the Blade view
-        $chartData = [
-            'labels' => $mergedData->pluck('record_date')->map(function ($date) {
-                return Carbon::parse($date)->format('F d');
-            })->toArray(),
-            'datasets' => [
-                [
-                    'data' => $mergedData->pluck('followers_count')->toArray(),
-                    'borderColor' => '#87CEFA',
-                    'fill' => false,
-                    'label' => 'Twitter Followers',
+    public function monthlyComparison()
+    {
+        try {
+            // Get the currently authenticated user
+            $user = Auth::user();
+            $mergedData = collect(); // Initialize an empty collection
+    
+            if ($user->twitter) {
+                // Fetch Twitter follower data for the last 30 days for the logged-in user
+                $twitterData = $user->twitter->followers()
+                    ->where('record_date', '>=', Carbon::now()->subDays(30))
+                    ->orderBy('record_date')
+                    ->get();
+    
+                $mergedData = $mergedData->merge($twitterData);
+            }
+    
+            if ($user->linkedin) {
+                // Fetch LinkedIn connection data for the last 30 days for the logged-in user
+                $linkedinData = $user->linkedin->connections()
+                    ->where('record_date', '>=', Carbon::now()->subDays(30))
+                    ->orderBy('record_date')
+                    ->get();
+    
+                $mergedData = $mergedData->merge($linkedinData);
+            }
+    
+            // Sort the merged data by record date
+            $mergedData = $mergedData->sortBy('record_date');
+    
+            // Combine merged data into a format suitable for passing to the Blade view
+            $chartData = [
+                'labels' => $mergedData->pluck('record_date')->map(function ($date) {
+                    return Carbon::parse($date)->format('F d');
+                })->toArray(),
+                'datasets' => [
+                    [
+                        'data' => $mergedData->pluck('followers_count')->toArray(),
+                        'borderColor' => '#87CEFA',
+                        'fill' => false,
+                        'label' => 'Twitter Followers',
+                    ],
+                    [
+                        'data' => $mergedData->pluck('connections_count')->toArray(),
+                        'borderColor' => '#0A66C2', // LinkedIn color (adjust as needed)
+                        'fill' => false,
+                        'label' => 'LinkedIn Connections',
+                    ],
                 ],
-                [
-                    'data' => $mergedData->pluck('connections_count')->toArray(),
-                    'borderColor' => '#0A66C2', // LinkedIn color (adjust as needed)
-                    'fill' => false,
-                    'label' => 'LinkedIn Connections',
-                ],
-            ],
-        ];
-
-        return compact('chartData');
-    } catch (\Exception $e) {
-        // Handle the exception, log it, or return an error view
-        return view('error')->with('error', $e->getMessage());
+            ];
+    
+            return compact('chartData');
+        } catch (\Exception $e) {
+            // Handle the exception, log it, or return an error view
+            return view('analytics')->with('error', $e->getMessage());
+        }
     }
-}
+    
 
 
 
@@ -368,45 +376,48 @@ public function monthlyComparison()
 public function analytics(Request $request)
 {
     $user = Auth::user();
-    $userId = $user->id;
-    $linkedin = LinkedIn::where('user_id', $userId)->first();
-    $linkedin_id = $linkedin->id;
-
-    $twitter = Twitter::where('user_id', $userId)->first();
-    $twitter_id = $twitter->id;
-
     $linkedinConnectionsCount = 0;
     $linkedinConnectionsGrowth = 0;
     $twitterFollowersCount = 0;
     $twitterFollowersGrowth = 0;
 
     if ($request->has('filter') && $request->filter == 'last_7_days') {
-        $linkedinData = $this->getLinkedinConnectionsCountLast7Days($linkedin_id);
-        $linkedinConnectionsCount = $linkedinData['connectionsLast7Days'];
-        $linkedinConnectionsGrowth = $linkedinData['linkedinConnectionsGrowth'];
+        if($user->linkedin){
+            $linkedin_id = $user->linkedin->id;
+            $linkedinData = $this->getLinkedinConnectionsCountLast7Days($linkedin_id);
+            $linkedinConnectionsCount = $linkedinData['connectionsLast7Days'];
+            $linkedinConnectionsGrowth = $linkedinData['linkedinConnectionsGrowth'];
+        }    
 
-        $twitterData = $this->getTwitterFollowersCountLast7Days($twitter_id);
-        $twitterFollowersCount = $twitterData['followersLast7Days'];
-        $twitterFollowersGrowth = $twitterData['twitterFollowersGrowth'];
-
+        if($user->twitter){
+            $twitter_id = $user->twitter->id;
+            $twitterData = $this->getTwitterFollowersCountLast7Days($twitter_id);
+            $twitterFollowersCount = $twitterData['followersLast7Days'];
+            $twitterFollowersGrowth = $twitterData['twitterFollowersGrowth'];
+        }    
 
         $timeRange = 'Since last 7 days';
-	$chartData =  $this->weeklyComparison();
+	    $chartData =  $this->weeklyComparison();
     }
 
     elseif ($request->has('filter') && $request->filter == 'last_month') {
-        $linkedinData = $this->getLinkedinConnectionsCountLastMonth($linkedin_id);
-        $linkedinConnectionsCount = $linkedinData['connectionsLastMonth'];
-        $linkedinConnectionsGrowth = $linkedinData['linkedinConnectionsGrowth'];
 
-        // Fetch Twitter data for the last month if needed
-        $twitterData = $this->getTwitterFollowersCountLastMonth($twitter_id);
-        $twitterFollowersCount = $twitterData['followersLastMonth'];
-        $twitterFollowersGrowth = $twitterData['twitterFollowersGrowth'];
+        if($user->linkedin){
+            $linkedin_id = $user->linkedin->id;
+            $linkedinData = $this->getLinkedinConnectionsCountLastMonth($linkedin_id);
+            $linkedinConnectionsCount = $linkedinData['connectionsLastMonth'];
+            $linkedinConnectionsGrowth = $linkedinData['linkedinConnectionsGrowth'];
+        }
 
-        
+        if($user->twitter){
+            $twitter_id = $user->twitter->id;
+            // Fetch Twitter data for the last month if needed
+            $twitterData = $this->getTwitterFollowersCountLastMonth($twitter_id);
+            $twitterFollowersCount = $twitterData['followersLastMonth'];
+            $twitterFollowersGrowth = $twitterData['twitterFollowersGrowth'];
+        } 
         $timeRange = 'Since last Month';
-	$chartData =  $this->monthlyComparison();
+	    $chartData =  $this->monthlyComparison();
     }
 
     return view('analytics', compact('chartData','linkedinConnectionsCount', 'linkedinConnectionsGrowth','twitterFollowersCount', 'twitterFollowersGrowth', 'timeRange'));
@@ -414,12 +425,13 @@ public function analytics(Request $request)
 }
 
 
+//ADMIN ANALYTICS
+
 public function adminAnalytics(){
 
     $chartData =  $this->dailyUserComparison();
     $totalUsers = User::count();
-
-        return view('analytics_adm', ['totalUsers' => $totalUsers,'chartData'=>$chartData]);
+        return view('analytics_adm', ['totalUsers' => $totalUsers,'chartData'=>$chartData,'UserGrowth' =>0,]);
 }
 
 
@@ -427,11 +439,12 @@ public function dailyUserComparison()
 {
     try {
         // Get the currently authenticated user
-        $user = Auth::user();
-
-        // Fetch user data for today and yesterday
-        $userDataToday = $user->whereDate('created_at', Carbon::today())->get();
-        $userDataYesterday = $user->whereDate('created_at', Carbon::yesterday())->get();
+        $userDataToday = DB::table('users')->whereDate('created_at', Carbon::today())->get();
+        $userDataYesterday = DB::table('users')->whereDate('created_at', Carbon::yesterday())->get();
+        
+        // Get the count of users created today and yesterday
+        $countUsersToday = DB::table('users')->whereDate('created_at', Carbon::today())->count();
+        $countUsersYesterday = DB::table('users')->whereDate('created_at', Carbon::yesterday())->count();
        
 
         // Combine data into a format suitable for passing to the Blade view
@@ -440,7 +453,7 @@ public function dailyUserComparison()
 
             'datasets' => [
                 [
-                    'data' => [$userDataToday->count(), $userDataYesterday->count()],
+                    'data' => [$countUsersToday, $countUsersYesterday],
                     'borderColor' => '#87CEFA', // Adjust the color as needed
                     'fill' => false,
                     'label' => 'User Count',
@@ -455,6 +468,189 @@ public function dailyUserComparison()
     } catch (\Exception $e) {
         // Handle the exception, log it, or return an error view
         return ;
+    }
+}
+
+
+
+
+
+
+
+
+
+public function UserAnalyicsLast7Days(Request $request){
+
+    if ($request->has('filter') && $request->filter == 'last_7_days') {
+        $UserData = $this->getUserCountLastWeek();
+        $totalUsers  =$UserData['countUsersLast7Days'];
+        $UserGrowth = $UserData['UserGrowth'];
+
+     
+
+
+        $timeRange = 'Since last 7 days';
+	    $chartData =  $this->weeklyUserComparison();
+    }
+
+    return view('analytics_adm', compact('chartData','totalUsers', 'UserGrowth', 'timeRange'));
+
+
+}
+
+
+protected function getUserCountLastWeek()
+{
+    $startDate = Carbon::today()->subDays(7);
+    $endDate = Carbon::today();
+    
+    $countUsersLast7Days = User::whereBetween('created_at', [$startDate, $endDate])->count();
+
+    // Fetch the followers count from the previous period (e.g., the previous 7 days)
+    $previousStartDate =  Carbon::today()->subDays(14);
+    $UserPrevious7Days = User::whereBetween('created_at', [$previousStartDate, $endDate])->count();
+
+    // Calculate the growth percentage
+   
+ 
+        $UserGrowth  = round((($countUsersLast7Days -  $UserPrevious7Days) /  $UserPrevious7Days) * 100, 2);
+   
+   
+
+    return compact('countUsersLast7Days', 'UserGrowth');
+}
+
+
+
+ public function WeeklyUserComparison()
+{
+    try {
+        // Initialize an array to store data for each day
+        $dataByDay = [];
+
+        // Loop through the last 7 days
+        for ($i = 6; $i >= 0; $i--) {
+            $currentDate = Carbon::today()->subDays($i);
+            $startDate = $currentDate->copy()->startOfDay();
+            $endDate = $currentDate->copy()->endOfDay();
+
+            // Get user data for the current day
+            $userData = DB::table('users')->whereBetween('created_at', [$startDate, $endDate])->get();
+
+            // Get the count of users created on the current day
+            $countUsers = count($userData);
+
+            // Store data for the current day
+            $dataByDay['labels'][] = $currentDate->format('D, M d, Y');
+            $dataByDay['datasets'][0]['data'][] = $countUsers;
+        }
+
+        // Combine data into a format suitable for passing to the Blade view
+        $chartData = [
+            'labels' => $dataByDay['labels'],
+
+            'datasets' => [
+                [
+                    'data' => $dataByDay['datasets'][0]['data'],
+                    'borderColor' => '#87CEFA', // Adjust the color as needed
+                    'fill' => false,
+                    'label' => 'User Count',
+                ],
+            ],
+        ];
+
+        return compact('chartData');
+    } catch (\Exception $e) {
+        // Handle the exception, log it, or return an error view
+        return;
+    }
+}
+
+
+public function UserAnalyicsLastMonth(Request $request){
+
+    if ($request->has('filter') && $request->filter == 'last_month') {
+        $UserData = $this->getUserCountLastMonth();
+        $totalUsers  =$UserData['countUsersLastMonth'];
+        $UserGrowth = $UserData['UserGrowth'];
+
+     
+
+
+        $timeRange = 'Since last Month';
+	    $chartData =  $this->MonthlyUserComparison();
+    }
+
+    return view('analytics_adm', compact('chartData','totalUsers', 'UserGrowth', 'timeRange'));
+
+
+}
+
+
+
+protected function getUserCountLastMonth()
+{
+    $startDate = Carbon::today()->subDays(30);
+    $endDate = Carbon::today();
+    
+    $countUsersLastMonth = User::whereBetween('created_at', [$startDate, $endDate])->count();
+
+    // Fetch the followers count from the previous period (e.g., the previous 7 days)
+    $previousStartDate =  Carbon::today()->subDays(90);
+    $UserPreviousMonth = User::whereBetween('created_at', [$previousStartDate, $endDate])->count();
+
+    // Calculate the growth percentage
+   
+ 
+        $UserGrowth  = round((($countUsersLastMonth -   $UserPreviousMonth) /   $UserPreviousMonth) * 100, 2);
+   
+   
+
+    return compact('countUsersLastMonth', 'UserGrowth');
+}
+
+
+public function MonthlyUserComparison()
+{
+    try {
+        // Initialize an array to store data for each day
+        $dataByDay = [];
+
+        // Loop through the last 7 days
+        for ($i = 30; $i >= 0; $i--) {
+            $currentDate = Carbon::today()->subDays($i);
+            $startDate = $currentDate->copy()->startOfDay();
+            $endDate = $currentDate->copy()->endOfDay();
+
+            // Get user data for the current day
+            $userData = DB::table('users')->whereBetween('created_at', [$startDate, $endDate])->get();
+
+            // Get the count of users created on the current day
+            $countUsers = count($userData);
+
+            // Store data for the current day
+            $dataByDay['labels'][] = $currentDate->format('D, M d, Y');
+            $dataByDay['datasets'][0]['data'][] = $countUsers;
+        }
+
+        // Combine data into a format suitable for passing to the Blade view
+        $chartData = [
+            'labels' => $dataByDay['labels'],
+
+            'datasets' => [
+                [
+                    'data' => $dataByDay['datasets'][0]['data'],
+                    'borderColor' => '#87CEFA', // Adjust the color as needed
+                    'fill' => false,
+                    'label' => 'User Count',
+                ],
+            ],
+        ];
+
+        return compact('chartData');
+    } catch (\Exception $e) {
+        // Handle the exception, log it, or return an error view
+        return;
     }
 }
 

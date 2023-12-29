@@ -60,7 +60,7 @@
 
       .info-section1,
       .info-section {
-        margin-left: 10px;
+        margin-left: 0px;
         clear: left;
         float: left;
         /* Added float to make info-section1 and custom-div appear in a row */
@@ -78,7 +78,7 @@
         color: #343a40;
         /* Black color for text */
         margin-bottom: 10px;
-        font-size: 21px;
+        font-size: 19px;
       }
 
       /* Div below the search bar */
@@ -181,15 +181,16 @@
 
   <body>
     <div class="user-info-container">
-      <div class="close-icon" onclick="toggleContainer()">
-        <i class="fas fa-times-circle fa-2x"></i>
-      </div>
+     
       <div class="row">
+        
         <div class="col-md-6">
+       
           <div class="profile-pic">
             <!-- You can replace the image URL with the user's profile picture -->
             <img
-              src="images/profile 1.png"
+            src="{{ asset('storage/uploads/' . $users->image_path) }}"
+
               alt="Profile Picture"
               class="img-fluid"
               style="width: 300px; height: 270px"
@@ -197,21 +198,19 @@
           </div>
 
           <div class="info-section">
-            <div class="name-label">John Doe</div>
+            <div class="name-label">{{$users->first_name}}</div>
             <!-- Replace with the actual name -->
 
             <p><i class="fas fa-user"></i>Administrator</p>
-            <p><i class="fas fa-building"></i>ABC Company</p>
-            <p><i class="fas fa-map-marker-alt"></i>Switzerland</p>
+            <p><i class="fas fa-map-marker-alt"></i>{{$users->country}}</p>
           </div>
         </div>
 
         <div class="col-md-6">
           <div class="info-section1">
-            <p><i class="fas fa-envelope"></i>user@example.com</p>
-            <p><i class="fas fa-phone"></i>+123 456 789</p>
-            <p><i class="fas fa-calendar-alt"></i>January 1, 1990</p>
-            <p><i class="fas fa-clock"></i>January 1, 2020</p>
+            <p><i class="fas fa-envelope"></i>{{$users->email}}</p>
+            <p><i class="fas fa-phone"></i>{{$users->phone}}</p>
+            <p><i class="fas fa-calendar-alt"></i>{{$users->dob}}</p>
           </div>
           <label
             style="
@@ -226,53 +225,41 @@
 
           <div class="custom-div" style="float: right">
             <!-- User items -->
-            <div class="user-item">
-              <img
-                src="images/profile 1.png"
-                class="profile-image"
-                alt="User 1"
-              />
-              <div class="user-name">Marketing</div>
-              <img
-                src="images/Instagram.png"
-                class="add-icon"
-                alt="Add"
-              />
-            </div>
-            <div class="user-item">
-              <img
-                src="images/profile 1.png"
-                class="profile-image"
-                alt="User 2"
-              />
-              <div class="user-name">Finance</div>
-              <img
-                src="images/LinkedIn.png"
-                class="add-icon"
-                alt="Add"
-              />
-            </div>
+           
+            
+                  @if (!empty($userDataL) && isset($userDataL['linkedin_name']))
+                    <div class="user-item">
+                      <img src="{{ asset($userDataL['linkedin_avatar']) }}" class="profile-image" alt="{{ $userDataL['linkedin_name'] }}" />
+                      <div class="user-name">{{ $userDataL['linkedin_name'] }}</div>
+                      <img src="{{ asset('images/Linkedin.png') }}" class="add-icon" alt="LinkedIn" />
+                    </div>
+                  @endif  
+                  @if (!empty($userDataT) && isset($userDataT['twitter_uname']))
+                    <div class="user-item">
+                      <img src="{{ asset($userDataT['twitter_avatar']) }}" class="profile-image" alt="{{ $userDataT['twitter_uname'] }}" />
+                      <div class="user-name">{{ $userDataT['twitter_uname'] }}</div>
+                      <img src="{{ asset('images/Twitter.png') }}" class="add-icon" alt="Twitter" />
+                    </div>
+                  @endif
+            
+           
+                  <div class="close-icon" onclick="goBack()">
+                    <!-- Use an appropriate icon or text for the back arrow -->
+                    <i class="fas fa-arrow-left"></i>
+                  </div>
 
-            <div class="user-item">
-              <img
-                src="images/profile 1.png"
-                class="profile-image"
-                alt="User 2"
-              />
-              <div class="user-name">Nature Sparkles</div>
-              <img
-                src="images/Twitter.png"
-                class="add-icon"
-                alt="Add"
-              />
-            </div>
-            <!-- Repeat user items as needed -->
+
           </div>
+
         </div>
       </div>
     </div>
 
     <script>
+
+      function goBack() {
+          window.history.back();
+      }
       function toggleContainer() {
         var container = document.querySelector(".user-info-container");
         container.style.display =

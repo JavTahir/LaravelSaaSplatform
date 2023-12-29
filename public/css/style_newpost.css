@@ -1,62 +1,66 @@
-.centered-div {
-    background-color: rgb(224, 219, 219);
+.whole-div {
+    /* background-color: rgb(18, 18, 18); */
     display: flex;
-    width: 750px; /* Adjust the width as needed */
-    height: 430px; /* Adjust the height as needed */
-    position: relative;
-    top: 30px;
-    left: 60px;
+    /* justify-content: left; */
+    width: 1100px; /* Adjust the width as needed */
+    height: 600px; /* Adjust the height as needed */
+    top: 75px;
+    position: absolute;
+
     overflow: hidden; /* To hide any overflowing content */
     margin-top: 0px;
-  }
-  
-  .centered-div1 {
+}
+
+.centered-div1 {
     background-color: rgb(224, 219, 219);
     display: flex;
-    width: 750px; /* Adjust the width as needed */
-    height: 470px; /* Adjust the height as needed */
+    width: 1000px; /* Adjust the width as needed */
+    height: 600px; /* Adjust the height as needed */
     position: relative;
-    top: 30px;
-    left: 60px;
     overflow: hidden; /* To hide any overflowing content */
     margin-top: 0px;
+    margin-left: 0px;
     box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
-  }
-  
-  /* Custom CSS for the inbox section */
-  .inbox-section {
+}
+
+/* Custom CSS for the inbox section */
+.inbox-section {
     background-color: white;
     width: 40%;
     height: 100%;
+
     margin-left: 0;
     margin-bottom: 0;
     overflow: auto;
     scrollbar-width: thin; /* Set the scrollbar width to thin (not supported in Firefox) */
     scrollbar-color: #999 transparent; /* Define the scrollbar color and thumb color */
-  }
-  
-  /* Custom CSS for the inbox section */
-  .inbox-section1 {
+}
+
+/* Custom CSS for the inbox section */
+.inbox-section1 {
     background-color: white;
     width: 50%;
     height: 100%;
+    padding-top: 30px;
     margin-left: 0;
     margin-bottom: 0;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+        rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
     overflow: auto;
     scrollbar-width: thin; /* Set the scrollbar width to thin (not supported in Firefox) */
     scrollbar-color: #999 transparent; /* Define the scrollbar color and thumb color */
-  }
-  
-  .inbox-section::-webkit-scrollbar {
+}
+
+.inbox-section::-webkit-scrollbar {
     width: 5px; /* Set the width of the scrollbar (for Webkit browsers like Chrome and Safari) */
-  }
-  
-  .inbox-section::-webkit-scrollbar-thumb {
+}
+
+.inbox-section::-webkit-scrollbar-thumb {
     background: #999; /* Set the color of the scrollbar thumb */
-  }
-  
-  /* Custom CSS for chat items */
-  .chat-item {
+}
+
+/* Custom CSS for chat items */
+.chat-item {
     background: #ffffff;
     box-shadow: 0px 4px 4px rgba(240.47, 233.12, 233.12, 0.25);
     border: 1px #e3dddd solid;
@@ -64,73 +68,73 @@
     padding: 10px;
     display: flex;
     align-items: center;
-  }
-  
-  /* Style for profile pictures (you may use your own images) */
-  .profile-pic {
+}
+
+/* Style for profile pictures (you may use your own images) */
+.profile-pic {
     width: 30px;
     height: 30px;
     border-radius: 50%;
     margin-right: 10px;
-  }
-  
-  /* Style for chat info */
-  .chat-info {
+}
+
+/* Style for chat info */
+.chat-info {
     display: flex;
     flex-direction: column;
-  }
-  
-  /* Style for chat name */
-  .chat-name {
+}
+
+/* Style for chat name */
+.chat-name {
     font-weight: bold;
-  }
-  
-  /* Style for recent chat */
-  .recent-chat {
+}
+
+/* Style for recent chat */
+.recent-chat {
     color: #555;
-  }
-  
-  /* Additional CSS for customizing the search bar */
-  .search-bar {
+}
+
+/* Additional CSS for customizing the search bar */
+.search-bar {
     background: #ffffff;
     box-shadow: 0px 4px 4px rgba(240, 47, 233, 0.25);
     padding: 10px;
     border: 1px solid #e3dddd; /* Add a solid border */
-  }
-  
-  .input-group-text {
+}
+
+.input-group-text {
     background-color: #fff; /* Background color for the search icon */
     border: none; /* Remove border */
     color: #555; /* Icon color */
-  }
-  
-  /* Update form control styles to remove outline and customize placeholder text */
-  .form-control {
+}
+
+/* Update form control styles to remove outline and customize placeholder text */
+.form-control {
     border: none; /* Remove border */
     box-shadow: none; /* Remove box shadow */
     border-radius: 0; /* Remove border radius */
     background: #ffffff; /* Background color */
-  }
-  
-  .form-control:focus {
+}
+
+.form-control:focus {
     background: #ffffff; /* Background color on focus */
     box-shadow: none; /* Remove focus box shadow */
-  }
-  
-  /* Style for placeholder text */
-  .form-control::placeholder {
+}
+
+/* Style for placeholder text */
+.form-control::placeholder {
     color: #555; /* Placeholder text color */
-  }
-  .message-section {
+}
+.message-section {
     display: flex;
     flex-direction: column;
     align-items: center; /* Center horizontally */
     justify-content: center; /* Center vertically */
     position: relative;
     background-color: #fff;
-  }
-  
-  .new-message-label {
+}
+
+.new-message-label {
     position: absolute;
     top: 10px;
     left: 10px;
@@ -138,17 +142,17 @@
     font-weight: 400;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     color: #555;
-  }
-  
-  .message-image img {
+}
+
+.message-image img {
     width: 100px; /* Set the desired width */
     height: 100px; /* Set the desired height */
     border-radius: 50%; /* Use 50% for a circular shape */
     margin-top: 40px;
     margin-left: 180px;
-  }
-  
-  .text-area {
+}
+
+.text-area {
     display: flex;
     align-items: center; /* Vertically align icons and textarea */
     border: 1px #dbdbdb solid;
@@ -157,54 +161,54 @@
     position: absolute;
     bottom: 0;
     margin-left: 1px;
-  }
-  
-  .custom-icons {
+}
+
+.custom-icons {
     display: flex;
     align-items: center; /* Vertically align icons within the text area */
     margin-right: 20px; /* Adjust the spacing between icons and textarea */
     margin-top: -90px;
-  }
-  
-  .custom-icon {
+}
+
+.custom-icon {
     width: 20px; /* Adjust the width and height as needed */
     height: 20px;
     margin-left: 7px;
-  }
-  
-  textarea {
+}
+
+textarea {
     color: #555;
     height: 110px;
     width: auto;
-  
+
     border: none; /* Remove the border */
     outline: none; /* Remove the outline when clicked */
     margin-left: 10px;
-  }
-  
-  /* Style for the placeholder text in the textarea */
-  .text-area textarea::placeholder {
+}
+
+/* Style for the placeholder text in the textarea */
+.text-area textarea::placeholder {
     color: black; /* Change the color to black */
     font-size: 12px; /* Change the font size to 16px */
     font-family: Georgia, "Times New Roman", Times, serif; /* Change the font family to 'Amiko' */
     font-weight: 400; /* Change the font weight to 400 */
     word-wrap: break-word; /* Allow word wrapping within the placeholder text */
-  }
-  
-  .text-area textarea:focus {
+}
+
+.text-area textarea:focus {
     outline: none;
-  }
-  
-  /* Add this CSS rule for the active chat item */
-  .active {
+}
+
+/* Add this CSS rule for the active chat item */
+.active {
     background: rgba(156, 115, 152, 0.78);
     box-shadow: 0px 4px 4px rgba(73, 39, 128, 0.78);
     border: 2px #4c2887 solid;
-  }
-  
-  /* Style for chat messages container */
-  
-  .chat-messages-container {
+}
+
+/* Style for chat messages container */
+
+.chat-messages-container {
     flex-grow: 1;
     max-height: 300px; /* Set the maximum height as needed */
     overflow-y: auto; /* Allow vertical scrolling */
@@ -212,19 +216,19 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start; /* Messages align to the left */
-  }
-  
-  /* Style for scrollbar within the chat messages container */
-  .chat-messages-container::-webkit-scrollbar {
+}
+
+/* Style for scrollbar within the chat messages container */
+.chat-messages-container::-webkit-scrollbar {
     width: 8px; /* Set the width of the scrollbar (for Webkit browsers like Chrome and Safari) */
-  }
-  
-  .chat-messages-container::-webkit-scrollbar-thumb {
+}
+
+.chat-messages-container::-webkit-scrollbar-thumb {
     background: #999; /* Set the color of the scrollbar thumb */
-  }
-  
-  /* CSS for the message options */
-  .chat-message {
+}
+
+/* CSS for the message options */
+.chat-message {
     position: relative;
     margin: 7px;
     padding: 7px;
@@ -235,32 +239,32 @@
     display: inline-block;
     clear: both;
     cursor: pointer; /* Add cursor pointer for clickable messages */
-  }
-  
-  /* Custom CSS for the custom dropdown */
-  .custom-dropdown {
+}
+
+/* Custom CSS for the custom dropdown */
+.custom-dropdown {
     border-radius: 10px;
     margin-top: 10px;
     width: 290px; /* Adjust the width as needed */
     margin-left: 20px;
-  }
-  
-  /* Custom CSS for the dropdown */
-  #sendToDropdown {
+}
+
+/* Custom CSS for the dropdown */
+#sendToDropdown {
     background: rgba(202.04, 189.99, 221.71, 0.78);
     box-shadow: none; /* Remove the box-shadow when the dropdown is clicked */
     border: none; /* Remove any border */
     outline: none;
-  }
-  
-  .selected-options {
+}
+
+.selected-options {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
     margin-left: 10px;
-  }
-  
-  .selected-option {
+}
+
+.selected-option {
     display: flex;
     align-items: center;
     border-radius: 10px;
@@ -269,51 +273,51 @@
     white-space: nowrap;
     width: 120px; /* Adjust the width as needed */
     height: 40px;
-  }
-  
-  .selected-option img {
+}
+
+.selected-option img {
     width: 20px; /* Adjust the width as needed */
     height: 20px; /* Adjust the height as needed */
     margin-right: 10px;
-  }
-  
-  .remove-icon {
+}
+
+.remove-icon {
     cursor: pointer;
     margin-left: 7px;
     width: 12px !important;
     height: 12px !important;
     margin-bottom: 20px;
-  }
-  
-  .text-area-post {
+}
+
+.text-area-post {
     display: flex;
     align-items: center; /* Vertically align icons and textarea */
-  
+
     background: #cabede;
     height: 150px;
     position: absolute;
     bottom: 0;
     margin-left: 1px;
     width: 50%;
-  }
-  
-  .text-area-post textarea::placeholder {
+}
+
+.text-area-post textarea::placeholder {
     color: black; /* Change the color to black */
     font-size: 12px; /* Change the font size to 16px */
     font-family: Georgia, "Times New Roman", Times, serif; /* Change the font family to 'Amiko' */
     font-weight: 400; /* Change the font weight to 400 */
     word-wrap: break-word; /* Allow word wrapping within the placeholder text */
-  }
-  
-  .text-area-post textarea {
+}
+
+.text-area-post textarea {
     height: 130px; /* Reduce the height to accommodate the smaller character count label */
-  }
-  
-  .text-area-post textarea:focus + .char-count-label {
+}
+
+.text-area-post textarea:focus + .char-count-label {
     color: #777; /* Change the color on focus if needed */
-  }
-  
-  .options-dialog {
+}
+
+.options-dialog {
     display: none;
     position: absolute;
     top: -100px;
@@ -322,38 +326,38 @@
     background: #9b8995;
     border-radius: 20px;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Define the styles for the options (images and videos) */
-  .option {
+}
+
+/* Define the styles for the options (images and videos) */
+.option {
     text-align: center;
     cursor: pointer; /* Add a pointer cursor to indicate interactivity */
     transition: background-color 0.2s ease, transform 0.2s ease; /* Define the transition effect */
-  }
-  
-  .custom-select option:hover {
+}
+
+.custom-select option:hover {
     background-color: purple; /* Change the hover background color to purple */
     color: white; /* Change the text color to white on hover */
-  }
-  
-  #images-div {
+}
+
+#images-div {
     margin: 5px 0;
     align-items: center;
-  }
-  
-  .uploaded-image-container {
+}
+
+.uploaded-image-container {
     position: relative;
     display: inline-block;
     margin: 5px;
     border: 1px solid #ccc;
-  }
-  
-  .uploadedImage {
+}
+
+.uploadedImage {
     width: 80px;
     height: 80px;
-  }
-  
-  .remove-uploaded-image {
+}
+
+.remove-uploaded-image {
     position: absolute;
     top: 5px;
     right: 5px;
@@ -361,31 +365,32 @@
     font-size: 12px; /* Adjust font size as needed */
     cursor: pointer;
     width: 10px;
-  }
-  
-  .uploaded-images {
+}
+
+.uploaded-images {
     height: 50px;
     margin-top: 30px;
-  }
-  
-  /* Custom CSS for the right inbox section */
-  .right-section {
+}
+
+/* Custom CSS for the right inbox section */
+.right-section {
     background-color: white;
     flex-grow: 1; /* Let it take up the remaining width */
     height: 100%;
     overflow: auto;
     scrollbar-width: thin; /* Set the scrollbar width to thin (not supported in Firefox) */
     scrollbar-color: #999 transparent; /* Define the scrollbar color and thumb color */
-  }
-  
-  .centered-rectangle {
+}
+
+.centered-rectangle {
     background: white;
     width: 80%;
     max-width: 400px; /* Set a maximum width to ensure it fits within the box */
-    height: 300px;
+    height: 350px;
     margin: 0 auto;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
+        rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
     padding: 20px;
     text-align: center;
     margin-bottom: 0;
@@ -393,88 +398,88 @@
     overflow: auto;
     scrollbar-width: thin; /* Set the scrollbar width to thin (not supported in Firefox) */
     scrollbar-color: #fcfcfc transparent; /* Define the scrollbar color and thumb color */
-  }
-  
-  .centered-rectangle::-webkit-scrollbar {
+}
+
+.centered-rectangle::-webkit-scrollbar {
     width: 2px; /* Set the width of the scrollbar (for Webkit browsers like Chrome and Safari) */
-  }
-  
-  .centered-rectangle::-webkit-scrollbar-thumb {
+}
+
+.centered-rectangle::-webkit-scrollbar-thumb {
     background: #fafafa; /* Set the color of the scrollbar thumb */
-  }
-  
-  .instagram-post {
+}
+
+.instagram-post {
     background: white;
     border-radius: 10px;
     padding: 5px;
     text-align: left;
-  }
-  
-  /* Add responsive styles to make the content fit within the box */
-  .post-header {
+}
+
+/* Add responsive styles to make the content fit within the box */
+.post-header {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-  }
-  
-  .profile-pic {
+}
+
+.profile-pic {
     width: 30px;
     height: 30px;
     border-radius: 50%;
     margin-right: 10px;
-  }
-  
-  .username {
+}
+
+.username {
     font-weight: bold;
-  }
-  
-  .post-image img {
+}
+
+.post-image img {
     max-width: 100%;
     border-radius: 10px;
-  }
-  
-  .post-caption {
+}
+
+.post-caption {
     margin-top: 10px;
-  }
-  
-  /* Twitter Post CSS */
-  .twitter-post {
+}
+
+/* Twitter Post CSS */
+.twitter-post {
     background: white;
-  
+
     border-radius: 10px;
     padding: 5px;
     margin: 5px;
-  }
-  
-  .post-content {
+}
+
+.post-content {
     text-align: left;
     word-wrap: break-word;
     overflow-wrap: break-word;
-  }
-  
-  .post-actions {
+}
+
+.post-actions {
     color: #667580;
     font-size: 14px;
     i {
-      margin-right: 10px;
+        margin-right: 10px;
     }
-  }
-  
-  .dropdown-icon {
+}
+
+.dropdown-icon {
     margin-top: -5px;
     margin-left: 160px;
     cursor: pointer;
     width: 50px; /* Set the width as needed */
     height: 10px; /* Set the height as needed */
-  }
-  
-  .ddown {
+}
+
+.ddown {
     position: relative;
     display: inline-block;
-  }
-  
-  /* Style for the dropdown content (initially hidden) */
-  .dropdown-content {
+}
+
+/* Style for the dropdown content (initially hidden) */
+.dropdown-content {
     display: none;
     position: absolute;
     top: 0;
@@ -483,55 +488,56 @@
     min-width: 120px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
-  }
-  
-  /* Style for dropdown links */
-  .dropdown-content a {
+}
+
+/* Style for dropdown links */
+.dropdown-content a {
     padding: 12px 16px;
     text-decoration: none;
     display: block;
-  }
-  
-  /* Change color of dropdown links on hover */
-  .dropdown-content a:hover {
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
     background-color: #ddd;
-  }
-  
-  /* Show the dropdown content when the dropdown icon is clicked */
-  #dropdownIcon:hover + .dropdown-content,
-  .dropdown-content:hover {
+}
+
+/* Show the dropdown content when the dropdown icon is clicked */
+#dropdownIcon:hover + .dropdown-content,
+.dropdown-content:hover {
     display: block;
-  }
-  
-  .char-count-label {
+}
+
+.char-count-label {
     position: sticky;
     font-size: 10px; /* Adjust the font size as needed */
     color: #777; /* Adjust the color as needed */
     margin-top: 0px; /* Add space below the charCountLabel */
     margin-right: -28px;
     margin-left: 20px;
-  }
-  
-  .custom-button {
+}
+
+.custom-button {
     background-color: rgba(117, 42, 122, 0.79);
     color: #fff;
     font-weight: bold;
     padding: 10px 20px;
     border: none;
+    width: 300px;
     border-radius: 5px;
     cursor: pointer;
     margin-top: 30px;
-    margin-left: 200px;
+    margin-left: 85px;
     position: relative;
     z-index: 2;
-  }
-  
-  .custom-dropdown {
+}
+
+.custom-dropdown {
     position: relative;
     display: inline-block;
-  }
-  
-  .custom-dropdown-content {
+}
+
+.custom-dropdown-content {
     display: none;
     position: absolute;
     background-color: #f9f9f9;
@@ -540,59 +546,58 @@
     z-index: 1;
     top: -70%;
     right: 0; /* Adjusted to position on the right side */
-  }
-  
-  .dropdown-item {
+}
+
+.dropdown-item {
     padding: 12px 16px;
     text-decoration: none;
     display: block;
     color: #333;
-  }
-  
-  .dropdown-item:hover {
+}
+
+.dropdown-item:hover {
     background-color: #ddd;
-  }
-  
-  @media (max-width: 767px) {
+}
+
+@media (max-width: 767px) {
     .centered-div1 {
-      width: auto;
-      overflow-x: none;
+        width: auto;
+        overflow-x: none;
     }
-  
+
     .dropdown-icon {
-      margin-left: 90px;
+        margin-left: 90px;
     }
     .inbox-section1 {
-      width: 200px;
-      overflow: none;
+        width: 200px;
+        overflow: none;
     }
-  
+
     .right-section {
-      width: 200px;
-      height: auto;
-      overflow: auto;
+        width: 200px;
+        height: auto;
+        overflow: auto;
     }
-  
+
     .centered-rectangle {
-      width: auto;
+        width: auto;
     }
-  
+
     .custom-button {
-      margin-left: 1px;
+        margin-left: 1px;
     }
-  
+
     .custom-dropdown-content {
-      position: relative;
-      top: -140px;
+        position: relative;
+        top: -140px;
     }
-  
+
     .custom-dropdown {
-      width: 150px;
+        width: 150px;
     }
-  
+
     .uploadedImage {
-      width: 40px;
-      height: 50px;
+        width: 40px;
+        height: 50px;
     }
-  }
-  
+}

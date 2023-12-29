@@ -122,6 +122,7 @@ class SocialController extends Controller
 
         $linkedinAccount = Auth::user()->linkedin;
         $twitterAccount = Auth::user()->twitter;
+        toast('Account Added successfully','success')->width('400px');
         return view('addaccounts', [
             'linkedinAccount' => $linkedinAccount,
             'twitterAccount' => $twitterAccount,
@@ -191,7 +192,7 @@ class SocialController extends Controller
         
         $linkedinAccount = Auth::user()->linkedin;
         $twitterAccount = Auth::user()->twitter;
-
+        toast('Account Added successfully','success')->width('400px');
         return view('addaccounts', [
             'linkedinAccount' => $linkedinAccount,
             'twitterAccount' => $twitterAccount,
@@ -275,7 +276,18 @@ class SocialController extends Controller
     {
         return view('post-form');
     }
+    
 
+
+    public function accountsadd(){
+
+        $linkedinAccount = Auth::user()->linkedin;
+        $twitterAccount = Auth::user()->twitter;
+        return view('addaccounts', [
+            'linkedinAccount' => $linkedinAccount,
+            'twitterAccount' => $twitterAccount,
+        ]);
+    }
 
 
 }

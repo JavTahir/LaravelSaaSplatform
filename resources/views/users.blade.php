@@ -2,7 +2,7 @@
 @section('title','Users')
 
 @section('content')
-
+@include('include.search')
 <main class="py-6 bg-surface-secondary">
       <div class="container-fluid">
         <div class="card shadow border-0 mb-7">
@@ -23,7 +23,7 @@
               </thead>
               <tbody>
               @forelse($users as $user)
-                <tr>
+                <tr class="user-row">
                   <td>
                     <img
                       alt="..."
@@ -36,14 +36,25 @@
                   </td>
                   <td>{{ $user->created_at->format('M d, Y') }}</td>
                   <td>
+                  @php
+                      $planName = $user->plan_name;
+                  @endphp
                     <img
-                      alt="..."
-                      src="https://preview.webpixels.io/web/img/other/logos/logo-1.png"
-                      class="avatar avatar-xs rounded-circle me-2"
+                    alt="..."
+                    src="
+                        @if($planName === 'Basic')
+                            {{ asset('images/aboutme.png') }}
+                        @elseif($planName === 'Gold')
+                            {{ asset('images/Age.png') }}
+                        @else
+                            {{ asset('images/arrow.png') }}
+                        @endif
+                    "
+                    class="avatar avatar-xs rounded-circle me-2"
                     />
-                    <a class="text-heading font-semibold" href="#">
-                      Basic Plan
-                    </a>
+                    <span class="text-heading font-semibold" >
+                      {{$user->plan_name}}
+                    </span>
                   </td>
                   <td>{{ $user->social_accounts }}</td>
                   <td>
@@ -51,7 +62,7 @@
                   </td>
                   <td class="text-end">
                     <div class="d-flex">
-                        <a href="#" class="btn btn-sm btn-neutral me-2">View</a>
+                        <a href="{{ route('adminViewUser', ['user' => $user->id]) }}" class="btn btn-sm btn-neutral me-2">View</a>
                         <form method="POST" action="{{ route('users.destroy', ['user' => $user->id]) }}" onsubmit="return confirm('Are you sure you want to delete this user?')">
                             @csrf
                             @method('DELETE')
@@ -76,4 +87,29 @@
         </div>
       </div>
     </main>
+
+    <!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- Add this script for search functionality -->
+<script>
+  $(document).ready(function () {
+    // Trigger the search on keyup
+    $("#searchInput").on("keyup", function () {
+      var searchText = $(this).val().toLowerCase();
+
+      // Show/hide rows based on the search input
+      $(".user-row").each(function () {
+        var userName = $(this).find("td:first-child a").text().toLowerCase();
+
+        if (userName.includes(searchText)) {
+          $(this).show();
+        } else {
+          $(this).hide();
+        }
+      });
+    });
+  });
+</script>
+
 @endsection()

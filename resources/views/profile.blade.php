@@ -62,7 +62,10 @@
     }
   </style>
 </head>
+
 <body>
+@include('sweetalert::alert')
+
 
 <div class="container">
   <div class="edit-profile-container">

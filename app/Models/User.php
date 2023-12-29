@@ -31,6 +31,10 @@ class User extends Authenticatable
         'image_path',
         'profile_completed',
         'social_accounts',
+        'plan_limit',
+        'plan_name',
+        'plan_date',
+        'last_renewal_date'
         
     ];
 
@@ -68,11 +72,24 @@ class User extends Authenticatable
     }
 
 
+
+
     public function lix()
     {
         return $this->hasOne(Lix::class, 'user_id');
     }
 
+
+    public function twitterPosts()
+    {
+        return $this->hasMany(TwitterPost::class, 'user_id');
+    }
+
+    // Define the relationship with LinkedinPosts
+    public function linkedinPosts()
+    {
+        return $this->hasMany(LinkedinPost::class, 'user_id');
+    }
 
 
 }

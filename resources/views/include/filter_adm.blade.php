@@ -4,12 +4,7 @@
           <div class="row align-items-center">
             <div class="col-sm-6 col-12 mb-4 mb-sm-0">
               <!-- Title -->
-              <div class="search-container">
-                <form action="/action_page.php">
-                  <input type="text" placeholder="Search.." name="search" />
-                  <button type="submit"><i class="fa fa-search"></i></button>
-                </form>
-              </div>
+              
             </div>
             <!-- Actions -->
             <div class="col-sm-6 col-12 text-sm-end">
@@ -26,9 +21,9 @@
                     Filter
                   </button>
                   <div class="dropdown-menu" id="filterDropdownMenu" aria-labelledby="filterDropdown">
-                                <a class="dropdown-item" href="{{ route('analytics', ['filter' => 'last_7_days']) }}">Last
+                  <a class="dropdown-item" href="{{ route('analytics-admin-all', ['filter' => 'last_7_days']) }}">Last
                                     7 days</a>
-                                <a class="dropdown-item" href="{{ route('analytics', ['filter' => 'last_month']) }}">Last
+                                <a class="dropdown-item" href="{{ route('analytics-admin-month', ['filter' => 'last_month']) }}">Last
                                     Month</a>
                   </div>
                 </div>

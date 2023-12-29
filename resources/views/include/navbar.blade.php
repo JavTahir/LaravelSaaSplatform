@@ -19,7 +19,7 @@
         </button>
         <!-- Brand -->
         <a class="navbar-brand py-lg-2 mb-lg-5 px-lg-6 me-0" href="#">
-          <img src="images/probizlogo2.png" alt="..." />
+          <img src="{{asset('images/probizlogo2.png')}}" alt="..." />
         </a>
         <!-- User menu (mobile) -->
         <div class="navbar-user d-lg-none">
@@ -61,18 +61,18 @@
           <!-- Navigation -->
           <ul class="navbar-nav">
             <li class="nav-item ">
-              <a class="nav-link {{ Request::is('analytics') ? 'navbar_active' : '' }}" href="{{ route('analytics-all') }}">
+              <a class="nav-link {{ Request::is('dashboard') ? 'navbar_active' : '' }}" href="{{ route('dashboard') }}">
                 <i class="bi bi-house-fill"></i> Dashboard
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link {{ Request::is('sanalytics') ? 'navbar_active' : '' }}" href="#">
+              <a class="nav-link {{ Request::is('analytics') ? 'navbar_active' : '' }}" href="{{ route('analytics-all') }}">
               <i class="bi bi-bar-chart-line-fill"></i> Analytics
               </a>
             </li>
 
             <li class="nav-item ">
-                <a class="nav-link {{ Request::is('aanalytics') ? 'navbar_active' : '' }}" href="{{ route('streams') }}">
+                <a class="nav-link {{ Request::is('streams') ? 'navbar_active' : '' }}" href="{{ route('streams') }}">
                   <i class="bi bi-rss-fill"></i> Streams
                 </a>
             </li>
@@ -83,7 +83,7 @@
             </li>
 
             <li class="nav-item ">
-                <a class="nav-link {{ Request::is('aanalytics') ? 'navbar_active' : '' }}" href="{{ route('posts') }}">
+                <a class="nav-link {{ Request::is('posts') ? 'navbar_active' : '' }}" href="{{ route('posts') }}">
                 <i class="bi bi-pen-fill"></i> New Post
                 </a>
             </li>
@@ -97,15 +97,16 @@
           <!-- User (md) -->
           <ul class="navbar-nav">
           <li class="nav-item ">
-                <a class="nav-link {{ Request::is('aanalytics') ? 'navbar_active' : '' }}" href="{{ route('profile') }}">
+                <a class="nav-link {{ Request::is('addaccounts') ? 'navbar_active' : '' }}" href="{{ route('addaccounts') }}">
+                  <i class="bi bi-person-plus-fill"></i> Add Accounts
+                </a>
+            </li>
+          <li class="nav-item ">
+                <a class="nav-link {{ Request::is('aanalytics') ? 'navbar_active' : '' }}" href="{{ route('profilechange') }}">
                   <i class="bi bi-gear-fill"></i> Profile Settings
                 </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link {{ Request::is('janalytics') ? 'navbar_active' : '' }}" href="#">
-                <i class="bi bi-box-arrow-left"></i> Logout
-              </a>
-            </li>
+
           </ul>
         </div>
       </div>

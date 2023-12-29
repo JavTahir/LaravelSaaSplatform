@@ -28,6 +28,10 @@ return new class extends Migration
         $table->boolean('profile_completed')->default(false); // Changed from 'profile-completed'
         $table->integer('is_verified')->default(0);
         $table->integer('social_accounts')->default(0);
+        $table->integer('plan_limit')->nullable();
+        $table->string('plan_name')->nullable();
+        $table->date('plan_date')->nullable();
+        $table->date('last_renewal_date')->nullable();
         $table->rememberToken();
         $table->timestamps();
     });

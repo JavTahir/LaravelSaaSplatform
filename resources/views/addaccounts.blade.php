@@ -3,28 +3,25 @@
 @section('content')
 
 <div class="container1">
-    <div class="centered-text">Hi, John!</div>
+    <div class="centered-text">Hi {{ auth()->user()->first_name}}</div>
     <div class="sub-text1">Let's sync your social accounts</div>
     <div class="icon-container">
-        <!-- Your existing icons and links -->
-        <div class="icon">
-            <a href="{{ route('facebookRedirect') }}">
-                <img class="Add-icon" src="{{ asset('images/Plus Math.png') }}" alt="Add" style="width: 30px; height: 30px" />
-            </a>
-            <img src="{{ asset('images/Instagram.png') }}" alt="Instagram" />
-        </div>
+        @if(!isset($twitterAccount))
         <div class="icon">
             <a href="{{ route('twitterRedirect') }}">
                 <img class="Add-icon" src="{{ asset('images/Plus Math.png') }}" alt="Add" style="width: 30px; height: 30px" />
             </a>
             <img src="{{ asset('images/Twitter.png') }}" alt="LinkedIn" />
         </div>
+        @endif
+        @if(!isset($linkedinAccount))
         <div class="icon">
             <a href="{{ route('linkedinRedirect') }}">
                 <img class="Add-icon" src="{{ asset('images/Plus Math.png') }}" alt="Add" style="width: 30px; height: 30px" />
             </a>
             <img src="{{ asset('images/Linkedin.png') }}" alt="LinkedIn" />
         </div>
+        @endif
     </div>
     <!-- New line with a link -->
     <div  class="sub-text2">

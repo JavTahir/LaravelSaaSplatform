@@ -145,6 +145,12 @@
         border-radius: 8px;
       }
 
+      .error_div{
+        width: 80%;
+        height: 50px;
+        border-radius: 8px;
+
+      }
       .btn-dark {
         background-color: #333;
       }
@@ -204,6 +210,8 @@
     </style>
   </head>
   <body>
+  @include('sweetalert::alert')
+
     @yield('content')
 
 

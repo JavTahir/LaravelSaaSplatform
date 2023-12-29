@@ -12,6 +12,8 @@
           
         <div class="col-xl-1 col-sm-6 col-12"></div>
           <div class="col-xl-4 cpl col-sm-6 col-12 ">
+          
+                    
             <div class="card shadow border-0 linkedin-color">
               <div class="card-body">
                 <div class="row">
@@ -20,7 +22,12 @@
                       class="h6 font-semibold text-muted text-sm d-block mb-2"
                       >Linkedin</span
                     >
-                    <span class="h3 font-bold mb-0">{{ $linkedinConnectionsCount }}</span><span> Followers</span>
+                    @if($linkedinConnectionsCount)
+                        <span class="h3 font-bold mb-0">{{ $linkedinConnectionsCount }}</span><span> Followers</span>
+                    @else
+                        <span class="h3 font-bold mb-0">No Linkedin Account</span>
+                    @endif
+
                   </div>
                   <div class="col-auto">
                     <div
@@ -49,12 +56,11 @@
                   @endif
                   <span class="text-nowrap text-xs text-muted" style="display:none;">Since last 7 days</span>
                  
-
-
                 </div>
               </div>
             </div>
           </div>
+          
           <div class="col-xl-4 col-sm-6 col-12">
             <div class="card shadow border-0 twitter-color">
               <div class="card-body">
@@ -64,7 +70,13 @@
                       class="h6 font-semibold text-muted text-sm d-block mb-2"
                       >Twitter</span
                     >
-                    <span class="h3 font-bold mb-0">{{ $twitterFollowersCount }}</span><span> Followers</span>
+
+                    @if ($twitterFollowersCount)
+                      <span class="h3 font-bold mb-0">{{ $twitterFollowersCount }}</span><span> Followers</span>
+                    @else
+                      <span class="h3 font-bold mb-0">No Twitter Account</span>
+                    @endif
+
                   </div>
                   <div class="col-auto">
                     <div

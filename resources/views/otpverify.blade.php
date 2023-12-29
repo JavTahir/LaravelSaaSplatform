@@ -20,20 +20,16 @@
         margin: 0;
         padding: 0;
         height: 100vh;
-        background: #022f6c; /* fallback for old browsers */
-        background: -webkit-linear-gradient(
-          to right,
-          #4575b6,
-          #022f6c
-        ); /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(
-          to right,
-          #4575b6,
-          #022f6c
-        ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: radial-gradient(
+          circle at center,rgba(186, 241, 245, 0.714),rgb(224, 193, 236)
+          
+
+        );
         display: flex;
         align-items: center;
         justify-content: center;
+        font-family: "Montserrat", sans-serif;
+
       }
 
       .container {
@@ -65,7 +61,6 @@
       h1,
       h2 {
         text-align: center;
-        font-family: Arial, Helvetica, sans-serif;
         color: rgb(3, 231, 3);
       }
 
@@ -73,9 +68,8 @@
         width: 250px;
         height: 40px;
         margin-top:30px;
-        font-family: Arial, Helvetica, sans-serif;
         text-align: center;
-        font-size: 1.1rem;
+        font-size: 14px;
         border: none;
         border-radius: 5px;
         letter-spacing: 2px;
@@ -84,29 +78,31 @@
         color: #feffff;
       }
 
-      button {
+      .resend {
         width: 250px;
         height: 40px;
-        margin: 10px auto;
-        font-family: Arial, Helvetica, sans-serif;
+        margin-top:30px;
         text-align: center;
-        display:flex;
-        font-size: 1.1rem;
+        font-size: 14px;
         border: none;
         border-radius: 5px;
         letter-spacing: 2px;
         cursor: pointer;
-        background: red;
+        background: linear-gradient(to right, rgb(201, 153, 215), rgb(182, 135, 193));
         color: #feffff;
       }
+
+
     </style>
     <title>OTP Page</title>
   </head>
+
   <body>
-    <div class="container">
+
+    <div class="container ">
       <h1>Enter OTP</h1>
       <p>
-        We have sent an OTP to your registered mobile number. Please enter it
+        We have sent an OTP to your registered email. Please enter it
         below.
       </p>
 
@@ -159,8 +155,11 @@
 
       </div>    
       <p class="time"></p>
-      <button id="resendOtpVerification">Resend OTP</button>
+      <input type="submit" id="resendOtpVerification" class="resend"  value="Resend Otp">
+
     </div>
+    @include('sweetalert::alert')
+
 
     <!-- Bootstrap JS and Popper.js for Bootstrap components that require them -->
     <script
@@ -194,20 +193,32 @@
 
 
             $.ajax({
-                url:"{{ route('verifiedOtp') }}",
-                type:"POST",
+                url: "{{ route('verifiedOtp') }}",
+                type: "POST",
                 data: formData,
-                success:function(res){
-                    if(res.success){
-                        alert(res.msg);
-                        window.open("/login","_self");
+                success: function (res) {
+                    if (res.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: res.msg,
+                        }).then(function() {
+                            window.open("/login", "_self");
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: res.msg,
+                        });
                     }
-                    else{
-                        $('#message_error').text(res.msg);
-                        setTimeout(() => {
-                            $('#message_error').text('');
-                        }, 3000);
-                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'An error occurred while processing your request.',
+                    });
                 }
             });
 
@@ -217,27 +228,41 @@
             $(this).text('Wait...');
             var userMail = @json($email);
 
-            $.ajax({
-                url:"{{ route('resendOtp') }}",
-                type:"GET",
-                data: {email:userMail },
-                success:function(res){
-                    $('#resendOtpVerification').text('Resend Verification OTP');
-                    if(res.success){
-                        timer();
-                        $('#message_success').text(res.msg);
-                        setTimeout(() => {
-                            $('#message_success').text('');
-                        }, 3000);
+            $('#resendOtpVerification').click(function () {
+                $(this).text('Wait...');
+                var userMail = @json($email);
+
+                $.ajax({
+                    url: "{{ route('resendOtp') }}",
+                    type: "GET",
+                    data: { email: userMail },
+                    success: function (res) {
+                        $('#resendOtpVerification').text('Resend Verification OTP');
+                        if (res.success) {
+                            timer();
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: res.msg,
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: res.msg,
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'An error occurred while processing your request.',
+                        });
                     }
-                    else{
-                        $('#message_error').text(res.msg);
-                        setTimeout(() => {
-                            $('#message_error').text('');
-                        }, 3000);
-                    }
-                }
+                });
             });
+
 
         });
     });

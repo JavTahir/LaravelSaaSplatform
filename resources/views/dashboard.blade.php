@@ -24,6 +24,8 @@
 
 </head>
 <body >
+    @include('sweetalert::alert')
+
     
     <!-- Dashboard -->
     <div class="d-flex flex-column flex-lg-row h-lg-full ">
@@ -31,6 +33,13 @@
         <!-- <div id="analytics-placeholder"></div> -->
         <div class="h-screen flex-grow-1 overflow-y-lg-auto ">
             @include('include.header')
+            @if(Route::is('dashboard'))
+                @include('include.probizintro')
+            @endif
+
+            @if(Route::is('viewuser'))
+                @include('include.viewuser')
+            @endif
             @yield('content')
         </div>
     </div>
