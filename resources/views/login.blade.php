@@ -30,7 +30,7 @@
               </div>
             </div>
             <!-- Video on Right -->
-            <div class="col-md-6 video-container">
+            <div class="col-md-6 video-container ">
               <video width="85%" height="80%" autoplay muted loop>
               <source src="{{ asset('videos/login.mp4') }}" type="video/mp4" />
                 Your browser does not support the video tag.

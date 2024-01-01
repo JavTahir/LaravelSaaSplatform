@@ -170,6 +170,9 @@ public function weeklyComparison()
         $user = Auth::user();
         $mergedData = collect(); // Initialize an empty collection
 
+        $twitterData=0;
+        $linkedinData = 0;
+
         if ($user->twitter) {
             // Fetch Twitter follower data for the last 7 days for the logged-in user
             $twitterData = $user->twitter->followers()
@@ -177,7 +180,6 @@ public function weeklyComparison()
                 ->orderBy('record_date')
                 ->get();
 
-            $mergedData = $mergedData->merge($twitterData);
         }
 
         if ($user->linkedin) {
@@ -187,7 +189,15 @@ public function weeklyComparison()
                 ->orderBy('record_date')
                 ->get();
 
-            $mergedData = $mergedData->merge($linkedinData);
+        
+        }
+
+
+        if($linkedinData && $twitterData){
+            $mergedData = $this->mergeData($twitterData, $linkedinData);
+        }
+        else{
+            $mergedData = $linkedinData ? $linkedinData : $twitterData;
         }
 
         // Sort the merged data by record date
@@ -274,8 +284,15 @@ public function weeklyComparison()
     
                 
             }
+
             
-            $mergedData = $this->mergeData($twitterData, $linkedinData);
+            if($linkedinData && $twitterData){
+                $mergedData = $this->mergeData($twitterData, $linkedinData);
+            }
+            else{
+                $mergedData = $linkedinData ? $linkedinData : $twitterData;
+            }
+            
             // Sort the merged data by record date
             $mergedData = $mergedData->sortBy('record_date');
     
@@ -315,6 +332,8 @@ public function weeklyComparison()
             // Get the currently authenticated user
             $user = Auth::user();
             $mergedData = collect(); // Initialize an empty collection
+            $twitterData=0;
+            $linkedinData = 0;
     
             if ($user->twitter) {
                 // Fetch Twitter follower data for the last 30 days for the logged-in user
@@ -323,7 +342,6 @@ public function weeklyComparison()
                     ->orderBy('record_date')
                     ->get();
     
-                $mergedData = $mergedData->merge($twitterData);
             }
     
             if ($user->linkedin) {
@@ -333,9 +351,15 @@ public function weeklyComparison()
                     ->orderBy('record_date')
                     ->get();
     
-                $mergedData = $mergedData->merge($linkedinData);
             }
-    
+
+            if($linkedinData && $twitterData){
+                $mergedData = $this->mergeData($twitterData, $linkedinData);
+            }
+            else{
+                $mergedData = $linkedinData ? $linkedinData : $twitterData;
+            }
+
             // Sort the merged data by record date
             $mergedData = $mergedData->sortBy('record_date');
     

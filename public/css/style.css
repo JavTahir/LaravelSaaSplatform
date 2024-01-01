@@ -204,10 +204,20 @@
 
 .linkedin-color {
     background-color: #d6ebf3;
+    width: 390px;
+    margin-left: 20px;
+    height: 140px;
 }
 
 .twitter-color {
     background-color: #f9cfc891;
+    width: 390px;
+    margin-left: 105px;
+    height: 140px;
+}
+
+.graph-color {
+    background-color: #fdd77d6e;
 }
 
 .purple-dark {

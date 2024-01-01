@@ -122,12 +122,12 @@ class AuthManager extends Controller
                     }
 
                     if($lixAccount){
-                        $apiKey = $lixAccount->lix_api_key;
-                        $viewerId = $lixAccount->linkedin_viewer_id;
+                        // $apiKey = $lixAccount->lix_api_key;
+                        // $viewerId = $lixAccount->linkedin_viewer_id;
 
 
-                        $linkedin_connections = Connections::getConnections($apiKey, $viewerId);
-            
+                        // $linkedin_connections = Connections::getConnections($apiKey, $viewerId);
+                        $linkedin_connections = 300;
             
                         $existingRecord = $user->linkedin->connections()
                         ->where('record_date', now()->toDateString())
