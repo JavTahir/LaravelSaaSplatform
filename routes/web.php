@@ -126,9 +126,12 @@ Route::get('/inbox', function () {
 //     return view('streams');
 // })->name('streams');
 
-Route::get('/posts', function () {
-    return view('newpost');
-})->name('posts');
+
+Route::get('/posts',[PostController::class,'shownewpost'])->name('posts')->middleware(['auth']);
+
+// Route::get('/posts', function () {
+//     return view('newpost');
+// });
 
 Route::get('/profile', function () {
     return view('profile');
@@ -203,6 +206,8 @@ Route::post('/login/admin', 'App\Http\Controllers\AdminController@login')->name(
     Route::get('/admin/viewuser/{user}',[AdminController::class,'viewUser'])->name('adminViewUser');
     Route::post('/admin/search{',[AdminController::class,'index'])->name('users.index');
     Route::get('/search/{term}','App\Http\Controllers\AdminController@search');
+    Route::get('/admin/payments',[Analytics::class,'PaymentAnalytics'])->name('payments-view');
+    Route::get('/search-users', 'App\Http\Controllers\AdminController@searchUser')->name('searchUsers');
 
 
 

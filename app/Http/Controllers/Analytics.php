@@ -21,6 +21,14 @@ class Analytics extends Controller
     {
         $user = Auth::user();
 
+
+        if (!$user->plan_name) {
+            // If no plan selected, show an alert message in the view
+            $errorMessage = 'Please select a plan before accessing analytics.';
+    
+            return view('analytics', compact('errorMessage'));
+        }
+
         $linkedinConnectionsCount = 0;
         $twitterFollowersCount = 0;
 
@@ -676,6 +684,13 @@ public function MonthlyUserComparison()
         // Handle the exception, log it, or return an error view
         return;
     }
+}
+
+public function PaymentAnalytics()
+{
+    $users = User::whereNotNull('plan_name')->get(); // Retrieve users with a non-null plan_name
+
+    return view('purchases', compact('users'));
 }
 
 

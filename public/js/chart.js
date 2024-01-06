@@ -1,36 +1,35 @@
-// console.log(chartData["chartData"]["datasets"]);
-
-new Chart("myChart", {
-    type: "line",
-    data: {
-        labels: chartData.chartData.labels,
-        datasets: [
-            {
-                data: chartData.chartData.datasets[0].data, // Twitter dataset
-                borderColor: "#87CEFA",
-                fill: false,
-                label: "Twitter Followers",
-            },
-            {
-                data: chartData.chartData.datasets[1].data, // Linkedin dataset
-                borderColor: "#0A66C2",
-                fill: false,
-                label: "Linkedin Connections",
-            },
-        ],
-    },
-    options: {
-        legend: { display: true },
-        scales: {
-            x: {
-                beginAtZero: true,
-                ticks: {
-                    stepSize: 1,
-                },
-            },
-            y: {
-                beginAtZero: true,
-            },
+// Assuming chartData is already defined
+var chartOptions = {
+    series: [
+        {
+            name: "Twitter Followers",
+            data: chartData.chartData.datasets[0].data,
         },
+        {
+            name: "Linkedin Connections",
+            data: chartData.chartData.datasets[1].data,
+        },
+    ],
+    chart: {
+        height: 400,
+        type: "area",
     },
-});
+    dataLabels: {
+        enabled: false,
+    },
+    stroke: {
+        curve: "smooth",
+    },
+    xaxis: {
+        categories: chartData.chartData.labels,
+    },
+    legend: {
+        show: true,
+    },
+    toolbar: {
+        show: false,
+    },
+};
+
+var chart = new ApexCharts(document.querySelector("#myChart"), chartOptions);
+chart.render();

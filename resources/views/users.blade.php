@@ -43,11 +43,11 @@
                     alt="..."
                     src="
                         @if($planName === 'Basic')
-                            {{ asset('images/aboutme.png') }}
+                            {{ asset('images/bronzeplan.png') }}
                         @elseif($planName === 'Gold')
-                            {{ asset('images/Age.png') }}
+                            {{ asset('images/goldplan.png') }}
                         @else
-                            {{ asset('images/arrow.png') }}
+                            {{ asset('images/platinumplan.png') }}
                         @endif
                     "
                     class="avatar avatar-xs rounded-circle me-2"
@@ -88,28 +88,6 @@
       </div>
     </main>
 
-    <!-- Include jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-<!-- Add this script for search functionality -->
-<script>
-  $(document).ready(function () {
-    // Trigger the search on keyup
-    $("#searchInput").on("keyup", function () {
-      var searchText = $(this).val().toLowerCase();
-
-      // Show/hide rows based on the search input
-      $(".user-row").each(function () {
-        var userName = $(this).find("td:first-child a").text().toLowerCase();
-
-        if (userName.includes(searchText)) {
-          $(this).show();
-        } else {
-          $(this).hide();
-        }
-      });
-    });
-  });
-</script>
+    
 
 @endsection()

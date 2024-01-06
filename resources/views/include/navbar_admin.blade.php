@@ -1,6 +1,5 @@
-
-    <!-- Vertical Navbar -->
-    <nav
+<!-- Vertical Navbar -->
+<nav
       class="navbar show navbar-vertical h-lg-screen navbar-expand-lg px-0 py-3 navbar-light bg-white border-bottom border-bottom-lg-0 border-end-lg"
       id="navbarVertical"
     >
@@ -77,6 +76,12 @@
                 </a>
             </li>
 
+            <li class="nav-item ">
+                <a class="nav-link {{ Request::is('payments') ? 'navbar_active' : '' }}" href="{{ route('payments-view') }}">
+                <i class="bi bi-people-fill"></i>Payments
+                </a>
+            </li>
+
 
 
           </ul>
@@ -98,4 +103,3 @@
         </div>
       </div>
     </nav>
-

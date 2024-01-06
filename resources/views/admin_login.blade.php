@@ -22,7 +22,7 @@
 
       .login-box {
         width: 400px;
-        height: 400px;
+        height: 450px;
         padding: 20px;
         border: 1px solid #ddd;
         border-radius: 8px;
@@ -96,6 +96,14 @@
       .btn-primary:hover {
         background: linear-gradient(to right, rgb(67, 46, 73), rgb(84, 58, 90));
       }
+
+
+      .error {
+        color: red;
+        font-size: 12px;
+        margin-left:20px;
+      }
+
     </style>
 </head>
 <body>
@@ -158,7 +166,7 @@
       if (passwordInput.value.match(passwordRegex)) {
         passwordError.textContent = '';
       } else {
-        passwordError.textContent = 'Password must be at least 8 characters and contain at least one letter and one number';
+        passwordError.textContent = 'Password must be at least 8 characters';
       }
     }
 

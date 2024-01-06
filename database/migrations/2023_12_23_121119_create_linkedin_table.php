@@ -17,10 +17,10 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->string('linkedin_name');
             $table->string('linkedin_uname')->nullable();
-            $table->string('linkedin_email')->nullable(); // You can use an empty string or any default value you prefer
+            $table->string('linkedin_email')->nullable(); 
             $table->string('linkedin_id')->unique(); 
             $table->string('linkedin_avatar')->nullable();
-            $table->string('linkedin_access_token')->nullable();
+            $table->string('linkedin_access_token', 2000)->nullable(); 
         
             $table->rememberToken();
             $table->timestamps();

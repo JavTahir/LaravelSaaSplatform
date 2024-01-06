@@ -155,7 +155,7 @@ class PostController extends Controller
         return redirect()->back();    
         } catch (\Exception $e) {
         // Handle the exception and redirect with an error message
-        alert()->error('Post Failed','An error occurred:' . $e->getMessage());
+        alert()->error('Post Failed','An error occurred');
         return redirect()->back();
 
     }
@@ -350,13 +350,13 @@ class PostController extends Controller
               } else {
                 // Handle errors
                 
-                alert()->error('Tweet Failed','Tweet posting failed with status code: ' . $twitterOAuth->getLastHttpCode());
+                alert()->error('Tweet Failed','Tweet posting failed.. '  . $twitterOAuth->getLastHttpCode());
                 return redirect()->back();
             }
 
 
         } catch (\Exception $e) {
-            alert()->error('Tweet Failed','An error occurred:' . $e->getMessage());
+            alert()->error('Tweet Failed','An error occurred');
             return redirect()->back();
         }
     }
@@ -407,7 +407,7 @@ class PostController extends Controller
         
         } catch (\Exception $e) {
             
-            alert()->error('Tweet Failed','An error occurred:' . $e->getMessage());
+            alert()->error('Tweet Failed','An error occurred');
             return redirect()->back();
         }
     }
@@ -447,5 +447,22 @@ class PostController extends Controller
         return view('streams', compact('linkedin_posts','twitter_posts'));
         
         
+    }
+
+
+
+
+    public function shownewpost()
+    {
+        $user = Auth::user();
+
+
+        if (!$user->plan_name) {
+            $errorMessage = 'Please select a plan to post';
+    
+            return view('newpost', compact('errorMessage'));
+        }
+
+        return view('newpost');
     }
 }

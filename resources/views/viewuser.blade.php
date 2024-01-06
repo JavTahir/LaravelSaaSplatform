@@ -78,7 +78,7 @@
         color: #343a40;
         /* Black color for text */
         margin-bottom: 10px;
-        font-size: 19px;
+        font-size: 16px;
       }
 
       /* Div below the search bar */
@@ -201,8 +201,9 @@
             <div class="name-label">{{$users->first_name}}</div>
             <!-- Replace with the actual name -->
 
-            <p><i class="fas fa-user"></i>Administrator</p>
             <p><i class="fas fa-map-marker-alt"></i>{{$users->country}}</p>
+            <p><i class="fas fa-wallet"></i>{{$users->plan_name}}</p>
+
           </div>
         </div>
 

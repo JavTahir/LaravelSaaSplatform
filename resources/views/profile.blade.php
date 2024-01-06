@@ -155,7 +155,7 @@
   function validateForm() {
     resetErrorMessages();
 
-    const contactNoRegex = /^\d{10}$/;
+    const contactNoRegex = /^\d{11}$/;
     const countryRegex = /^[a-zA-Z\s]+$/;
     const cityRegex = /^[a-zA-Z\s]+$/;
 
@@ -181,9 +181,18 @@
    
 
     if (dob === '') {
-      document.getElementById('dobError').innerText = 'Fill in the empty field';
+    document.getElementById('dobError').innerText = 'Fill in the empty field';
+    isValid = false;
+  } else {
+    // Check if the entered date is before the current date
+    const currentDate = new Date();
+    const enteredDate = new Date(dob);
+
+    if (enteredDate >= currentDate) {
+      document.getElementById('dobError').innerText = 'Invalid date of birth';
       isValid = false;
     }
+  }
 
     if (contactNo === '') {
       document.getElementById('contactNoError').innerText = 'Fill in the empty field';

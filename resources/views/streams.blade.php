@@ -66,11 +66,20 @@
                                     </div>
 
                                     <div class="carousel-inner">
-                                        @foreach ($post->images as $index => $image)
+                                    @foreach ($post->images as $index => $image)
+                                        @if (pathinfo($image, PATHINFO_EXTENSION) == 'mp4' || pathinfo($image, PATHINFO_EXTENSION) == 'webm')
+                                            <div class="carousel-item @if ($index === 0) active @endif">
+                                                <video class="d-block w-100" controls>
+                                                    <source src="{{ asset('storage/uploads/' . $image) }}" type="video/{{ pathinfo($image, PATHINFO_EXTENSION) }}">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                            </div>
+                                        @else
                                             <div class="carousel-item @if ($index === 0) active @endif">
                                                 <img src="{{ asset('storage/uploads/' . $image) }}" alt="Image {{ $index + 1 }}" class="d-block w-100">
                                             </div>
-                                        @endforeach
+                                        @endif
+                                    @endforeach
                                     </div>
 
                                     <button class="carousel-control-prev" type="button" data-bs-target="#linkedinCarousel{{ $loop->index }}" data-bs-slide="prev">
@@ -136,12 +145,21 @@
                                   </div>
 
                                   <div class="carousel-inner">
-                                      @foreach ($post->images as $index => $image)
-                                          <div class="carousel-item @if ($index === 0) active @endif">
-                                              <img src="{{ asset('storage/uploads/' . $image) }}" alt="Image {{ $index + 1 }}" class="d-block w-100">
-                                          </div>
-                                      @endforeach
-                                  </div>
+                                    @foreach ($post->images as $index => $img)
+                                        @if (pathinfo($img, PATHINFO_EXTENSION) == 'mp4' || pathinfo($img, PATHINFO_EXTENSION) == 'webm')
+                                            <div class="carousel-item @if ($index === 0) active @endif">
+                                                <video class="d-block w-100" controls>
+                                                    <source src="{{ asset('storage/uploads/' . $img) }}" type="video/{{ pathinfo($img, PATHINFO_EXTENSION) }}">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                            </div>
+                                        @else
+                                            <div class="carousel-item @if ($index === 0) active @endif">
+                                                <img src="{{ asset('storage/uploads/' . $img) }}" alt="Image {{ $index + 1 }}" class="d-block w-100">
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
 
                                   <button class="carousel-control-prev" type="button" data-bs-target="#twitterCarousel{{ $loop->index }}" data-bs-slide="prev">
                                       <span class="carousel-control-prev-icon" aria-hidden="true"></span>

@@ -90,3 +90,14 @@
     height: 10px;
     margin-right: 5px;
 }
+
+.graph-color {
+    background-color: #fdd77d6e;
+}
+
+.users-color {
+    background-color: #d6ebf3;
+    width: 840px;
+    height: 140px;
+    /* margin-right: 400px; */
+}

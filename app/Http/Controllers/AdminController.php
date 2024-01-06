@@ -212,6 +212,19 @@ public function search($term){
 }
 
 
+public function searchUser(Request $request)
+{
+    $search = $request->input('search');
+
+    // Perform the search query on the User model
+    $users = User::where('first_name', 'LIKE', "%$search%")
+                  ->orWhere('last_name', 'LIKE', "%$search%")
+                  ->get();
+
+    return view('users')->with('users', $users);
+}
+
+
 
 
 

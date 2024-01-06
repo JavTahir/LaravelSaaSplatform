@@ -19,7 +19,7 @@
                     <div class="col-sm-6 col-12 mb-4 mb-sm-0">
                         <!-- Title -->
                         <div class="search-container">
-                            <form action="/action_page.php">
+                            <form action="{{ route('searchUsers') }}" method="GET">
                                 <input type="text" placeholder="Search.." name="search" id="searchInput" oninput="suggest()" />
                                 <button type="submit"><i class="fa fa-search"></i></button>
                                 <br>

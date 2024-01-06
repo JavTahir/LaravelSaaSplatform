@@ -10,10 +10,9 @@
         <!-- Card stats -->
         <div class="row g-6 mb-6">
           
-        <div class="col-xl-3 col-sm-6 col-12"></div>
-          <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card shadow border-0">
-              <div class="card-body">
+          <div class="col-xl-3 col-sm-6 col-12" style="margin-left:120px;">
+            <div class="card shadow border-0 users-color">
+              <div class="card-body ">
                 <div class="row">
                   <div class="col">
                     <span

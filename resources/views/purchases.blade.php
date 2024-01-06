@@ -3,27 +3,19 @@
 
 @section('content')
 <head>
-  
-
     <style>
       body {
-        background-color: #f8f9fa; /* Set a light background color */
+        background-color: #f8f9fa;
       }
 
       .custom-container {
-        background-color: rgba(
-          255,
-          255,
-          255,
-          0.9
-        ); /* Set a transparent white background */
-        border-radius: 10px; /* Add rounded corners */
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
         padding: 20px;
-        max-width: 600px; /* Set a maximum width */
-        margin: 50px auto 0; /* Center the container horizontally and add margin from the top */
-
-        max-height: 550px; /* Set a maximum height for the container */
-        position: relative; /* Relative positioning for absolute positioning of the button */
+        max-width: 900px;
+        margin: 50px auto 0;
+        max-height: 800px;
+        position: relative;
       }
 
       .set-reminder-button {
@@ -54,7 +46,6 @@
         color: #fff; /* Text color on hover */
         border-color: #fff; /* Border color on hover */
       }
-
       .user-card {
         box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
         padding: 10px;
@@ -62,7 +53,7 @@
       }
 
       .user-profile-pic {
-        max-width: 150px; /* Increase the size of the profile picture */
+        max-width: 150px;
         height: 50px;
         border-radius: 50%;
       }
@@ -72,31 +63,20 @@
       }
 
       .user-name {
-        font-size: 1.2em; /* Increase font size for the username */
+        font-size: 1.2em;
         font-family: Arial, Helvetica, sans-serif;
         font-weight: 600;
         color: rgb(108, 41, 108);
         margin-bottom: 0;
+        margin-left:50px;
       }
 
       .subscription-info {
         margin-top: 20px;
         background-color: rgba(227, 227, 227, 0.299);
         padding: 3px;
-
         padding-left: 10px;
       }
-
-      /* .subscription-info:hover {
-            
-            background-color: rgb(201, 201, 201);
-            padding: 3px;
-        } */
-
-      /* .info:hover{
-            background-color: rgb(201, 201, 201);
-            padding: 1px;
-        } */
 
       .status-label {
         font-weight: 600;
@@ -131,12 +111,24 @@
       }
 
       .next-payment-cost {
-        margin-top: -10px; /* Add margin-top to the Next Payment Cost */
+        margin-top: -10px;
       }
 
       .reminder {
         margin-bottom: 50px;
       }
+
+      .timer {
+        font-size: 14px;
+        font-weight: bold;
+        color: black; /* Text color */
+        padding: 5px 10px;
+        border-radius: 5px;
+        margin-top: 5px;
+        display: inline-block;
+    }
+
+    
     </style>
   </head>
   <body>
@@ -145,59 +137,82 @@
         <button class="set-reminder-button">Set Reminder</button>
       </div>
 
-      <!-- User Cards -->
+      @foreach($users as $user)
       <div class="user-card">
         <div class="d-flex align-items-center user-info">
-          <img
-            src="images/profile 1.png"
+        <img
+            src="{{ asset('storage/uploads/' . $user->image_path) }}"
             alt="Profile Pic"
             class="user-profile-pic mr-3"
-          />
+        />
+
           <div>
-            <h4 class="user-name">John Doe</h4>
-            <label style="font-size: 14px; color: rgb(135, 133, 133)"
-              >ID-1334</label
+            <h4 class="user-name">{{ $user->first_name }} {{ $user->last_name }}</h4>
+            <label style="font-size: 14px; color: rgb(135, 133, 133); margin-left:50px;"
+              >ID-{{ $user->id }}</label
             >
           </div>
         </div>
         <div class="info">
           <div class="subscription-info">
-            <p style="margin-bottom: 15px">
-              Basic Plan (1 month)
-              <span class="status-label active-status">Active</span>
-            </p>
+          <p style="margin-bottom: 15px">
+              {{ $user->plan_name }} Plan
+              @if (strtotime($user->plan_date . ' +30 days') > time())
+                  <span class="status-label active-status">Active</span>
+              @else
+                  <span class="status-label1 renewal-status">Renewal</span>
+              @endif
+
+          </p>
+
+
             <p class="next-payment-cost">
-              <strong>Next Payment Cost:</strong> $10.00
+              <strong>Expiration Timer:</strong>
+              <span class="timer" data-start="{{ $user->plan_date }}" data-duration="30"></span>
             </p>
           </div>
         </div>
       </div>
+      @endforeach
 
-      <div class="user-card">
-        <div class="d-flex align-items-center user-info">
-          <img
-            src="images/profile 1.png"
-            alt="Profile Pic"
-            class="user-profile-pic mr-3"
-          />
-          <div>
-            <h4 class="user-name">John Doe</h4>
-            <label style="font-size: 14px; color: rgb(135, 133, 133)"
-              >ID-1334</label
-            >
-          </div>
-        </div>
-        <div class="info">
-          <div class="subscription-info">
-            <p style="margin-bottom: 15px">
-              Basic Plan (1 month)
-              <span class="status-label1 renewal-status">renewal</span>
-            </p>
-            <p class="next-payment-cost"><strong>To be paid:</strong> $10.00</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Add more user cards as needed -->
     </div>
-@endsection()
+
+    <!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- Timer Script -->
+<script>
+    $(document).ready(function () {
+        $(".timer").each(function () {
+            var startDate = new Date($(this).data("start")).getTime();
+            var duration = parseInt($(this).data("duration")) * 24 * 60 * 60 * 1000;
+            var expirationDate = startDate + duration;
+
+            var timerInterval = setInterval(function () {
+                var now = new Date().getTime();
+
+                if (now < startDate) {
+                    var timeRemainingBeforeStart = startDate - now;
+                    var daysBeforeStart = Math.floor(timeRemainingBeforeStart / (1000 * 60 * 60 * 24));
+                    var hoursBeforeStart = Math.floor((timeRemainingBeforeStart % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutesBeforeStart = Math.floor((timeRemainingBeforeStart % (1000 * 60 * 60)) / (1000 * 60));
+
+                    $(this).html(daysBeforeStart + "d | " + hoursBeforeStart + "hrs | " + minutesBeforeStart + "min ");
+                  } else if (now > expirationDate) {
+                    clearInterval(timerInterval);
+                    $(this).html("Expired").addClass("expired");
+                } else {
+                    var timeRemaining = expirationDate - now;
+                    var days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+                    var hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+
+                    $(this).html(days + "d | " + hours + "hrs | " + minutes + "min ");
+                }
+            }.bind(this), 1000);
+        });
+    });
+</script>
+
+  </body>
+@endsection
