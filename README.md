@@ -33,7 +33,8 @@ To get started with the Omnichannel Features, follow these steps:
 
 5. **Start Managing Leads**: Begin receiving and replying to messages, and collect leads seamlessly.
 
-
+## License:
+   This project is licensed under MIT license.
 
 We are thrilled to witness how these powerful features will revolutionize your communication and supercharge your lead management capabilities on our Multi-Tenant SaaS Platform. Elevate your engagement by contributing to more extravagant features in this website so that to elevate performance and growth!!
 
